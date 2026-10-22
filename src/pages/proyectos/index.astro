@@ -1,0 +1,125 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProyectoCover from '../../components/ProyectoCover.astro';
+import { ruta } from '../../config';
+import proyectos from '../../data/proyectos.json';
+
+const categoria = (p: (typeof proyectos)[number]) => p.disciplina.split(' / ')[0];
+const categorias = ['Todos', ...Array.from(new Set(proyectos.map(categoria)))];
+---
+
+<Base
+  titulo="Proyectos"
+  descripcion="Índice de proyectos de ingeniería estructural, vial, industrial e hidráulica. Fichas técnicas, láminas y resultados."
+>
+  <section class="contenedor encabezado-pagina">
+    <nav class="miga" aria-label="Ruta">
+      <a href={ruta('/')}>Inicio</a>
+      <span aria-hidden="true">/</span>
+      <span>Proyectos</span>
+    </nav>
+
+    <div class="proy__cab">
+      <div>
+        <h1 class="proy__tit">Índice de<br />proyectos</h1>
+        <p class="proy__sub">
+          Cuatro obras de muestra, ordenadas de la más reciente a la más antigua. Cada ficha
+          incluye el problema, la solución y el resultado medible.
+        </p>
+      </div>
+
+      <div>
+        <div class="proy__meta">
+          <div>
+            <dt>Obras publicadas</dt>
+            <dd>04</dd>
+          </div>
+          <div>
+            <dt>Periodo</dt>
+            <dd>2023 — 2025</dd>
+          </div>
+          <div>
+            <dt>Disciplinas</dt>
+            <dd>Estructuras · Vial · Industrial · Hidráulica</dd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contenedor seccion seccion--ajustada">
+    <div class="filtros" role="group" aria-label="Filtrar por disciplina">
+      {
+        categorias.map((c) => (
+          <button
+            class="filtro"
+            type="button"
+            data-filtro={c.toLowerCase()}
+            aria-pressed={c === 'Todos' ? 'true' : 'false'}
+          >
+            {c}
+          </button>
+        ))
+      }
+      <span class="filtros__cuenta eti">
+        <span data-cuenta>04</span> obras
+      </span>
+    </div>
+
+    <div class="rejilla-proyectos">
+      {
+        proyectos.map((p, i) => (
+          <a
+            class="tarjeta revelar"
+            href={ruta(`/proyectos/${p.slug}`)}
+            data-tarjeta
+            data-disciplina={categoria(p).toLowerCase()}
+            style={`--d:${(i * 0.06).toFixed(2)}s`}
+          >
+            <div class="tarjeta__fig">
+              <ProyectoCover tipo={p.tipo} indice={p.indice} titulo={p.titulo} />
+            </div>
+            <div class="tarjeta__pie">
+              <div>
+                <span class="eti">
+                  {p.indice} · {p.disciplina}
+                </span>
+                <h2 class="tarjeta__t">{p.titulo}</h2>
+                <p class="tarjeta__sub">{p.subtitulo}</p>
+              </div>
+              <span class="eti tarjeta__anio">{p.anio}</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="aviso">
+      Contenido de muestra para revisión de diseño. Los nombres, cifras y clientes son
+      ficticios hasta que se cargue el portafolio real.
+    </p>
+  </section>
+
+  <script>
+    const botones = document.querySelectorAll('[data-filtro]');
+    const tarjetas = document.querySelectorAll('[data-tarjeta]');
+    const cuenta = document.querySelector('[data-cuenta]');
+
+    botones.forEach((boton) => {
+      boton.addEventListener('click', () => {
+        const filtro = boton.dataset.filtro ?? 'todos';
+        botones.forEach((b) => b.setAttribute('aria-pressed', String(b === boton)));
+
+        let visibles = 0;
+        tarjetas.forEach((tarjeta) => {
+          const coincide =
+            filtro === 'todos' || (tarjeta.dataset.disciplina ?? '').includes(filtro);
+          tarjeta.hidden = !coincide;
+          if (coincide) visibles++;
+        });
+
+        if (cuenta) cuenta.textContent = String(visibles).padStart(2, '0');
+      });
+    });
+  </script>
+</Base>

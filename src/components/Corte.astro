@@ -1,0 +1,57 @@
+---
+const tinta = '#15181a';
+
+// Tres volúmenes de distinta altura: una sección de manzana, no una retícula.
+const bloques = [
+  { x: 20, ancho: 230, alto: 120, piso: 28 },
+  { x: 270, ancho: 290, alto: 52, piso: 25 },
+  { x: 580, ancho: 180, alto: 158, piso: 36 },
+  { x: 780, ancho: 100, alto: 190, piso: 20 },
+];
+
+const suelo = 236;
+---
+
+<svg
+  class="corte__svg"
+  viewBox="0 0 900 300"
+  aria-hidden="true"
+  fill="none"
+  stroke={tinta}
+  stroke-width="1.1"
+>
+  {bloques.map((b) => (
+    <g>
+      <rect x={b.x} y={b.alto} width={b.ancho} height={suelo - b.alto} stroke-width="1.6" />
+      {Array.from(
+        { length: Math.floor((suelo - b.alto) / b.piso) },
+        (_, i) => b.alto + (i + 1) * b.piso,
+      )
+        .filter((y) => y < suelo - 4)
+        .map((y) => (
+          <line x1={b.x} y1={y} x2={b.x + b.ancho} y2={y} />
+        ))}
+      {Array.from(
+        { length: Math.floor(b.ancho / 38) },
+        (_, i) => b.x + 38 * (i + 1),
+      )
+        .filter((x) => x < b.x + b.ancho - 6)
+        .map((x) => (
+          <line x1={x} y1={b.alto} x2={x} y2={suelo} opacity="0.55" />
+        ))}
+    </g>
+  ))}
+
+  <line x1="0" y1={suelo} x2="900" y2={suelo} stroke-width="2.2" />
+
+  {Array.from({ length: 46 }, (_, i) => 6 + i * 20).map((x) => (
+    <line x1={x} y1={suelo + 2} x2={x - 10} y2={suelo + 22} stroke-width="0.7" opacity="0.5" />
+  ))}
+
+  <g stroke-width="1.2" opacity="0.8">
+    <circle cx="470" cy="32" r="15" />
+    <line x1="458" y1="44" x2="458" y2="52" />
+    <line x1="470" y1="47" x2="470" y2="52" />
+    <line x1="482" y1="44" x2="482" y2="52" />
+  </g>
+</svg>

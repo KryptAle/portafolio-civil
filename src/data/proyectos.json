@@ -1,0 +1,134 @@
+[
+  {
+    "slug": "torre-aurora",
+    "indice": "01",
+    "titulo": "Torre Aurora",
+    "subtitulo": "Doce niveles sobre un terreno que cae 6,4 metros",
+    "tipo": "torre",
+    "disciplina": "Estructural",
+    "anio": 2025,
+    "ubicacion": "Caracas, Venezuela",
+    "cliente": "Cliente privado",
+    "rol": "Ingeniero estructural · coordinador BIM",
+    "estado": "En obra",
+    "destacado": true,
+    "resumen": "Un edificio residencial de 9.400 m² en pendiente. El problema no era la altura: era resolver la transición entre el sótano y la calle sin perder estacionamientos ni capacidad estructural.",
+    "reto": "El terreno desciende 6,4 m entre la calle superior y la inferior. Un sótano convencional dejaba 31 puestos, por debajo de lo exigido por la ordenanza, y obligaba a muros de contención de 7 m en toda la fachada posterior.",
+    "solucion": "Se dividió la losa de sótano en dos plataformas unidas por una rampa al 12 %, apoyadas en muros de contención perimetrales de 30 cm. El núcleo se rigidizó con muros de concreto y el modelo BIM se usó para verificar la interferencia entre instalaciones y vigas de borde antes de vaciar.",
+    "resultado": "34 puestos de estacionamiento, 12 % menos acero que el anteproyecto y cero interferencias detectadas en obra durante la excavación.",
+    "metricas": [
+      { "etiqueta": "Área construida", "valor": "9.400 m²" },
+      { "etiqueta": "Niveles", "valor": "12 + sótano" },
+      { "etiqueta": "Desnivel del terreno", "valor": "6,4 m" },
+      { "etiqueta": "Acero vs. anteproyecto", "valor": "−12 %" }
+    ],
+    "normativa": ["COVENIN 1753-2006", "COVENIN 1756-2019", "ACI 318-19"],
+    "software": ["Revit 2025", "ETABS 22", "SAP2000", "AutoCAD 2025"],
+    "entregables": [
+      "Memoria de cálculo estructural",
+      "Juego de planos: 68 láminas",
+      "Modelo BIM LOD 350",
+      "Informe de interferencias"
+    ],
+    "solicitarArchivos": true
+  },
+  {
+    "slug": "puente-la-quebrada",
+    "indice": "02",
+    "titulo": "Puente La Quebrada",
+    "subtitulo": "48 metros de luz sin un solo apoyo dentro del cauce",
+    "tipo": "puente",
+    "disciplina": "Vial / Estructural",
+    "anio": 2024,
+    "ubicacion": "Mérida, Venezuela",
+    "cliente": "Alcaldía · contrato público",
+    "rol": "Diseño estructural y planos de construcción",
+    "estado": "Entregado",
+    "destacado": true,
+    "resumen": "La vía quedaba cortada cuatro meses al año. La solución debía construirse sin cerrar el paso por completo y sin apoyos dentro del cauce.",
+    "reto": "Cauce con crecidas de hasta 3,2 m y roca fracturada a 4 m de profundidad. Cualquier apoyo central era inviable ambiental y constructivamente, y el cierre total de la vía afectaba a 1.800 habitantes.",
+    "solucion": "Vigas postensadas de 48 m fabricadas en taller e izadas en dos noches con grúa de 250 t. Los estribos se anclaron a la roca con micropilotes de 20 m y se verificó la estabilidad de taludes con análisis seudoestático.",
+    "resultado": "Un cierre vial de 38 % menos días que el cronograma base y cero afectación al cauce durante la construcción.",
+    "metricas": [
+      { "etiqueta": "Luz principal", "valor": "48 m" },
+      { "etiqueta": "Noches de izaje", "valor": "2" },
+      { "etiqueta": "Cierre vial", "valor": "−38 %" },
+      { "etiqueta": "Micropilotes", "valor": "20 m" }
+    ],
+    "normativa": ["AASHTO LRFD 9.ª ed.", "Manual de Puentes MTOP", "COVENIN 1756-2019"],
+    "software": ["Civil 3D 2024", "Midas Civil", "AutoCAD", "Revit"],
+    "entregables": [
+      "Memoria de cálculo",
+      "Planos de construcción",
+      "Estudio de izaje",
+      "Modelo 3D de verificación"
+    ],
+    "solicitarArchivos": true
+  },
+  {
+    "slug": "nave-industrial-norte",
+    "indice": "03",
+    "titulo": "Nave Industrial Norte",
+    "subtitulo": "6.200 m² libres de columnas intermedias",
+    "tipo": "nave",
+    "disciplina": "Industrial",
+    "anio": 2024,
+    "ubicacion": "Valencia, Venezuela",
+    "cliente": "Operador logístico",
+    "rol": "Cálculo estructural y coordinación de taller",
+    "estado": "En obra",
+    "destacado": false,
+    "resumen": "El cliente necesitaba almacenar y mover carga pesada sin columnas intermedias. El diseño se resolvió con pórticos de alma llena y una losa industrial de 20 cm.",
+    "reto": "Luces de 24 m con un puente grúa de 12 t, sobre un suelo de capacidad portante variable entre 90 y 180 kPa. Una cimentación uniforme generaba asentamientos diferenciales inadmisibles.",
+    "solucion": "Pórticos de acero A572 Gr. 50 con conexiones rigidizadas y fundaciones aisladas dimensionadas por sector según el estudio geotécnico. Losa de 20 cm con juntas serradas cada 6 m y refuerzo por retracción.",
+    "resultado": "Montaje completo en 11 semanas y una flecha máxima de L/420 bajo carga de servicio, por debajo del límite de L/360.",
+    "metricas": [
+      { "etiqueta": "Superficie", "valor": "6.200 m²" },
+      { "etiqueta": "Luz de pórtico", "valor": "24 m" },
+      { "etiqueta": "Puente grúa", "valor": "12 t" },
+      { "etiqueta": "Flecha máxima", "valor": "L/420" }
+    ],
+    "normativa": ["AISC 360-22", "AWS D1.1", "COVENIN 1618-98"],
+    "software": ["Revit", "SAP2000", "Advance Steel", "Navisworks"],
+    "entregables": [
+      "Memoria de cálculo",
+      "Planos de taller",
+      "Planos de montaje",
+      "Modelo federado"
+    ],
+    "solicitarArchivos": true
+  },
+  {
+    "slug": "tanque-el-roble",
+    "indice": "04",
+    "titulo": "Tanque El Roble",
+    "subtitulo": "1.500 m³ de agua sobre suelo blando",
+    "tipo": "tanque",
+    "disciplina": "Hidráulica",
+    "anio": 2023,
+    "ubicacion": "Barquisimeto, Venezuela",
+    "cliente": "Hidrológica regional",
+    "rol": "Diseño estructural y geotecnia",
+    "estado": "Entregado",
+    "destacado": true,
+    "resumen": "Un tanque de concreto postensado para el suministro de un sector con racionamiento. La restricción era geotécnica: el estrato blando llegaba a 9 m de profundidad.",
+    "reto": "Suelo con SPT entre 4 y 9 golpes y nivel freático a 1,8 m. Un tanque simplemente apoyado superaba los asentamientos admisibles y el empuje hidrostático complicaba la excavación.",
+    "solucion": "Mejoramiento del terreno con columnas de grava y losa de fondo postensada. Muro cilíndrico de 30 cm con tendones verticales y prueba de estanqueidad por etapas antes de la puesta en servicio.",
+    "resultado": "Asentamiento medido de 7 mm al año de operación, muy por debajo del límite de 25 mm adoptado en el diseño.",
+    "metricas": [
+      { "etiqueta": "Capacidad", "valor": "1.500 m³" },
+      { "etiqueta": "Diámetro", "valor": "18 m" },
+      { "etiqueta": "Estrato blando", "valor": "9 m" },
+      { "etiqueta": "Asentamiento medido", "valor": "7 mm" }
+    ],
+    "normativa": ["ACI 350-20", "AWWA D110", "COVENIN 1753-2006"],
+    "software": ["AutoCAD", "SAP2000", "WaterCAD", "Plaxis 2D"],
+    "entregables": [
+      "Memoria de cálculo",
+      "Planos de construcción",
+      "Estudio geotécnico",
+      "Protocolo de pruebas"
+    ],
+    "solicitarArchivos": true
+  }
+]

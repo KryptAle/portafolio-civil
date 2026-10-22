@@ -1,0 +1,207 @@
+---
+import Base from '../layouts/Base.astro';
+import Hoja from '../components/Hoja.astro';
+import { sitio, ruta } from '../config';
+
+const hitos = [
+  {
+    fecha: '2024 — hoy',
+    t: 'Consultor independiente',
+    d: 'Cálculo estructural y coordinación BIM para estudios de arquitectura y desarrolladores. Seis obras en curso.',
+    lugar: 'Caracas',
+  },
+  {
+    fecha: '2021 — 2024',
+    t: 'Coordinador BIM · Constructora Andes',
+    d: 'Federación de modelos de seis edificios residenciales. Reducción de 18 % en consultas de obra (RFI) durante la etapa de estructura.',
+    lugar: 'Caracas',
+  },
+  {
+    fecha: '2018 — 2021',
+    t: 'Ingeniero de proyectos · Estudio Vega & Asociados',
+    d: 'Cálculo de 14 estructuras de concreto y acero, memorias y planos de construcción para obra privada.',
+    lugar: 'Valencia',
+  },
+  {
+    fecha: '2017 — 2018',
+    t: 'Ingeniero residente',
+    d: 'Supervisión de vaciados, control de acero y protocolos de calidad en edificaciones de hasta ocho niveles.',
+    lugar: 'Barquisimeto',
+  },
+];
+
+const software = [
+  { nombre: 'AutoCAD', nivel: 'Avanzado', anios: 9, pct: 95 },
+  { nombre: 'Revit', nivel: 'Avanzado', anios: 7, pct: 92 },
+  { nombre: 'ETABS', nivel: 'Avanzado', anios: 6, pct: 88 },
+  { nombre: 'SAP2000', nivel: 'Intermedio', anios: 5, pct: 74 },
+  { nombre: 'Navisworks', nivel: 'Intermedio', anios: 4, pct: 70 },
+  { nombre: 'Civil 3D', nivel: 'Intermedio', anios: 4, pct: 66 },
+  { nombre: 'Python / Excel', nivel: 'Intermedio', anios: 5, pct: 68 },
+  { nombre: 'Advance Steel', nivel: 'Básico', anios: 2, pct: 45 },
+];
+---
+
+<Base
+  titulo="Sobre mí"
+  descripcion="Ingeniero civil especializado en estructuras y coordinación BIM. Formación, trayectoria y herramientas de trabajo."
+>
+  <section class="contenedor encabezado-pagina">
+    <nav class="miga" aria-label="Ruta">
+      <a href={ruta('/')}>Inicio</a>
+      <span aria-hidden="true">/</span>
+      <span>Sobre mí</span>
+    </nav>
+
+    <div class="proy__cab">
+      <div>
+        <span class="eti eti--senal">Perfil profesional</span>
+        <h1 class="proy__tit" style="margin-top:14px">Ingeniero civil,<br />entre el cálculo y la obra.</h1>
+      </div>
+      <p class="proy__sub" style="max-width:34ch">
+        Nueve años resolviendo estructuras y coordinando disciplinas. Trabajo con concreto,
+        acero y obra hidráulica, con entregables que se pueden revisar.
+      </p>
+    </div>
+  </section>
+
+  <section class="contenedor seccion seccion--ajustada">
+    <div class="perfil perfil--bio">
+      <div class="retrato revelar">
+        <div class="retrato__texto">
+          <span class="eti">Retrato · 4:5</span>
+          <p class="eti" style="margin-top:10px; opacity:.7">Fotografía pendiente</p>
+        </div>
+      </div>
+
+      <div class="perfil__bio revelar" style="--d:.08s">
+        <p>
+          Empecé en obra, revisando acero y vaciados, y terminé en el modelo: hoy buena parte
+          de mi trabajo consiste en anticipar en el computador lo que en campo sería una
+          demolición. Esa doble mirada —la del cálculo y la del sitio— es lo que ofrezco.
+        </p>
+        <p>
+          Diseño estructuras de concreto armado y acero para edificaciones de mediana altura,
+          naves industriales y obras hidráulicas. También coordino modelos BIM y reviso
+          proyectos de terceros antes de que lleguen a licitación.
+        </p>
+        <p>
+          Me interesa la claridad: memorias que se entienden, planos que no dependen de una
+          llamada y modelos que sirven para construir, no solo para presentar.
+        </p>
+
+        <div class="datos">
+          <div class="dato">
+            <dt>Formación</dt>
+            <dd>Ingeniero civil, mención Estructuras</dd>
+          </div>
+          <div class="dato">
+            <dt>Universidad</dt>
+            <dd>Universidad Central de Venezuela · 2016</dd>
+          </div>
+          <div class="dato">
+            <dt>Colegiatura</dt>
+            <dd>CIV 000.000</dd>
+          </div>
+          <div class="dato">
+            <dt>Base</dt>
+            <dd>{sitio.ciudad}</dd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contenedor seccion">
+    <Hoja num="01" titulo="Trayectoria" meta="2017 — hoy" />
+
+    <div class="linea-tiempo">
+      {hitos.map((h) => (
+        <div class="hito revelar">
+          <span class="hito__fecha">{h.fecha}</span>
+          <div>
+            <h3 class="hito__t">{h.t}</h3>
+            <p class="hito__d">{h.d}</p>
+          </div>
+          <span class="hito__lugar">{h.lugar}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="contenedor seccion">
+    <Hoja num="02" titulo="Herramientas" meta="Nivel de uso declarado" />
+
+    <table class="tabla-software">
+      <thead>
+        <tr>
+          <th scope="col">Herramienta</th>
+          <th scope="col">Nivel</th>
+          <th scope="col" style="text-align:right">Años</th>
+        </tr>
+      </thead>
+      <tbody>
+        {software.map((s) => (
+          <tr>
+            <td>{s.nombre}</td>
+            <td>
+              <div class="nivel">
+                <div class="nivel__barra">
+                  <span class={s.nivel === 'Avanzado' ? 'es-alto' : ''} style={`width:${s.pct}%`} />
+                </div>
+                <span class="nivel__txt">{s.nivel}</span>
+              </div>
+            </td>
+            <td style="text-align:right; font-family:var(--mono); font-size:12px">{s.anios}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="contenedor seccion">
+    <Hoja num="03" titulo="Formación continua" meta="Certificaciones" />
+
+    <div class="linea-tiempo">
+      <div class="hito">
+        <span class="hito__fecha">2024</span>
+        <div>
+          <h3 class="hito__t">Autodesk Certified Professional — Revit Structure</h3>
+          <p class="hito__d">Certificación de modelado estructural y documentación.</p>
+        </div>
+        <span class="hito__lugar">Autodesk</span>
+      </div>
+      <div class="hito">
+        <span class="hito__fecha">2022</span>
+        <div>
+          <h3 class="hito__t">Diseño sismorresistente de edificios</h3>
+          <p class="hito__d">Curso de 80 horas sobre análisis modal y diseño por desempeño.</p>
+        </div>
+        <span class="hito__lugar">UCV</span>
+      </div>
+      <div class="hito">
+        <span class="hito__fecha">2021</span>
+        <div>
+          <h3 class="hito__t">BIM Management</h3>
+          <p class="hito__d">Gestión de modelos federados y flujos de coordinación.</p>
+        </div>
+        <span class="hito__lugar">60 h</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="cierre">
+    <div class="contenedor cierre__in">
+      <div>
+        <p class="eti eti--claro">Siguiente paso</p>
+        <h2 class="cierre__t" style="margin-top:16px">
+          Hablemos de tu <span class="em">proyecto</span>.
+        </h2>
+        <a class="cierre__mail" href={`mailto:${sitio.email}`}>
+          {sitio.email} <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <div class="cierre__num" aria-hidden="true">R</div>
+    </div>
+  </section>
+</Base>

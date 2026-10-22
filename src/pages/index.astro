@@ -1,0 +1,236 @@
+---
+import Base from '../layouts/Base.astro';
+import Hoja from '../components/Hoja.astro';
+import Estructura from '../components/Estructura.astro';
+import ProyectoCover from '../components/ProyectoCover.astro';
+import Corte from '../components/Corte.astro';
+import { sitio, ruta } from '../config';
+import proyectos from '../data/proyectos.json';
+
+const cifras = [
+  { n: '09', l: 'Años de ejercicio' },
+  { n: '24', l: 'Proyectos entregados' },
+  { n: '06', l: 'Edificios en obra' },
+  { n: '350', l: 'Nivel BIM habitual' },
+];
+
+const especialidades = [
+  {
+    t: 'Estructuras',
+    d: 'Concreto armado y acero: edificios, naves y fundaciones. Cálculo, memoria y planos de construcción.',
+  },
+  {
+    t: 'BIM y coordinación',
+    d: 'Modelos LOD 350, detección de interferencias y federación de disciplinas antes de vaciar.',
+  },
+  {
+    t: 'Obra y supervisión',
+    d: 'Protocolos de vaciado, control de calidad de acero y seguimiento del cronograma en sitio.',
+  },
+  {
+    t: 'Vial e hidráulica',
+    d: 'Puentes, drenajes y obras de captación. Diseño con verificación hidráulica y geotécnica.',
+  },
+];
+---
+
+<Base>
+  <section class="contenedor hero">
+    <div class="hero__txt">
+      <div class="hero__eyebrow">
+        <span class="eti">Ingeniería civil · {sitio.ciudad}</span>
+      </div>
+
+      <h1 class="hero__h1">
+        Primero <span class="em">se calcula</span>. Después se construye.
+      </h1>
+
+      <p class="hero__p">
+        Cálculo estructural, coordinación BIM y dirección de obra para edificaciones e
+        infraestructura. Del modelo a la ejecución, con entregables claros y trazabilidad
+        técnica en cada etapa.
+      </p>
+
+      <div class="hero__acciones">
+        <a class="btn btn--lleno" href={ruta('/proyectos')}>
+          Ver proyectos <span class="btn__flecha" aria-hidden="true">→</span>
+        </a>
+        <a class="btn" href={ruta('/sobre-mi')}>
+          Sobre mí <span class="btn__flecha" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__fig revelar" style="--d:.15s">
+      <figure class="figura" data-paralaje>
+        <div class="figura__lienzo">
+          <Estructura />
+        </div>
+        <figcaption class="figura__pie">
+          <span class="eti">Fig. 01 — Torre tipo</span>
+          <span class="eti">8 niveles · 25,60 m</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="contenedor">
+    <div class="cifras">
+      {cifras.map((c) => (
+        <div class="cifra">
+          <span class="cifra__n">{c.n}</span>
+          <span class="cifra__l">{c.l}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <section class="seccion contenedor" id="proyectos">
+    <Hoja num="01" titulo="Proyectos" meta="Selección 2023—2026 · 04 obras" />
+
+    <div class="indice" data-indice>
+      <div class="filas">
+        {proyectos.map((p, i) => (
+          <a
+            class="fila revelar"
+            href={ruta(`/proyectos/${p.slug}`)}
+            data-fila={String(i)}
+            data-leyenda={`${p.titulo} · ${p.anio}`}
+            style={`--d:${(i * 0.06).toFixed(2)}s`}
+          >
+            <div class="fila__num">{p.indice}</div>
+            <div class="fila__cuerpo">
+              <span class="fila__tit">{p.titulo}</span>
+              <span class="fila__sub">{p.subtitulo}</span>
+              <div class="fila__fig">
+                <ProyectoCover tipo={p.tipo} indice={p.indice} titulo={p.titulo} />
+              </div>
+            </div>
+            <div class="fila__meta">
+              {p.disciplina}
+              <br />
+              {p.anio}
+            </div>
+            <span class="fila__flecha" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        ))}
+      </div>
+
+      <aside class="vista" data-vista aria-hidden="true">
+        {proyectos.map((p, i) => (
+          <div class="vista__item" data-cubierta={String(i)} data-activa={i === 0 ? 'true' : 'false'}>
+            <ProyectoCover tipo={p.tipo} indice={p.indice} titulo={p.titulo} />
+          </div>
+        ))}
+        <div class="vista__pie">
+          <span class="eti eti--claro">Vista previa</span>
+          <span class="eti eti--claro" data-vista-pie>
+            Torre Aurora · 2025
+          </span>
+        </div>
+      </aside>
+    </div>
+
+    <div style="margin-top:32px">
+      <a class="btn" href={ruta('/proyectos')}>
+        Ver el índice completo <span class="btn__flecha" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="seccion contenedor">
+    <Hoja num="02" titulo="Especialidades" meta="Qué resuelvo" />
+
+    <div class="especialidades">
+      {especialidades.map((e, i) => (
+        <article class="especialidad revelar" style={`--d:${(i * 0.07).toFixed(2)}s`}>
+          <span class="especialidad__n">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="especialidad__t">{e.t}</h3>
+          <p class="especialidad__d">{e.d}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="corte">
+    <Corte />
+    <div class="contenedor corte__in">
+      <blockquote class="corte__quote">
+        Una estructura no se ve.<br />
+        <span class="em">Se comprueba.</span>
+      </blockquote>
+      <p class="corte__nota">
+        Cada proyecto de este portafolio incluye memoria de cálculo, planos y modelo. Lo que
+        se muestra es la parte visible; el respaldo técnico está en las láminas.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion contenedor">
+    <Hoja num="03" titulo="Perfil" meta="Quién firma" />
+
+    <div class="perfil">
+      <div class="retrato revelar">
+        <div class="retrato__texto">
+          <span class="eti">Retrato · 4:5</span>
+          <p class="eti" style="margin-top:10px; opacity:.7">Fotografía pendiente</p>
+        </div>
+      </div>
+
+      <div class="perfil__bio revelar" style="--d:.1s">
+        <p>
+          Soy ingeniero civil con nueve años de trabajo entre el cálculo y la obra. Empecé
+          dibujando planos y terminé coordinando modelos BIM de edificios completos: esa
+          mezcla es la que hoy ofrezco a mis clientes.
+        </p>
+        <p>
+          Trabajo con concreto armado, estructuras metálicas y obras hidráulicas. Me interesa
+          que el diseño llegue a la obra sin sorpresas: modelos verificados, planos legibles y
+          memoria que cualquiera pueda revisar.
+        </p>
+
+        <div class="datos">
+          <div class="dato">
+            <dt>Formación</dt>
+            <dd>Ingeniero civil, mención Estructuras</dd>
+          </div>
+          <div class="dato">
+            <dt>Colegiatura</dt>
+            <dd>CIV 000.000</dd>
+          </div>
+          <div class="dato">
+            <dt>Base</dt>
+            <dd>{sitio.ciudad}</dd>
+          </div>
+          <div class="dato">
+            <dt>Idiomas</dt>
+            <dd>Español · Inglés B2</dd>
+          </div>
+        </div>
+
+        <div style="margin-top:26px">
+          <a class="btn" href={ruta('/sobre-mi')}>
+            Leer el perfil completo <span class="btn__flecha" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cierre">
+    <div class="contenedor cierre__in">
+      <div>
+        <p class="eti eti--claro">Siguiente paso</p>
+        <h2 class="cierre__t" style="margin-top:16px">
+          Hablemos de tu <span class="em">proyecto</span>.
+        </h2>
+        <a class="cierre__mail" href={`mailto:${sitio.email}`}>
+          {sitio.email} <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <div class="cierre__num" aria-hidden="true">R</div>
+    </div>
+  </section>
+</Base>

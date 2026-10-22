@@ -1,0 +1,45 @@
+---
+import { sitio, navegacion, ruta } from '../config';
+
+const actual = Astro.url.pathname.replace(/\/$/, '');
+const raiz = ruta('/').replace(/\/$/, '');
+
+const esActiva = (destino: string) => {
+  const rutaLimpia = destino.replace(/\/$/, '');
+  if (rutaLimpia === raiz) return actual === raiz;
+  return actual === rutaLimpia || actual.startsWith(rutaLimpia + '/');
+};
+---
+
+<header class="cabecera">
+  <div class="contenedor cabecera__in">
+    <a class="marca" href={ruta('/')} aria-label={`${sitio.nombre} — inicio`}>
+      <span class="marca__sigla" aria-hidden="true">{sitio.marcaSigla}</span>
+      <span class="marca__txt">
+        <span class="marca__nombre">{sitio.marca}</span>
+        <span class="marca__rol">Ingeniería civil</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Navegación principal">
+      {navegacion.map((enlace) => {
+        const destino = ruta(enlace.href);
+        return (
+          <a
+            class="nav__enlace"
+            href={destino}
+            aria-current={esActiva(destino) ? 'page' : undefined}
+          >
+            {enlace.texto}
+          </a>
+        );
+      })}
+    </nav>
+
+    <a class="btn btn--lleno cabecera__cta" href={ruta('/contacto')}>
+      Hablemos <span class="btn__flecha" aria-hidden="true">→</span>
+    </a>
+
+    <span class="cabecera__rev" title="Versión del borrador">REV. A</span>
+  </div>
+</header>

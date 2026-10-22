@@ -1,0 +1,158 @@
+---
+interface Props {
+  tipo: 'torre' | 'puente' | 'nave' | 'tanque';
+  indice: string;
+  titulo: string;
+}
+
+const { tipo, indice, titulo } = Astro.props;
+
+const papel = '#f3f0e8';
+const senal = '#ef5a2a';
+const tinta = '#15181a';
+---
+
+<div class="portada">
+  <svg viewBox="0 0 480 360" role="img" aria-label={`Ilustración lineal de ${titulo}`}>
+    <text
+      x="30"
+      y="86"
+      fill={papel}
+      fill-opacity="0.13"
+      font-family="Fraunces Variable, Georgia, serif"
+      font-size="96"
+      letter-spacing="-4"
+    >
+      {indice}
+    </text>
+
+    <g stroke={papel} stroke-width="1.1" stroke-linejoin="round" fill="none" opacity="0.82">
+      {
+        tipo === 'torre' && (
+          <>
+            <polygon points="150,90 300,90 360,60 210,60" />
+            <line x1="150" y1="90" x2="150" y2="320" />
+            <line x1="300" y1="90" x2="300" y2="320" />
+            <line x1="360" y1="60" x2="360" y2="290" />
+            {[113, 136, 159, 182, 205, 228, 251, 274, 297, 320].map((y) => (
+              <line x1="150" y1={y} x2="300" y2={y} />
+            ))}
+            {[113, 136, 159, 182, 205, 228, 251, 274, 297].map((y) => (
+              <line x1="300" y1={y} x2="360" y2={y - 30} />
+            ))}
+            {[180, 220, 260].map((x) => (
+              <line x1={x} y1="90" x2={x} y2="320" opacity="0.5" />
+            ))}
+            {[320, 340].map((x) => (
+              <line
+                x1={x}
+                y1={90 - (x - 300) * 0.5}
+                x2={x}
+                y2={320 - (x - 300) * 0.5}
+                opacity="0.5"
+              />
+            ))}
+            <line x1="90" y1="320" x2="410" y2="320" opacity="0.55" />
+          </>
+        )
+      }
+
+      {
+        tipo === 'puente' && (
+          <>
+            <line x1="50" y1="200" x2="430" y2="200" />
+            <line x1="50" y1="214" x2="430" y2="214" />
+            <path d="M50 200 C 140 285, 340 285, 430 200" />
+            {[
+              [110, 241],
+              [170, 271],
+              [240, 285],
+              [310, 271],
+              [370, 241],
+            ].map(([x, y]) => (
+              <line x1={x} y1="214" x2={x} y2={y} opacity="0.6" />
+            ))}
+            <rect x="45" y="214" width="26" height="106" />
+            <rect x="409" y="214" width="26" height="106" />
+            <line x1="58" y1="200" x2="58" y2="320" opacity="0.4" />
+            <line x1="422" y1="200" x2="422" y2="320" opacity="0.4" />
+            {[306, 316, 326].map((y, i) => (
+              <path
+                d={`M${70 + i * 8} ${y} q 20 -6 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0`}
+                opacity="0.28"
+              />
+            ))}
+            {[90, 140, 190, 240, 290, 340, 390].map((x) => (
+              <line x1={x} y1="203" x2={x + 10} y2="203" opacity="0.5" />
+            ))}
+          </>
+        )
+      }
+
+      {
+        tipo === 'nave' && (
+          <>
+            <line x1="140" y1="300" x2="140" y2="165" />
+            <line x1="340" y1="300" x2="340" y2="165" />
+            <line x1="140" y1="165" x2="240" y2="118" />
+            <line x1="240" y1="118" x2="340" y2="165" />
+            <line x1="140" y1="165" x2="340" y2="165" opacity="0.55" />
+            <line x1="140" y1="150" x2="240" y2="104" opacity="0.35" />
+            <line x1="240" y1="104" x2="340" y2="150" opacity="0.35" />
+            {[180, 220, 260, 300].map((x) => (
+              <line x1={x} y1="118" x2={x} y2="112" opacity="0.4" />
+            ))}
+            <rect x="120" y="300" width="40" height="12" fill={tinta} fill-opacity="0.12" />
+            <rect x="320" y="300" width="40" height="12" fill={tinta} fill-opacity="0.12" />
+            <line x1="100" y1="312" x2="380" y2="312" opacity="0.5" />
+          </>
+        )
+      }
+
+      {
+        tipo === 'tanque' && (
+          <>
+            <ellipse cx="230" cy="110" rx="95" ry="24" />
+            <ellipse cx="230" cy="290" rx="95" ry="24" />
+            <line x1="135" y1="110" x2="135" y2="290" />
+            <line x1="325" y1="110" x2="325" y2="290" />
+            <path d="M135 110 A 95 52 0 0 1 325 110" />
+            <ellipse cx="230" cy="180" rx="95" ry="24" opacity="0.3" stroke-dasharray="3 4" />
+            <line x1="345" y1="112" x2="345" y2="288" opacity="0.5" />
+            {[130, 150, 170, 190, 210, 230, 250, 270].map((y) => (
+              <line x1="335" y1={y} x2="345" y2={y} opacity="0.45" />
+            ))}
+            <line x1="70" y1="314" x2="390" y2="314" opacity="0.55" />
+          </>
+        )
+      }
+    </g>
+
+    <g stroke={senal} stroke-width="2.4" fill="none" stroke-linecap="square">
+      {tipo === 'torre' && <polyline points="150,90 300,90 360,60 210,60 150,90" />}
+      {tipo === 'puente' && <line x1="50" y1="200" x2="430" y2="200" />}
+      {tipo === 'nave' && <line x1="140" y1="215" x2="340" y2="215" />}
+      {tipo === 'tanque' && <path d="M135 110 A 95 52 0 0 1 325 110" />}
+    </g>
+
+    {tipo === 'nave' && (
+      <g stroke={senal} stroke-width="1.6" fill="none">
+        <line x1="252" y1="215" x2="252" y2="244" />
+        <path d="M246 244 h12 v7 h-12 z" />
+      </g>
+    )}
+
+    <text
+      x="450"
+      y="340"
+      text-anchor="end"
+      fill={papel}
+      fill-opacity="0.45"
+      font-family="IBM Plex Mono, monospace"
+      font-size="8"
+      letter-spacing="1.4"
+    >
+      ESC. 1:250
+    </text>
+  </svg>
+</div>

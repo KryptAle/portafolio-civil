@@ -1,0 +1,280 @@
+---
+interface Props {
+  variante?: 'planta' | 'corte' | 'detalle';
+  etiqueta?: string;
+}
+
+const { variante = 'planta', etiqueta = 'E-01' } = Astro.props;
+const tinta = '#15181a';
+const senal = '#be3a12';
+
+const viewBox = variante === 'planta' ? '0 0 720 360' : '0 0 480 360';
+
+const columnasX = [84, 162, 240, 318, 396, 474, 552, 630];
+const columnasY = [80, 130, 180, 230, 280];
+---
+
+<svg
+  viewBox={viewBox}
+  role="img"
+  aria-label={`Lámina técnica: ${etiqueta}`}
+  fill="none"
+  stroke={tinta}
+  stroke-linecap="square"
+>
+  {
+    variante === 'planta' && (
+      <g>
+        <g stroke-width="0.6" opacity="0.45">
+          <rect x="24" y="20" width="672" height="320" />
+        </g>
+
+        <g stroke-width="2">
+          <rect x="48" y="44" width="624" height="272" />
+        </g>
+        <g stroke-width="0.8" opacity="0.5">
+          <rect x="55" y="51" width="610" height="258" />
+        </g>
+
+        {columnasX.map((x) =>
+          columnasY.map((y) => (
+            <rect x={x - 3} y={y - 3} width="6" height="6" fill={tinta} stroke="none" />
+          )),
+        )}
+
+        <g stroke-width="1.1">
+          <line x1="48" y1="150" x2="340" y2="150" />
+          <line x1="396" y1="44" x2="396" y2="150" />
+          <line x1="396" y1="230" x2="672" y2="230" />
+        </g>
+
+        <g stroke-width="1.4">
+          <rect x="340" y="150" width="110" height="76" />
+          {[162, 174, 186, 198, 210, 222].map((y) => (
+            <line x1="340" y1={y} x2="450" y2={y} opacity="0.7" />
+          ))}
+          <line x1="340" y1="226" x2="450" y2="150" opacity="0.5" />
+        </g>
+
+        <rect
+          x="480"
+          y="60"
+          width="150"
+          height="70"
+          fill={senal}
+          fill-opacity="0.1"
+          stroke={senal}
+          stroke-width="0.9"
+        />
+
+        <g stroke-width="0.6">
+          <line x1="48" y1="32" x2="672" y2="32" />
+          <line x1="48" y1="28" x2="48" y2="36" />
+          <line x1="672" y1="28" x2="672" y2="36" />
+        </g>
+        <text
+          x="360"
+          y="27"
+          text-anchor="middle"
+          fill={tinta}
+          stroke="none"
+          font-family="IBM Plex Mono, monospace"
+          font-size="8"
+          letter-spacing="0.8"
+        >
+          36,00 m
+        </text>
+
+        <g stroke-width="0.8" opacity="0.7">
+          <circle cx="660" cy="92" r="9" />
+          <line x1="660" y1="101" x2="660" y2="83" />
+          <path d="M656 87 l4 -5 l4 5" />
+        </g>
+
+        <text
+          x="48"
+          y="342"
+          fill={tinta}
+          stroke="none"
+          font-family="IBM Plex Mono, monospace"
+          font-size="7.5"
+          letter-spacing="1.1"
+          opacity="0.75"
+        >
+          PLANTA TIPO · {etiqueta}
+        </text>
+      </g>
+    )
+  }
+
+  {
+    variante === 'corte' && (
+      <g>
+        <g stroke-width="0.6" opacity="0.45">
+          <rect x="24" y="20" width="432" height="320" />
+        </g>
+
+        {[80, 160, 240, 320].map((x) => (
+          <line x1={x} y1="80" x2={x} y2="290" stroke-width="2.2" />
+        ))}
+
+        {[80, 150, 220, 290].map((y, i) => (
+          <g>
+            <rect x="60" y={y} width="360" height="7" fill={tinta} fill-opacity="0.08" />
+            <line x1="60" y1={y} x2="420" y2={y} stroke-width="1.4" />
+            <line
+              x1="60"
+              y1={y + 7}
+              x2="420"
+              y2={y + 7}
+              stroke-width="0.8"
+              opacity="0.6"
+            />
+            <text
+              x="430"
+              y={y + 5}
+              fill={tinta}
+              stroke="none"
+              font-family="IBM Plex Mono, monospace"
+              font-size="7"
+              opacity="0.7"
+            >
+              N+{(i * 3.2).toFixed(2).replace('.', ',')}
+            </text>
+          </g>
+        ))}
+
+        <line x1="40" y1="300" x2="440" y2="300" stroke-width="1.6" />
+        {Array.from({ length: 30 }, (_, i) => 44 + i * 14).map((x) => (
+          <line x1={x} y1="302" x2={x - 7} y2="314" stroke-width="0.7" opacity="0.5" />
+        ))}
+
+        <line x1="45" y1="80" x2="45" y2="290" stroke-width="0.7" />
+        <line x1="41" y1="80" x2="49" y2="80" stroke-width="0.7" />
+        <line x1="41" y1="290" x2="49" y2="290" stroke-width="0.7" />
+        <text
+          transform="translate(36 185) rotate(-90)"
+          text-anchor="middle"
+          fill={tinta}
+          stroke="none"
+          font-family="IBM Plex Mono, monospace"
+          font-size="7"
+          letter-spacing="0.8"
+          opacity="0.75"
+        >
+          10,50 m
+        </text>
+
+        <text
+          x="60"
+          y="342"
+          fill={tinta}
+          stroke="none"
+          font-family="IBM Plex Mono, monospace"
+          font-size="7.5"
+          letter-spacing="1.1"
+          opacity="0.75"
+        >
+          CORTE TRANSVERSAL · {etiqueta}
+        </text>
+      </g>
+    )
+  }
+
+  {
+    variante === 'detalle' && (
+      <g>
+        <g stroke-width="0.6" opacity="0.45">
+          <rect x="24" y="20" width="432" height="320" />
+        </g>
+
+        <rect x="140" y="90" width="200" height="160" stroke-width="2.2" />
+        <rect x="156" y="106" width="168" height="128" rx="12" stroke={senal} stroke-width="1.6" />
+
+        {[
+          [170, 120],
+          [316, 120],
+          [170, 220],
+          [316, 220],
+          [243, 120],
+          [243, 220],
+          [170, 170],
+          [316, 170],
+        ].map(([x, y]) => (
+          <circle cx={x} cy={y} r="5" fill={tinta} stroke="none" />
+        ))}
+
+        <g stroke-width="0.7">
+          <line x1="140" y1="272" x2="340" y2="272" />
+          <line x1="140" y1="267" x2="140" y2="277" />
+          <line x1="340" y1="267" x2="340" y2="277" />
+        </g>
+        <text
+          x="240"
+          y="290"
+          text-anchor="middle"
+          fill={tinta}
+          stroke="none"
+          font-family="IBM Plex Mono, monospace"
+          font-size="8"
+          opacity="0.8"
+        >
+          400 mm
+        </text>
+
+        <text
+          x="140"
+          y="76"
+          fill={tinta}
+          stroke="none"
+          font-family="IBM Plex Mono, monospace"
+          font-size="8"
+          letter-spacing="0.8"
+        >
+          V-04
+        </text>
+        <text
+          x="340"
+          y="76"
+          text-anchor="end"
+          fill={tinta}
+          stroke="none"
+          font-family="IBM Plex Mono, monospace"
+          font-size="8"
+          opacity="0.7"
+        >
+          400 × 600
+        </text>
+
+        <g stroke-width="0.8" opacity="0.8">
+          <line x1="360" y1="106" x2="392" y2="106" />
+          <line x1="360" y1="106" x2="392" y2="94" />
+          <line x1="392" y1="94" x2="392" y2="106" />
+        </g>
+        <text
+          x="396"
+          y="104"
+          fill={senal}
+          stroke="none"
+          font-family="IBM Plex Mono, monospace"
+          font-size="7"
+        >
+          8 Ø 3/4″
+        </text>
+
+        <text
+          x="140"
+          y="332"
+          fill={tinta}
+          stroke="none"
+          font-family="IBM Plex Mono, monospace"
+          font-size="7.5"
+          letter-spacing="1.1"
+          opacity="0.75"
+        >
+          DETALLE DE REFUERZO · {etiqueta}
+        </text>
+      </g>
+    )
+  }
+</svg>

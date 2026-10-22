@@ -1,0 +1,203 @@
+---
+import Base from '../layouts/Base.astro';
+import { sitio, ruta } from '../config';
+---
+
+<Base
+  titulo="Contacto"
+  descripcion="Contacto directo para proyectos de ingeniería estructural, coordinación BIM y revisión de diseño."
+>
+  <section class="contenedor encabezado-pagina">
+    <nav class="miga" aria-label="Ruta">
+      <a href={ruta('/')}>Inicio</a>
+      <span aria-hidden="true">/</span>
+      <span>Contacto</span>
+    </nav>
+
+    <div class="proy__cab">
+      <div>
+        <span class="eti eti--senal">Disponibilidad abierta</span>
+        <h1 class="proy__tit" style="margin-top:14px">Hablemos.</h1>
+        <p class="proy__sub">
+          Cuéntame qué necesitas calcular, revisar o coordinar. Respondo en menos de 48 horas
+          hábiles con una primera lectura del alcance.
+        </p>
+      </div>
+      <div>
+        <div class="proy__meta">
+          <div>
+            <dt>Correo</dt>
+            <dd>{sitio.email}</dd>
+          </div>
+          <div>
+            <dt>Base</dt>
+            <dd>{sitio.ciudad}</dd>
+          </div>
+          <div>
+            <dt>Modalidad</dt>
+            <dd>Presencial y remota</dd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contenedor seccion seccion--ajustada">
+    <div class="contacto-grid">
+      <div>
+        <h2 class="eti" style="margin-bottom:18px">Formulario</h2>
+
+        <form
+          id="form-contacto"
+          class="form"
+          data-email={sitio.email}
+          novalidate
+        >
+          <div class="form__fila">
+            <div class="campo">
+              <label for="nombre">Nombre</label>
+              <input
+                id="nombre"
+                name="nombre"
+                type="text"
+                autocomplete="name"
+                placeholder="Tu nombre"
+                required
+              />
+            </div>
+            <div class="campo">
+              <label for="correo">Correo</label>
+              <input
+                id="correo"
+                name="correo"
+                type="email"
+                autocomplete="email"
+                placeholder="tu@correo.com"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form__fila">
+            <div class="campo">
+              <label for="empresa">Empresa u organización</label>
+              <input
+                id="empresa"
+                name="empresa"
+                type="text"
+                autocomplete="organization"
+                placeholder="Opcional"
+              />
+            </div>
+            <div class="campo">
+              <label for="tipo">Tipo de consulta</label>
+              <select id="tipo" name="tipo">
+                <option>Proyecto nuevo</option>
+                <option>Revisión de diseño</option>
+                <option>Coordinación BIM</option>
+                <option value="Solicitud de archivos">Solicitud de archivos CAD/BIM</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="mensaje">Mensaje</label>
+            <textarea
+              id="mensaje"
+              name="mensaje"
+              rows="5"
+              placeholder="Tipo de obra, ubicación, etapa y plazo estimado."
+              required
+            ></textarea>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-top:6px">
+            <button class="btn btn--lleno" type="submit">
+              Enviar consulta <span class="btn__flecha" aria-hidden="true">→</span>
+            </button>
+            <p class="form__nota" id="estado-form" role="status" aria-live="polite">
+              Este formulario abre tu cliente de correo. No guarda datos en el sitio.
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <aside>
+        <h2 class="eti" style="margin-bottom:18px">Canales directos</h2>
+
+        <div class="canales">
+          <a class="canal" href={`mailto:${sitio.email}`}>
+            <span class="canal__k">Correo</span>
+            <span class="canal__v">{sitio.email}</span>
+          </a>
+          <a class="canal" href={`tel:${sitio.telefono.replace(/\s/g, '')}`}>
+            <span class="canal__k">Teléfono</span>
+            <span class="canal__v">{sitio.telefono}</span>
+          </a>
+          <a class="canal" href={`https://wa.me/${sitio.whatsapp}`} rel="noopener">
+            <span class="canal__k">WhatsApp</span>
+            <span class="canal__v">Escribir mensaje ↗</span>
+          </a>
+          <a class="canal" href={sitio.linkedin} rel="noopener">
+            <span class="canal__k">LinkedIn</span>
+            <span class="canal__v">/in/alejandrorivas ↗</span>
+          </a>
+          <div class="canal">
+            <span class="canal__k">Ubicación</span>
+            <span class="canal__v">{sitio.ciudad}</span>
+          </div>
+        </div>
+
+        <p class="aviso" style="margin-top:22px">
+          Para proyectos con planos o modelos, adjunta una descripción breve en el primer
+          mensaje. Los archivos se comparten después por enlace seguro.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <script>
+    const formulario = document.querySelector('#form-contacto');
+
+    if (formulario) {
+      const estado = document.querySelector('#estado-form');
+      const parametros = new URLSearchParams(window.location.search);
+      const proyecto = parametros.get('proyecto');
+
+      if (proyecto) {
+        const mensaje = formulario.querySelector('#mensaje');
+        const tipo = formulario.querySelector('#tipo');
+        if (tipo) tipo.value = 'Solicitud de archivos';
+        if (mensaje) {
+          mensaje.value = `Hola, me interesa el proyecto «${proyecto}». Quisiera coordinar una revisión y solicitar los archivos CAD/BIM.`;
+        }
+      }
+
+      formulario.addEventListener('submit', (evento) => {
+        evento.preventDefault();
+
+        if (!formulario.reportValidity()) return;
+
+        const datos = new FormData(formulario);
+        const asunto = `Consulta desde el portafolio — ${datos.get('tipo')}`;
+        const cuerpo = [
+          `Nombre: ${datos.get('nombre')}`,
+          `Correo: ${datos.get('correo')}`,
+          `Empresa: ${datos.get('empresa') || '—'}`,
+          '',
+          String(datos.get('mensaje') ?? ''),
+        ].join('\n');
+
+        window.location.href = `mailto:${formulario.dataset.email}?subject=${encodeURIComponent(
+          asunto,
+        )}&body=${encodeURIComponent(cuerpo)}`;
+
+        if (estado) {
+          estado.textContent =
+            'Abrimos tu cliente de correo con el mensaje listo. Si no ocurre, escribe directamente al correo indicado.';
+        }
+      });
+    }
+  </script>
+</Base>

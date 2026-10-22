@@ -1,0 +1,38 @@
+---
+import { sitio, ruta } from '../config';
+---
+
+<footer class="pie">
+  <div class="contenedor pie__in">
+    <div class="rotulo" aria-label="Rótulo del plano">
+      <div class="rotulo__celda">
+        <span class="rotulo__k">Documento</span>
+        <span class="rotulo__v">Portafolio profesional</span>
+      </div>
+      <div class="rotulo__celda">
+        <span class="rotulo__k">Autor</span>
+        <span class="rotulo__v">{sitio.nombre}</span>
+      </div>
+      <div class="rotulo__celda">
+        <span class="rotulo__k">Escala / estado</span>
+        <span class="rotulo__v">1:100 · Borrador</span>
+      </div>
+      <div class="rotulo__celda">
+        <span class="rotulo__k">Lámina</span>
+        <span class="rotulo__v">00 / {sitio.anio}</span>
+      </div>
+    </div>
+
+    <div class="pie__abajo">
+      <nav class="pie__nav" aria-label="Navegación del pie">
+        <a href={ruta('/')}>Inicio</a>
+        <a href={ruta('/proyectos')}>Proyectos</a>
+        <a href={ruta('/sobre-mi')}>Sobre mí</a>
+        <a href={ruta('/contacto')}>Contacto</a>
+      </nav>
+      <p class="pie__legal">
+        © {sitio.anio} {sitio.nombre} · Contenido de muestra para revisión de diseño
+      </p>
+    </div>
+  </div>
+</footer>

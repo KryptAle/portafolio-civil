@@ -1,0 +1,63 @@
+---
+import { generarEstructura } from '../lib/iso';
+
+const dibujo = generarEstructura({
+  vanosX: 2,
+  vanosY: 2,
+  pisos: 8,
+  vano: 6,
+  alturaPiso: 3.2,
+  u: 13.4,
+});
+
+const { lineas, niveles, cota, tapa, caras, viewBox } = dibujo;
+---
+
+<svg class="iso" viewBox={viewBox} role="img" aria-labelledby="iso-titulo">
+  <title id="iso-titulo">
+    Esquema isométrico de un edificio de ocho niveles: losas, columnas y cubierta.
+  </title>
+
+  {caras.map((cara) => (
+    <polygon points={cara} fill="var(--papel-3)" fill-opacity="0.42" stroke="none" />
+  ))}
+  <polygon points={tapa} fill="var(--papel-2)" fill-opacity="0.9" stroke="none" />
+  {
+    lineas.map((linea) => (
+      <line
+        class={`iso-linea iso-linea--${linea.tipo}`}
+        x1={linea.x1.toFixed(1)}
+        y1={linea.y1.toFixed(1)}
+        x2={linea.x2.toFixed(1)}
+        y2={linea.y2.toFixed(1)}
+        pathLength="1"
+        stroke-opacity={linea.tipo === 'suelo' ? 0.5 : linea.fuerza.toFixed(2)}
+        style={`--d:${linea.delay.toFixed(2)}s`}
+      />
+    ))
+  }
+
+  {
+    niveles.map((nivel) => (
+      <g>
+        <line class="iso-cota" x1={nivel.x - 11} y1={nivel.y} x2={nivel.x} y2={nivel.y} />
+        <text class="iso-texto" x={nivel.x + 4} y={nivel.y + 3}>
+          {nivel.texto}
+        </text>
+      </g>
+    ))
+  }
+
+  <g>
+    <line class="iso-cota" x1={cota.x} y1={cota.y1} x2={cota.x} y2={cota.y2} />
+    <line class="iso-cota" x1={cota.x - 5} y1={cota.y1} x2={cota.x + 5} y2={cota.y1} />
+    <line class="iso-cota" x1={cota.x - 5} y1={cota.y2} x2={cota.x + 5} y2={cota.y2} />
+    <text
+      class="iso-cota-texto"
+      transform={`translate(${cota.x - 9} ${(cota.y1 + cota.y2) / 2}) rotate(-90)`}
+      text-anchor="middle"
+    >
+      {cota.texto}
+    </text>
+  </g>
+</svg>

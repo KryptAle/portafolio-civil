@@ -1,0 +1,134 @@
+---
+import '@fontsource-variable/fraunces/full.css';
+import '@fontsource-variable/fraunces/full-italic.css';
+import '@fontsource-variable/archivo/wght.css';
+import '@fontsource-variable/archivo/wght-italic.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { sitio, ruta } from '../config';
+
+interface Props {
+  titulo?: string;
+  descripcion?: string;
+  ogTipo?: string;
+}
+
+const { titulo, descripcion = sitio.descripcion, ogTipo = 'website' } = Astro.props;
+const tituloPagina = titulo
+  ? `${titulo} — ${sitio.nombre}`
+  : `${sitio.nombre} — ${sitio.titulo} · ${sitio.especialidad}`;
+const canonica = new URL(Astro.url.pathname, Astro.site ?? 'https://rivas.ing');
+
+const ficha = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: sitio.nombre,
+  jobTitle: sitio.titulo,
+  description: sitio.descripcion,
+  email: `mailto:${sitio.email}`,
+  url: canonica.origin,
+  address: { '@type': 'PostalAddress', addressLocality: sitio.ciudad },
+  knowsAbout: ['Ingeniería estructural', 'Modelado BIM', 'Dirección de obra'],
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloPagina}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica.href} />
+    <meta name="theme-color" content="#f3f0e8" />
+
+    <meta property="og:type" content={ogTipo} />
+    <meta property="og:site_name" content={sitio.nombre} />
+    <meta property="og:title" content={tituloPagina} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica.href} />
+    <meta property="og:locale" content="es_VE" />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" href={ruta('/favicon.svg')} type="image/svg+xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(ficha)} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+
+  <body>
+    <a class="sr-only" href="#contenido">Saltar al contenido</a>
+    <Header />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* Aparición progresiva de bloques */
+      const bloques = document.querySelectorAll('.revelar');
+      if (!('IntersectionObserver' in window) || menosMovimiento) {
+        bloques.forEach((el) => el.classList.add('visible'));
+      } else {
+        const observador = new IntersectionObserver(
+          (entradas) => {
+            entradas.forEach((entrada) => {
+              if (entrada.isIntersecting) {
+                entrada.target.classList.add('visible');
+                observador.unobserve(entrada.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -6% 0px', threshold: 0.08 },
+        );
+        bloques.forEach((el) => observador.observe(el));
+      }
+
+      /* Paralaje suave de la figura isométrica */
+      const figura = document.querySelector('[data-paralaje]');
+      const iso = figura?.querySelector('.iso');
+      if (figura && iso && !menosMovimiento && window.matchMedia('(pointer: fine)').matches) {
+        let cuadro = 0;
+        figura.addEventListener('pointermove', (evento) => {
+          cancelAnimationFrame(cuadro);
+          cuadro = requestAnimationFrame(() => {
+            const caja = figura.getBoundingClientRect();
+            const x = (evento.clientX - caja.left) / caja.width - 0.5;
+            const y = (evento.clientY - caja.top) / caja.height - 0.5;
+            iso.style.transform = `translate(${(-x * 12).toFixed(1)}px, ${(-y * 9).toFixed(1)}px)`;
+          });
+        });
+        figura.addEventListener('pointerleave', () => {
+          iso.style.transform = '';
+        });
+      }
+
+      /* Índice de proyectos: la vista previa sigue a la fila activa */
+      const indice = document.querySelector('[data-indice]');
+      const vista = document.querySelector('[data-vista]');
+      if (indice && vista) {
+        const cubiertas = vista.querySelectorAll('[data-cubierta]');
+        const pie = vista.querySelector('[data-vista-pie]');
+        const activar = (indiceFila: string) => {
+          cubiertas.forEach((cubierta) => {
+            cubierta.dataset.activa = String(cubierta.dataset.cubierta === indiceFila);
+          });
+          const fila = indice.querySelector(`[data-fila="${indiceFila}"]`);
+          if (pie && fila) pie.textContent = fila.dataset.leyenda ?? '';
+        };
+        indice.querySelectorAll('[data-fila]').forEach((fila) => {
+          fila.addEventListener('mouseenter', () => activar(fila.dataset.fila));
+          fila.addEventListener('focus', () => activar(fila.dataset.fila));
+        });
+        activar('0');
+      }
+    </script>
+  </body>
+</html>
