@@ -4,6 +4,27 @@ Borrador de sitio web construido con **Astro**. La dirección visual se llama
 «Papel, tinta y señal»: el sitio se lee como un juego de planos — retícula,
 rótulos, cotas y una sola tinta de señal (naranja de obra).
 
+## Publicación
+
+| | |
+|---|---|
+| **Sitio** | https://kryptale.github.io/portafolio-civil/ |
+| **Repositorio** | https://github.com/KryptAle/portafolio-civil |
+| **Despliegue** | GitHub Actions en cada push a `main` |
+
+El flujo `.github/workflows/deploy.yml` compila con `BASE_PATH=/portafolio-civil`
+y publica en GitHub Pages. En local la base es `/`, así que `pnpm dev` sigue
+funcionando en la raíz. Para publicar un cambio:
+
+```bash
+git add -A
+git commit -m "describe el cambio"
+git push
+```
+
+En uno o dos minutos el sitio se reconstruye solo. El progreso se ve en la
+pestaña **Actions** del repositorio.
+
 ## Qué incluye
 
 - Inicio con hero isométrico generado en el build (SVG, sin JavaScript de dibujo).
