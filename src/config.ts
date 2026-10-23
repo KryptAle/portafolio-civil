@@ -8,7 +8,7 @@ export const sitio = {
   marca: 'Rivas',
   marcaSigla: 'AR',
   titulo: 'Ingeniero civil',
-  especialidad: 'Estructuras · BIM · Obra',
+  especialidad: 'Digitalización BIM · Revit',
   ciudad: 'Caracas, Venezuela',
   email: 'hola@alejandrorivas.ing',
   telefono: '+58 412 000 0000',
@@ -16,7 +16,7 @@ export const sitio = {
   linkedin: 'https://www.linkedin.com/in/alejandrorivas',
   anio: 2026,
   descripcion:
-    'Portafolio de ingeniería civil: cálculo estructural, coordinación BIM y dirección de obra para edificaciones e infraestructura.',
+    'Portafolio BIM: digitalizo planos 2D en modelos Revit. Ejercicios de modelado con alcance, nivel de desarrollo y criterio técnico.',
 };
 
 export const navegacion = [
