@@ -35,7 +35,7 @@ pestaña **Actions** del repositorio.
   criterio de modelado, resultado y nota de autoría.
 - Hero axonométrico generado en el build, con ejes, cotas y niveles (SVG puro).
 - Láminas técnicas ilustrativas (planta, corte y detalle) dibujadas como SVG.
-- Formulario de contacto que abre el cliente de correo, sin backend.
+- Contacto por canales directos (correo, WhatsApp, LinkedIn), sin formulario.
 - Diseño responsive, foco visible, `prefers-reduced-motion` y metadatos Open Graph.
 - `/sobre-mi` y `/contacto` redirigen a la página principal para no romper enlaces
   antiguos o compartidos.
@@ -103,10 +103,10 @@ Antes de publicar contenido definitivo:
 - **SVG generado en el build**: la axonométrica y las láminas se calculan en
   `src/lib/iso.ts` y en los componentes; el navegador solo recibe el resultado.
 - **Datos en JSON**: una ficha nueva no requiere tocar HTML.
-- **Formulario sin backend**: arma un `mailto:` con el mensaje. Para producción
-  conviene un endpoint (Netlify Forms, Formspree o similar).
-- **Archivos .rvt**: no se sirven desde el sitio. Cada ficha ofrece solicitarlos
-  y la entrega se coordina por correo.
+- **Contacto sin formulario**: la portada solo muestra canales directos (correo,
+  WhatsApp, LinkedIn). Así no hay backend, ni datos que guardar, ni spam.
+- **Archivos .rvt**: no se sirven desde el sitio. Cada ficha abre un correo con
+  el asunto del modelo ya redactado y la entrega se coordina por esa vía.
 
 ## Pendientes sugeridos
 
@@ -114,9 +114,8 @@ Antes de publicar contenido definitivo:
 2. Recorrido en video (YouTube no listado) para uno o dos modelos.
 3. Visor 3D (`<model-viewer>` con GLB exportado de Revit) en la ficha destacada.
 4. CV en PDF enlazado desde el hero.
-5. Página de privacidad si se conecta el formulario a un servicio.
-6. Analítica ligera (Plausible/Umami) y `sitemap.xml`.
-7. Versión en inglés.
+5. Analítica ligera (Plausible/Umami) y `sitemap.xml`.
+6. Versión en inglés.
 
 ## Estructura
 

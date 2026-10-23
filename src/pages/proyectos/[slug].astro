@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import ProyectoCover from '../../components/ProyectoCover.astro';
 import Plano from '../../components/Plano.astro';
-import { ruta } from '../../config';
+import { ruta, sitio } from '../../config';
 import proyectos from '../../data/proyectos.json';
 
 export function getStaticPaths() {
@@ -156,7 +156,11 @@ const ficha = {
           <div class="tecnica__grupo">
             <a
               class="btn btn--lleno"
-              href={`${ruta('/')}?proyecto=${p.slug}#contacto`}
+              href={`mailto:${sitio.email}?subject=${encodeURIComponent(
+                `Solicitud de modelo — ${p.titulo}`,
+              )}&body=${encodeURIComponent(
+                `Hola, me interesa el modelo «${p.titulo}». Quisiera coordinar una revisión y solicitar el archivo RVT.`,
+              )}`}
               style="width:100%; justify-content:center"
             >
               Solicitar modelo RVT <span class="btn__flecha" aria-hidden="true">→</span>

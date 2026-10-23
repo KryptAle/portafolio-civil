@@ -3,7 +3,6 @@ import Base from '../layouts/Base.astro';
 import Hoja from '../components/Hoja.astro';
 import Estructura from '../components/Estructura.astro';
 import ProyectoCover from '../components/ProyectoCover.astro';
-import Corte from '../components/Corte.astro';
 import { sitio, ruta } from '../config';
 import proyectos from '../data/proyectos.json';
 
@@ -258,20 +257,6 @@ const software = [
     </table>
   </section>
 
-  <section class="corte">
-    <Corte />
-    <div class="contenedor corte__in">
-      <blockquote class="corte__quote">
-        Un plano se lee.<br />
-        <span class="em">Un modelo se recorre.</span>
-      </blockquote>
-      <p class="corte__nota">
-        Cada ficha incluye el reto de interpretación, el criterio de modelado y el resultado.
-        Lo importante no es el render: es que el modelo responda preguntas.
-      </p>
-    </div>
-  </section>
-
   <section class="seccion contenedor" id="contacto">
     <Hoja num="05" titulo="Contacto" meta="Proyectos y consultas · L-05" />
 
@@ -284,50 +269,6 @@ const software = [
           Cuéntame qué documentación tienes y qué nivel de detalle necesitas. Respondo con una
           primera lectura del alcance y un plazo estimado.
         </p>
-
-        <form id="form-contacto" class="form" data-email={sitio.email} novalidate>
-          <div class="form__fila">
-            <div class="campo">
-              <label for="nombre">Nombre</label>
-              <input id="nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre" required />
-            </div>
-            <div class="campo">
-              <label for="correo">Correo</label>
-              <input id="correo" name="correo" type="email" autocomplete="email" placeholder="tu@correo.com" required />
-            </div>
-          </div>
-
-          <div class="form__fila">
-            <div class="campo">
-              <label for="empresa">Empresa u organización</label>
-              <input id="empresa" name="empresa" type="text" autocomplete="organization" placeholder="Opcional" />
-            </div>
-            <div class="campo">
-              <label for="tipo">Tipo de consulta</label>
-              <select id="tipo" name="tipo">
-                <option>Digitalización de planos</option>
-                <option>Modelado arquitectónico</option>
-                <option>Modelado estructural</option>
-                <option value="Solicitud de modelo">Solicitud de modelo RVT</option>
-                <option>Otro</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="campo">
-            <label for="mensaje">Mensaje</label>
-            <textarea id="mensaje" name="mensaje" rows="5" placeholder="Tipo de plano, cantidad de láminas, nivel de detalle y plazo." required></textarea>
-          </div>
-
-          <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-top:6px">
-            <button class="btn btn--lleno" type="submit">
-              Enviar consulta <span class="btn__flecha" aria-hidden="true">→</span>
-            </button>
-            <p class="form__nota" id="estado-form" role="status" aria-live="polite">
-              Abre tu cliente de correo. No guarda datos en el sitio.
-            </p>
-          </div>
-        </form>
       </div>
 
       <aside class="revelar" style="--d:.08s">
@@ -358,47 +299,4 @@ const software = [
       </aside>
     </div>
   </section>
-
-  <script>
-    const formulario = document.querySelector('#form-contacto');
-
-    if (formulario) {
-      const estado = document.querySelector('#estado-form');
-      const parametros = new URLSearchParams(window.location.search);
-      const proyecto = parametros.get('proyecto');
-
-      if (proyecto) {
-        const mensaje = formulario.querySelector('#mensaje');
-        const tipo = formulario.querySelector('#tipo');
-        if (tipo) tipo.value = 'Solicitud de modelo';
-        if (mensaje) {
-          mensaje.value = `Hola, me interesa el modelo «${proyecto}». Quisiera coordinar una revisión y solicitar el archivo RVT.`;
-        }
-      }
-
-      formulario.addEventListener('submit', (evento) => {
-        evento.preventDefault();
-        if (!formulario.reportValidity()) return;
-
-        const datos = new FormData(formulario);
-        const asunto = `Consulta desde el portafolio — ${datos.get('tipo')}`;
-        const cuerpo = [
-          `Nombre: ${datos.get('nombre')}`,
-          `Correo: ${datos.get('correo')}`,
-          `Empresa: ${datos.get('empresa') || '—'}`,
-          '',
-          String(datos.get('mensaje') ?? ''),
-        ].join('\n');
-
-        window.location.href = `mailto:${formulario.dataset.email}?subject=${encodeURIComponent(
-          asunto,
-        )}&body=${encodeURIComponent(cuerpo)}`;
-
-        if (estado) {
-          estado.textContent =
-            'Abrimos tu cliente de correo con el mensaje listo. Si no ocurre, escribe al correo indicado.';
-        }
-      });
-    }
-  </script>
 </Base>
