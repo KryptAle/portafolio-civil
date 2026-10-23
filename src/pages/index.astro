@@ -4,6 +4,7 @@ import Hoja from '../components/Hoja.astro';
 import Estructura from '../components/Estructura.astro';
 import ProyectoCover from '../components/ProyectoCover.astro';
 import { sitio, ruta } from '../config';
+import { experiencia, formacion } from '../data/trayectoria';
 import proyectos from '../data/proyectos.json';
 
 const cifras = [
@@ -257,8 +258,45 @@ const software = [
     </table>
   </section>
 
+  <section class="seccion contenedor" id="trayectoria">
+    <Hoja num="05" titulo="Trayectoria" meta="Experiencia y formación · L-05" />
+
+    <div class="trayectoria">
+      <div>
+        <h3 class="trayectoria__t eti">Experiencia</h3>
+        <div class="linea-tiempo">
+          {experiencia.map((h) => (
+            <div class="hito revelar">
+              <span class="hito__fecha">{h.periodo}</span>
+              <div>
+                <h4 class="hito__t">{h.cargo}</h4>
+                <p class="hito__d">{h.detalle}</p>
+              </div>
+              <span class="hito__lugar">{h.lugar}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h3 class="trayectoria__t eti">Formación y cursos</h3>
+        <div class="cursos">
+          {formacion.map((c) => (
+            <div class="curso revelar">
+              <span class="curso__a">{c.anio}</span>
+              <div>
+                <h4 class="curso__t">{c.titulo}</h4>
+                <p class="curso__d">{c.detalle}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="seccion contenedor" id="contacto">
-    <Hoja num="05" titulo="Contacto" meta="Proyectos y consultas · L-05" />
+    <Hoja num="06" titulo="Contacto" meta="Proyectos y consultas · L-06" />
 
     <div class="contacto-grid">
       <div class="revelar">
@@ -284,7 +322,7 @@ const software = [
           </a>
           <a class="canal" href={sitio.linkedin} rel="noopener">
             <span class="canal__k">LinkedIn</span>
-            <span class="canal__v">/in/alejandrorivas ↗</span>
+            <span class="canal__v">/in/alejandroaguilera ↗</span>
           </a>
           <div class="canal">
             <span class="canal__k">Ubicación</span>

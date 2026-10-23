@@ -1,4 +1,4 @@
-# Rivas — portafolio BIM
+# Aguilera — portafolio BIM
 
 Sitio construido con **Astro** para un ingeniero civil que digitaliza planos:
 convierte documentación 2D en modelos Revit. La dirección visual se llama
@@ -29,7 +29,7 @@ pestaña **Actions** del repositorio.
 ## Qué incluye
 
 - **Una sola página de aterrizaje** pensada para un QR en el currículum: perfil,
-  servicios, modelos, herramientas y contacto, sin saltos entre pestañas.
+  servicios, modelos, herramientas, trayectoria y contacto, sin saltos entre pestañas.
 - **Índice de modelos** en `/proyectos`, con filtros por disciplina.
 - **Fichas individuales** con alcance, LOD, horas, reto de interpretación,
   criterio de modelado, resultado y nota de autoría.
@@ -58,6 +58,7 @@ pnpm preview   # sirve dist/ en http://localhost:4321
 |---|---|
 | Cambiar nombre, correo, ciudad, redes | `src/config.ts` |
 | Agregar o editar modelos | `src/data/proyectos.json` |
+| Cambiar experiencia y formación | `src/data/trayectoria.ts` |
 | Ajustar colores, retícula, tipografía | `src/styles/global.css` |
 | Cambiar el hero (ejes, cotas, niveles) | `src/components/Estructura.astro` y `src/lib/iso.ts` |
 | Cambiar las portadas de proyecto | `src/components/ProyectoCover.astro` |
@@ -123,12 +124,13 @@ Antes de publicar contenido definitivo:
 src/
   config.ts            datos personales, navegación y helper de base
   data/proyectos.json  contenido de los modelos
+  data/trayectoria.ts  experiencia y formación
   lib/iso.ts           geometría axonométrica del hero
   styles/global.css    sistema visual completo
   layouts/Base.astro   head, header, footer, scripts
   components/          Header, Footer, Hoja, Estructura, ProyectoCover, Plano, Corte
   pages/
-    index.astro           portada con perfil, servicios, modelos, herramientas y contacto
+    index.astro           portada con perfil, servicios, modelos, herramientas, trayectoria y contacto
     proyectos/index.astro índice con filtros
     proyectos/[slug].astro
     sobre-mi.astro        redirección a /#perfil

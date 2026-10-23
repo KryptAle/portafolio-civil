@@ -3,17 +3,17 @@
  * Cambia aquí el nombre, correo y ciudad; se propagan a todas las páginas.
  */
 export const sitio = {
-  nombre: 'Alejandro Rivas',
-  nombreCorto: 'A. Rivas',
-  marca: 'Rivas',
-  marcaSigla: 'AR',
+  nombre: 'Alejandro Aguilera',
+  nombreCorto: 'A. Aguilera',
+  marca: 'Aguilera',
+  marcaSigla: 'AA',
   titulo: 'Ingeniero civil',
   especialidad: 'Digitalización BIM · Revit',
   ciudad: 'Caracas, Venezuela',
-  email: 'hola@alejandrorivas.ing',
+  email: 'hola@alejandroaguilera.ing',
   telefono: '+58 412 000 0000',
   whatsapp: '584120000000',
-  linkedin: 'https://www.linkedin.com/in/alejandrorivas',
+  linkedin: 'https://www.linkedin.com/in/alejandroaguilera',
   anio: 2026,
   descripcion:
     'Portafolio BIM: digitalizo planos 2D en modelos Revit. Ejercicios de modelado con alcance, nivel de desarrollo y criterio técnico.',
@@ -22,7 +22,6 @@ export const sitio = {
 export const navegacion = [
   { texto: 'Perfil', href: '/#perfil' },
   { texto: 'Proyectos', href: '/proyectos' },
-  { texto: 'Contacto', href: '/#contacto' },
 ];
 
 /**
