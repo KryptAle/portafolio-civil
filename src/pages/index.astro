@@ -8,29 +8,38 @@ import { sitio, ruta } from '../config';
 import proyectos from '../data/proyectos.json';
 
 const cifras = [
-  { n: '09', l: 'Años de ejercicio' },
-  { n: '24', l: 'Proyectos entregados' },
-  { n: '06', l: 'Edificios en obra' },
-  { n: '350', l: 'Nivel BIM habitual' },
+  { n: '04', l: 'Modelos publicados' },
+  { n: '300–350', l: 'Nivel de desarrollo' },
+  { n: 'Revit', l: 'Herramienta principal' },
+  { n: 'Caracas', l: 'Base de trabajo' },
 ];
 
-const especialidades = [
+const servicios = [
   {
-    t: 'Estructuras',
-    d: 'Concreto armado y acero: edificios, naves y fundaciones. Cálculo, memoria y planos de construcción.',
+    t: 'Digitalización 2D a 3D',
+    d: 'Reconstruyo plantas, cortes y detalles en PDF o imagen dentro de Revit, con ejes y niveles como esqueleto.',
   },
   {
-    t: 'BIM y coordinación',
-    d: 'Modelos LOD 350, detección de interferencias y federación de disciplinas antes de vaciar.',
+    t: 'Modelado arquitectónico',
+    d: 'Muros, losas, cubiertas, carpinterías y familias propias para puertas y ventanas.',
   },
   {
-    t: 'Obra y supervisión',
-    d: 'Protocolos de vaciado, control de calidad de acero y seguimiento del cronograma en sitio.',
+    t: 'Modelado estructural',
+    d: 'Columnas, vigas, losas y armaduras, con parámetros que permiten verificar el despiece.',
   },
   {
-    t: 'Vial e hidráulica',
-    d: 'Puentes, drenajes y obras de captación. Diseño con verificación hidráulica y geotécnica.',
+    t: 'Documentación y vistas',
+    d: 'Láminas, tablas de planificación, recorridos y detección de interferencias.',
   },
+];
+
+const software = [
+  { nombre: 'Revit', nivel: 'Avanzado', anios: 4, pct: 92 },
+  { nombre: 'AutoCAD', nivel: 'Avanzado', anios: 6, pct: 90 },
+  { nombre: 'Navisworks', nivel: 'Intermedio', anios: 3, pct: 72 },
+  { nombre: 'Enscape', nivel: 'Intermedio', anios: 2, pct: 68 },
+  { nombre: 'Advance Steel', nivel: 'Básico', anios: 1, pct: 48 },
+  { nombre: 'Excel / Python', nivel: 'Intermedio', anios: 4, pct: 66 },
 ];
 ---
 
@@ -38,25 +47,25 @@ const especialidades = [
   <section class="contenedor hero">
     <div class="hero__txt">
       <div class="hero__eyebrow">
-        <span class="eti">Ingeniería civil · {sitio.ciudad}</span>
+        <span class="eti">BIM · Revit · Digitalización 2D → 3D</span>
       </div>
 
       <h1 class="hero__h1">
-        Primero <span class="em">se calcula</span>. Después se construye.
+        Planos en 2D, <span class="em">modelos</span> que se recorren.
       </h1>
 
       <p class="hero__p">
-        Cálculo estructural, coordinación BIM y dirección de obra para edificaciones e
-        infraestructura. Del modelo a la ejecución, con entregables claros y trazabilidad
-        técnica en cada etapa.
+        Soy ingeniero civil y digitalizo planos. Reconstruyo documentación en PDF o imagen
+        dentro de Revit: ejes, niveles, estructura, cerramientos y familias coordinadas para
+        que el modelo se pueda medir, revisar y recorrer.
       </p>
 
       <div class="hero__acciones">
-        <a class="btn btn--lleno" href={ruta('/proyectos')}>
-          Ver proyectos <span class="btn__flecha" aria-hidden="true">→</span>
+        <a class="btn btn--lleno" href="#proyectos">
+          Ver modelos <span class="btn__flecha" aria-hidden="true">→</span>
         </a>
-        <a class="btn" href={ruta('/sobre-mi')}>
-          Sobre mí <span class="btn__flecha" aria-hidden="true">↗</span>
+        <a class="btn" href="#contacto">
+          Hablemos <span class="btn__flecha" aria-hidden="true">↗</span>
         </a>
       </div>
     </div>
@@ -67,7 +76,7 @@ const especialidades = [
           <Estructura />
         </div>
         <figcaption class="figura__pie">
-          <span class="eti">Fig. 01 — Torre tipo</span>
+          <span class="eti">Fig. 01 — Axonométrica</span>
           <span class="eti">8 niveles · 25,60 m</span>
         </figcaption>
       </figure>
@@ -85,8 +94,74 @@ const especialidades = [
     </div>
   </div>
 
+  <section class="seccion contenedor" id="perfil">
+    <Hoja num="01" titulo="Perfil" meta="Quién firma · L-02" />
+
+    <div class="perfil perfil--bio">
+      <div class="perfil__bio revelar">
+        <p>
+          Soy ingeniero civil y trabajo digitalizando planos. Tomo documentación 2D —PDF,
+          escaneos, imágenes— y la reconstruyo en Revit: ejes, niveles, muros, losas,
+          estructura y familias. El objetivo no es solo que el modelo se vea bien, sino que sea
+          medible, navegable y consistente.
+        </p>
+        <p>
+          Los proyectos de este portafolio son ejercicios de modelado: el diseño original es de
+          sus autores y los planos son de referencia pública. Lo que es mío es el modelo —la
+          interpretación, la geometría y el criterio con que se construyó—, y lo dejo claro en
+          cada ficha.
+        </p>
+        <p>
+          También leo planos estructurales y puedo coordinar disciplinas, generar vistas,
+          láminas y recorridos. Me interesa el detalle que hace que un modelo sirva para
+          construir, no solo para presentar.
+        </p>
+
+        <div class="datos">
+          <div class="dato">
+            <dt>Formación</dt>
+            <dd>Ingeniero civil</dd>
+          </div>
+          <div class="dato">
+            <dt>Base</dt>
+            <dd>{sitio.ciudad}</dd>
+          </div>
+          <div class="dato">
+            <dt>Idiomas</dt>
+            <dd>Español · Inglés B2</dd>
+          </div>
+          <div class="dato">
+            <dt>Disponibilidad</dt>
+            <dd>Proyectos remotos</dd>
+          </div>
+        </div>
+      </div>
+
+      <div class="retrato revelar" style="--d:.08s">
+        <div class="retrato__texto">
+          <span class="eti">Retrato · 4:5</span>
+          <p class="eti" style="margin-top:10px; opacity:.7">Fotografía pendiente</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion contenedor">
+    <Hoja num="02" titulo="Qué hago" meta="Servicios · L-03" />
+
+    <div class="especialidades">
+      {servicios.map((s, i) => (
+        <article class="especialidad revelar" style={`--d:${(i * 0.07).toFixed(2)}s`}>
+          <span class="especialidad__n">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="especialidad__t">{s.t}</h3>
+          <p class="especialidad__d">{s.d}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
   <section class="seccion contenedor" id="proyectos">
-    <Hoja num="01" titulo="Proyectos" meta="Selección 2023—2026 · 04 obras" />
+    <Hoja num="03" titulo="Modelos BIM" meta="Ejercicios de digitalización · 04" />
 
     <div class="indice" data-indice>
       <div class="filas">
@@ -95,7 +170,7 @@ const especialidades = [
             class="fila revelar"
             href={ruta(`/proyectos/${p.slug}`)}
             data-fila={String(i)}
-            data-leyenda={`${p.titulo} · ${p.anio}`}
+            data-leyenda={`${p.titulo} · ${p.lod}`}
             style={`--d:${(i * 0.06).toFixed(2)}s`}
           >
             <div class="fila__num">{p.indice}</div>
@@ -109,7 +184,7 @@ const especialidades = [
             <div class="fila__meta">
               {p.disciplina}
               <br />
-              {p.anio}
+              {p.lod} · {p.anio}
             </div>
             <span class="fila__flecha" aria-hidden="true">
               ↗
@@ -120,18 +195,31 @@ const especialidades = [
 
       <aside class="vista" data-vista aria-hidden="true">
         {proyectos.map((p, i) => (
-          <div class="vista__item" data-cubierta={String(i)} data-activa={i === 0 ? 'true' : 'false'}>
+          <div
+            class="vista__item"
+            data-cubierta={String(i)}
+            data-activa={i === 0 ? 'true' : 'false'}
+          >
             <ProyectoCover tipo={p.tipo} indice={p.indice} titulo={p.titulo} />
           </div>
         ))}
         <div class="vista__pie">
           <span class="eti eti--claro">Vista previa</span>
           <span class="eti eti--claro" data-vista-pie>
-            Torre Aurora · 2025
+            {proyectos[0].titulo} · LOD 300
           </span>
         </div>
       </aside>
     </div>
+
+    <p class="nota-autoria nota-autoria--ancha">
+      <span class="eti eti--senal">Sobre estos modelos</span>
+      <span>
+        El diseño original y los planos de referencia pertenecen a sus autores. El modelo 3D,
+        la interpretación y la documentación son de mi autoría: son ejercicios de
+        digitalización para demostrar manejo de Revit, no obras diseñadas por mí.
+      </span>
+    </p>
 
     <div style="margin-top:32px">
       <a class="btn" href={ruta('/proyectos')}>
@@ -141,96 +229,176 @@ const especialidades = [
   </section>
 
   <section class="seccion contenedor">
-    <Hoja num="02" titulo="Especialidades" meta="Qué resuelvo" />
+    <Hoja num="04" titulo="Herramientas" meta="Nivel de uso · L-04" />
 
-    <div class="especialidades">
-      {especialidades.map((e, i) => (
-        <article class="especialidad revelar" style={`--d:${(i * 0.07).toFixed(2)}s`}>
-          <span class="especialidad__n">{String(i + 1).padStart(2, '0')}</span>
-          <h3 class="especialidad__t">{e.t}</h3>
-          <p class="especialidad__d">{e.d}</p>
-        </article>
-      ))}
-    </div>
+    <table class="tabla-software">
+      <thead>
+        <tr>
+          <th scope="col">Herramienta</th>
+          <th scope="col">Nivel</th>
+          <th scope="col" style="text-align:right">Años</th>
+        </tr>
+      </thead>
+      <tbody>
+        {software.map((s) => (
+          <tr>
+            <td>{s.nombre}</td>
+            <td>
+              <div class="nivel">
+                <div class="nivel__barra">
+                  <span class={s.nivel === 'Avanzado' ? 'es-alto' : ''} style={`width:${s.pct}%`} />
+                </div>
+                <span class="nivel__txt">{s.nivel}</span>
+              </div>
+            </td>
+            <td style="text-align:right; font-family:var(--mono); font-size:12px">{s.anios}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </section>
 
   <section class="corte">
     <Corte />
     <div class="contenedor corte__in">
       <blockquote class="corte__quote">
-        Una estructura no se ve.<br />
-        <span class="em">Se comprueba.</span>
+        Un plano se lee.<br />
+        <span class="em">Un modelo se recorre.</span>
       </blockquote>
       <p class="corte__nota">
-        Cada proyecto de este portafolio incluye memoria de cálculo, planos y modelo. Lo que
-        se muestra es la parte visible; el respaldo técnico está en las láminas.
+        Cada ficha incluye el reto de interpretación, el criterio de modelado y el resultado.
+        Lo importante no es el render: es que el modelo responda preguntas.
       </p>
     </div>
   </section>
 
-  <section class="seccion contenedor">
-    <Hoja num="03" titulo="Perfil" meta="Quién firma" />
+  <section class="seccion contenedor" id="contacto">
+    <Hoja num="05" titulo="Contacto" meta="Proyectos y consultas · L-05" />
 
-    <div class="perfil">
-      <div class="retrato revelar">
-        <div class="retrato__texto">
-          <span class="eti">Retrato · 4:5</span>
-          <p class="eti" style="margin-top:10px; opacity:.7">Fotografía pendiente</p>
-        </div>
-      </div>
-
-      <div class="perfil__bio revelar" style="--d:.1s">
-        <p>
-          Soy ingeniero civil con nueve años de trabajo entre el cálculo y la obra. Empecé
-          dibujando planos y terminé coordinando modelos BIM de edificios completos: esa
-          mezcla es la que hoy ofrezco a mis clientes.
-        </p>
-        <p>
-          Trabajo con concreto armado, estructuras metálicas y obras hidráulicas. Me interesa
-          que el diseño llegue a la obra sin sorpresas: modelos verificados, planos legibles y
-          memoria que cualquiera pueda revisar.
-        </p>
-
-        <div class="datos">
-          <div class="dato">
-            <dt>Formación</dt>
-            <dd>Ingeniero civil, mención Estructuras</dd>
-          </div>
-          <div class="dato">
-            <dt>Colegiatura</dt>
-            <dd>CIV 000.000</dd>
-          </div>
-          <div class="dato">
-            <dt>Base</dt>
-            <dd>{sitio.ciudad}</dd>
-          </div>
-          <div class="dato">
-            <dt>Idiomas</dt>
-            <dd>Español · Inglés B2</dd>
-          </div>
-        </div>
-
-        <div style="margin-top:26px">
-          <a class="btn" href={ruta('/sobre-mi')}>
-            Leer el perfil completo <span class="btn__flecha" aria-hidden="true">→</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="cierre">
-    <div class="contenedor cierre__in">
-      <div>
-        <p class="eti eti--claro">Siguiente paso</p>
-        <h2 class="cierre__t" style="margin-top:16px">
-          Hablemos de tu <span class="em">proyecto</span>.
+    <div class="contacto-grid">
+      <div class="revelar">
+        <h2 class="contacto__tit">
+          ¿Tienes planos que<br /><span class="em">necesitas en 3D?</span>
         </h2>
-        <a class="cierre__mail" href={`mailto:${sitio.email}`}>
-          {sitio.email} <span aria-hidden="true">→</span>
-        </a>
+        <p class="contacto__p">
+          Cuéntame qué documentación tienes y qué nivel de detalle necesitas. Respondo con una
+          primera lectura del alcance y un plazo estimado.
+        </p>
+
+        <form id="form-contacto" class="form" data-email={sitio.email} novalidate>
+          <div class="form__fila">
+            <div class="campo">
+              <label for="nombre">Nombre</label>
+              <input id="nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre" required />
+            </div>
+            <div class="campo">
+              <label for="correo">Correo</label>
+              <input id="correo" name="correo" type="email" autocomplete="email" placeholder="tu@correo.com" required />
+            </div>
+          </div>
+
+          <div class="form__fila">
+            <div class="campo">
+              <label for="empresa">Empresa u organización</label>
+              <input id="empresa" name="empresa" type="text" autocomplete="organization" placeholder="Opcional" />
+            </div>
+            <div class="campo">
+              <label for="tipo">Tipo de consulta</label>
+              <select id="tipo" name="tipo">
+                <option>Digitalización de planos</option>
+                <option>Modelado arquitectónico</option>
+                <option>Modelado estructural</option>
+                <option value="Solicitud de modelo">Solicitud de modelo RVT</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" rows="5" placeholder="Tipo de plano, cantidad de láminas, nivel de detalle y plazo." required></textarea>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-top:6px">
+            <button class="btn btn--lleno" type="submit">
+              Enviar consulta <span class="btn__flecha" aria-hidden="true">→</span>
+            </button>
+            <p class="form__nota" id="estado-form" role="status" aria-live="polite">
+              Abre tu cliente de correo. No guarda datos en el sitio.
+            </p>
+          </div>
+        </form>
       </div>
-      <div class="cierre__num" aria-hidden="true">R</div>
+
+      <aside class="revelar" style="--d:.08s">
+        <h2 class="eti" style="margin-bottom:18px">Canales directos</h2>
+        <div class="canales">
+          <a class="canal" href={`mailto:${sitio.email}`}>
+            <span class="canal__k">Correo</span>
+            <span class="canal__v">{sitio.email}</span>
+          </a>
+          <a class="canal" href={`https://wa.me/${sitio.whatsapp}`} rel="noopener">
+            <span class="canal__k">WhatsApp</span>
+            <span class="canal__v">Escribir mensaje ↗</span>
+          </a>
+          <a class="canal" href={sitio.linkedin} rel="noopener">
+            <span class="canal__k">LinkedIn</span>
+            <span class="canal__v">/in/alejandrorivas ↗</span>
+          </a>
+          <div class="canal">
+            <span class="canal__k">Ubicación</span>
+            <span class="canal__v">{sitio.ciudad}</span>
+          </div>
+        </div>
+
+        <p class="aviso" style="margin-top:22px">
+          Si ya tienes los planos, adjunta una muestra en el primer mensaje. Los archivos se
+          comparten después por enlace seguro.
+        </p>
+      </aside>
     </div>
   </section>
+
+  <script>
+    const formulario = document.querySelector('#form-contacto');
+
+    if (formulario) {
+      const estado = document.querySelector('#estado-form');
+      const parametros = new URLSearchParams(window.location.search);
+      const proyecto = parametros.get('proyecto');
+
+      if (proyecto) {
+        const mensaje = formulario.querySelector('#mensaje');
+        const tipo = formulario.querySelector('#tipo');
+        if (tipo) tipo.value = 'Solicitud de modelo';
+        if (mensaje) {
+          mensaje.value = `Hola, me interesa el modelo «${proyecto}». Quisiera coordinar una revisión y solicitar el archivo RVT.`;
+        }
+      }
+
+      formulario.addEventListener('submit', (evento) => {
+        evento.preventDefault();
+        if (!formulario.reportValidity()) return;
+
+        const datos = new FormData(formulario);
+        const asunto = `Consulta desde el portafolio — ${datos.get('tipo')}`;
+        const cuerpo = [
+          `Nombre: ${datos.get('nombre')}`,
+          `Correo: ${datos.get('correo')}`,
+          `Empresa: ${datos.get('empresa') || '—'}`,
+          '',
+          String(datos.get('mensaje') ?? ''),
+        ].join('\n');
+
+        window.location.href = `mailto:${formulario.dataset.email}?subject=${encodeURIComponent(
+          asunto,
+        )}&body=${encodeURIComponent(cuerpo)}`;
+
+        if (estado) {
+          estado.textContent =
+            'Abrimos tu cliente de correo con el mensaje listo. Si no ocurre, escribe al correo indicado.';
+        }
+      });
+    }
+  </script>
 </Base>

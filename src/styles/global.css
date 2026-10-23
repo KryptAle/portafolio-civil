@@ -1,28 +1,29 @@
 /* ==========================================================================
-   SISTEMA VISUAL — «Papel, tinta y señal»
-   Un portafolio que se lee como un juego de planos: retícula, rótulos,
-   cotas y una sola tinta de señal.
+   SISTEMA VISUAL — «Lámina E-01»
+   El sitio se lee como un plano de estructura: retícula, ejes, cotas,
+   rótulos y una tinta de señal para el marcado.
    ========================================================================== */
 
 :root {
-  --papel: #f3f0e8;
-  --papel-2: #eae5d9;
-  --papel-3: #ded7c6;
-  --tinta: #15181a;
-  --tinta-2: #1c262b;
-  --grafito: #5c6164;
-  --linea: #cec7b6;
-  --linea-fuerte: #a49d8d;
-  --senal: #be3a12;
-  --senal-vivo: #ef5a2a;
+  --papel: #f7f6f1;
+  --papel-2: #eeece4;
+  --papel-3: #ded9cc;
+  --tinta: #101417;
+  --tinta-2: #1a2226;
+  --grafito: #5b6266;
+  --linea: #cdc8ba;
+  --linea-fuerte: #9c9587;
+  --senal: #c23a1f;
+  --senal-vivo: #e8552a;
+  --azul: #2f5e7a;
 
-  --display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --display: 'Archivo Variable', 'Arial Narrow', system-ui, sans-serif;
   --sans: 'Archivo Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
 
   --ancho: 1440px;
   --pad: clamp(20px, 4.2vw, 60px);
-  --radio: 2px;
+  --radio: 0;
 }
 
 *,
@@ -39,8 +40,12 @@ html {
 body {
   margin: 0;
   background-color: var(--papel);
-  background-image: radial-gradient(circle at 1px 1px, rgba(21, 24, 26, 0.055) 1px, transparent 0);
-  background-size: 24px 24px;
+  background-image:
+    linear-gradient(rgba(47, 94, 122, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 94, 122, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(47, 94, 122, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 94, 122, 0.08) 1px, transparent 1px);
+  background-size: 10px 10px, 10px 10px, 50px 50px, 50px 50px;
   color: var(--tinta);
   font-family: var(--sans);
   font-size: clamp(15px, 0.35vw + 14px, 17px);
@@ -48,6 +53,16 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Marco de lámina: el borde del pliego. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 12px;
+  border: 1px solid var(--linea-fuerte);
+  pointer-events: none;
+  z-index: 55;
 }
 
 img,
@@ -72,10 +87,10 @@ h3,
 h4 {
   margin: 0;
   font-family: var(--display);
-  font-weight: 500;
-  line-height: 0.96;
-  letter-spacing: -0.025em;
-  font-variation-settings: 'opsz' 120, 'SOFT' 0, 'WONK' 1;
+  font-weight: 650;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  font-stretch: 88%;
 }
 
 p {
@@ -110,7 +125,7 @@ ol {
 
 .seccion {
   position: relative;
-  padding-block: clamp(56px, 7vw, 104px);
+  padding-block: clamp(48px, 5.5vw, 88px);
 }
 
 .seccion--ajustada {
@@ -149,7 +164,7 @@ ol {
 .em {
   font-style: italic;
   color: var(--senal);
-  font-variation-settings: 'opsz' 120, 'SOFT' 0, 'WONK' 1;
+  font-stretch: 92%;
 }
 
 .sr-only {
@@ -280,8 +295,9 @@ ol {
 .marca__nombre {
   font-family: var(--display);
   font-size: 19px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-stretch: 88%;
 }
 
 .marca__rol {
@@ -368,11 +384,11 @@ ol {
 }
 
 .hero__h1 {
-  font-size: clamp(2.7rem, 6.6vw, 6.2rem);
-  line-height: 0.93;
-  letter-spacing: -0.035em;
-  font-weight: 480;
-  max-width: 15ch;
+  font-size: clamp(2.7rem, 6.2vw, 5.9rem);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  font-weight: 620;
+  max-width: 13ch;
 }
 
 .hero__p {
@@ -525,10 +541,11 @@ ol {
 .cifra__n {
   display: block;
   font-family: var(--display);
-  font-size: clamp(1.6rem, 2.4vw, 2.4rem);
-  font-weight: 480;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+  font-weight: 620;
+  letter-spacing: -0.035em;
   line-height: 1;
+  font-stretch: 88%;
 }
 
 .cifra__l {
@@ -629,9 +646,9 @@ ol {
 .fila__tit {
   font-family: var(--display);
   font-size: clamp(1.25rem, 2.1vw, 1.7rem);
-  font-weight: 500;
+  font-weight: 620;
   line-height: 1.05;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .fila__sub {
@@ -742,11 +759,11 @@ ol {
 }
 
 .especialidad__t {
-  margin-top: 34px;
+  margin-top: 24px;
   font-family: var(--display);
   font-size: clamp(1.15rem, 1.6vw, 1.45rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-weight: 620;
+  letter-spacing: -0.03em;
 }
 
 .especialidad__d {
@@ -1294,10 +1311,11 @@ ol {
 .metrica__v {
   display: block;
   font-family: var(--display);
-  font-size: clamp(1.4rem, 2.2vw, 2rem);
-  font-weight: 480;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.35rem, 2.1vw, 1.9rem);
+  font-weight: 620;
+  letter-spacing: -0.035em;
   line-height: 1;
+  font-stretch: 88%;
   color: var(--senal);
 }
 
@@ -1898,8 +1916,8 @@ ol {
   margin-top: 6px;
   font-family: var(--display);
   font-size: clamp(1.2rem, 1.9vw, 1.6rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-weight: 620;
+  letter-spacing: -0.03em;
   line-height: 1.05;
 }
 
@@ -1944,5 +1962,195 @@ ol {
 
   .corte__quote {
     max-width: 100%;
+  }
+}
+
+/* ==========================================================================
+   CAPA PLANO — detalles de lámina técnica
+   ========================================================================== */
+
+section[id] {
+  scroll-margin-top: 96px;
+}
+
+.hoja {
+  position: relative;
+  border-top: 2px solid var(--tinta);
+  padding-top: 16px;
+}
+
+.hoja::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 64px;
+  height: 2px;
+  background: var(--senal);
+}
+
+.hoja__meta {
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+}
+
+.figura {
+  border: 1px solid var(--tinta);
+  background: rgba(255, 255, 255, 0.45);
+  padding: 10px 10px 0;
+}
+
+.figura__lienzo {
+  background-image:
+    linear-gradient(rgba(47, 94, 122, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 94, 122, 0.16) 1px, transparent 1px);
+  background-size: 25px 25px;
+}
+
+.figura__pie {
+  border-top: 1px solid var(--tinta);
+}
+
+.tarjeta__fig,
+.vista,
+.proy__portada,
+.lamina {
+  border: 1px solid var(--tinta);
+}
+
+.tarjeta__pie,
+.lamina__pie {
+  border-top: 1px solid var(--tinta);
+}
+
+.metricas {
+  border-block: 1px solid var(--tinta);
+}
+
+.cifras {
+  border-top: 1px solid var(--tinta);
+}
+
+.tabla-software th {
+  border-bottom: 1px solid var(--tinta);
+  letter-spacing: 0.14em;
+}
+
+.fila:hover,
+.fila:focus-visible {
+  background: rgba(47, 94, 122, 0.06);
+}
+
+.nota-autoria {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 30px;
+  padding: 14px 0 14px 16px;
+  border-left: 2px solid var(--senal);
+  background: linear-gradient(90deg, rgba(194, 58, 31, 0.06), transparent 70%);
+}
+
+.nota-autoria p,
+.nota-autoria > span:last-child {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--tinta-2);
+  max-width: 64ch;
+}
+
+.nota-autoria--ancha {
+  margin-top: 40px;
+  grid-template-columns: 150px minmax(0, 1fr);
+}
+
+.contacto__tit {
+  font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+.contacto__p {
+  margin: 16px 0 28px;
+  max-width: 44ch;
+  color: var(--tinta-2);
+  font-size: 14.5px;
+}
+
+.tecnica__nota {
+  margin-top: 8px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--grafito);
+}
+
+.iso-dim line {
+  stroke: var(--azul);
+  stroke-width: 0.8;
+  fill: none;
+}
+
+.iso-dim text {
+  font-family: var(--mono);
+  font-size: 7.5px;
+  letter-spacing: 0.06em;
+  fill: var(--azul);
+}
+
+.iso-burbuja circle {
+  fill: var(--papel);
+  stroke: var(--azul);
+  stroke-width: 0.9;
+}
+
+.iso-burbuja text {
+  font-family: var(--mono);
+  font-size: 8px;
+  fill: var(--azul);
+}
+
+.vista__pie span {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vista__pie span:first-child {
+  flex: none;
+}
+
+.pie,
+.cierre {
+  position: relative;
+  z-index: 60;
+}
+
+.nota-autoria {
+  grid-template-columns: 132px minmax(0, 1fr);
+}
+
+.nota-autoria > .eti {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  body::after {
+    inset: 6px;
+  }
+
+  .nota-autoria,
+  .nota-autoria--ancha {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .retrato,
+  .perfil--bio .retrato {
+    max-width: 220px;
+    justify-self: start;
   }
 }

@@ -20,9 +20,9 @@ export const sitio = {
 };
 
 export const navegacion = [
+  { texto: 'Perfil', href: '/#perfil' },
   { texto: 'Proyectos', href: '/proyectos' },
-  { texto: 'Sobre mí', href: '/sobre-mi' },
-  { texto: 'Contacto', href: '/contacto' },
+  { texto: 'Contacto', href: '/#contacto' },
 ];
 
 /**

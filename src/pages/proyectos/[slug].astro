@@ -22,13 +22,13 @@ const ficha = {
   description: p.resumen,
   dateCreated: String(p.anio),
   creator: { '@type': 'Person', name: 'Alejandro Rivas' },
-  about: p.disciplina,
+  about: `Modelado BIM — ${p.disciplina}`,
 };
 ---
 
 <Base
   titulo={p.titulo}
-  descripcion={`${p.titulo} — ${p.subtitulo}. ${p.resumen}`.slice(0, 165)}
+  descripcion={`${p.titulo} — ${p.subtitulo}. Ejercicio de digitalización BIM en Revit.`}
   ogTipo="article"
 >
   <script type="application/ld+json" set:html={JSON.stringify(ficha)} />
@@ -45,7 +45,7 @@ const ficha = {
 
       <div class="proy__cab">
         <div>
-          <span class="eti eti--senal">Proyecto {p.indice} · {p.disciplina}</span>
+          <span class="eti eti--senal">Modelo {p.indice} · {p.disciplina}</span>
           <h1 class="proy__tit" style="margin-top:14px">{p.titulo}</h1>
           <p class="proy__sub">{p.subtitulo}</p>
         </div>
@@ -56,20 +56,20 @@ const ficha = {
             <dd>{p.anio}</dd>
           </div>
           <div>
-            <dt>Ubicación</dt>
-            <dd>{p.ubicacion}</dd>
+            <dt>Alcance</dt>
+            <dd>{p.alcance}</dd>
           </div>
           <div>
-            <dt>Rol</dt>
-            <dd>{p.rol}</dd>
+            <dt>Nivel de desarrollo</dt>
+            <dd>{p.lod}</dd>
           </div>
           <div>
-            <dt>Cliente</dt>
-            <dd>{p.cliente}</dd>
+            <dt>Horas de modelado</dt>
+            <dd>{p.horas}</dd>
           </div>
           <div>
-            <dt>Estado</dt>
-            <dd>{p.estado}</dd>
+            <dt>Fuente</dt>
+            <dd>{p.fuente}</dd>
           </div>
         </dl>
       </div>
@@ -94,32 +94,41 @@ const ficha = {
       <div>
         <p class="proy__resumen">{p.resumen}</p>
 
+        <div class="nota-autoria">
+          <span class="eti eti--senal">Sobre la autoría</span>
+          <p>
+            El modelo 3D es de mi autoría. El diseño original y los planos de referencia
+            pertenecen a sus autores: se usaron únicamente como ejercicio de digitalización y
+            modelado BIM. Este proyecto no incluye {p.noIncluye.toLowerCase()}.
+          </p>
+        </div>
+
         <div class="bloques">
           <div class="bloque">
             <h2 class="bloque__t">El reto</h2>
             <p class="bloque__p">{p.reto}</p>
           </div>
           <div class="bloque">
-            <h2 class="bloque__t">La solución</h2>
-            <p class="bloque__p">{p.solucion}</p>
+            <h2 class="bloque__t">Criterio de modelado</h2>
+            <p class="bloque__p">{p.criterio}</p>
           </div>
           <div class="bloque">
-            <h2 class="bloque__t">El resultado</h2>
+            <h2 class="bloque__t">Resultado</h2>
             <p class="bloque__p">{p.resultado}</p>
           </div>
         </div>
 
         <p class="aviso">
           Láminas ilustrativas generadas para este borrador. En la versión final se sustituyen
-          por planos y renders del proyecto real, con autorización del cliente.
+          por capturas del modelo real en Revit.
         </p>
       </div>
 
       <aside class="tecnica">
         <div class="tecnica__grupo">
-          <h2 class="tecnica__t">Normativa aplicada</h2>
+          <h2 class="tecnica__t">Criterios y estándar</h2>
           <ul>
-            {p.normativa.map((n) => (
+            {p.estandares.map((n) => (
               <li>{n}</li>
             ))}
           </ul>
@@ -145,11 +154,15 @@ const ficha = {
 
         {p.solicitarArchivos && (
           <div class="tecnica__grupo">
-            <a class="btn btn--lleno" href={ruta(`/contacto?proyecto=${p.slug}`)} style="width:100%; justify-content:center">
-              Solicitar CAD/BIM <span class="btn__flecha" aria-hidden="true">→</span>
+            <a
+              class="btn btn--lleno"
+              href={`${ruta('/')}?proyecto=${p.slug}#contacto`}
+              style="width:100%; justify-content:center"
+            >
+              Solicitar modelo RVT <span class="btn__flecha" aria-hidden="true">→</span>
             </a>
             <p class="eti" style="margin-top:10px">
-              Archivos .rvt y .dwg bajo solicitud y acuerdo de confidencialidad.
+              Archivo .rvt disponible bajo solicitud.
             </p>
           </div>
         )}
@@ -191,7 +204,7 @@ const ficha = {
 
       <a class="siguiente" href={ruta(`/proyectos/${siguiente.slug}`)}>
         <div>
-          <span class="eti">Siguiente proyecto · {siguiente.indice}</span>
+          <span class="eti">Siguiente modelo · {siguiente.indice}</span>
           <p class="siguiente__t">{siguiente.titulo}</p>
         </div>
         <span class="siguiente__flecha" aria-hidden="true">→</span>

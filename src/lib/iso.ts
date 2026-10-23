@@ -21,6 +21,7 @@ export type Dibujo = {
   cota: { x: number; y1: number; y2: number; texto: string };
   tapa: string;
   caras: string[];
+  esquinas: { no: [number, number]; ne: [number, number]; so: [number, number]; se: [number, number] };
   viewBox: string;
   ancho: number;
   alto: number;
@@ -171,6 +172,13 @@ export function generarEstructura(opciones: Opciones = {}): Dibujo {
   const [izqX, izqY] = P(0, Y, 0);
   const [, arribaY] = P(0, Y, H);
 
+  const esquinas = {
+    no: P(0, 0, 0),
+    ne: P(X, 0, 0),
+    so: P(0, Y, 0),
+    se: P(X, Y, 0),
+  };
+
   return {
     lineas,
     niveles,
@@ -182,6 +190,7 @@ export function generarEstructura(opciones: Opciones = {}): Dibujo {
     },
     tapa,
     caras,
+    esquinas,
     viewBox: `0 0 ${ancho} ${alto}`,
     ancho,
     alto,

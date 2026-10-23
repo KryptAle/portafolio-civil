@@ -4,45 +4,44 @@ import ProyectoCover from '../../components/ProyectoCover.astro';
 import { ruta } from '../../config';
 import proyectos from '../../data/proyectos.json';
 
-const categoria = (p: (typeof proyectos)[number]) => p.disciplina.split(' / ')[0];
-const categorias = ['Todos', ...Array.from(new Set(proyectos.map(categoria)))];
+const categorias = ['Todos', ...Array.from(new Set(proyectos.map((p) => p.categoria)))];
 ---
 
 <Base
-  titulo="Proyectos"
-  descripcion="Índice de proyectos de ingeniería estructural, vial, industrial e hidráulica. Fichas técnicas, láminas y resultados."
+  titulo="Modelos BIM"
+  descripcion="Ejercicios de digitalización BIM: planos 2D de referencia reconstruidos en Revit. Fichas con alcance, nivel de desarrollo y criterio de modelado."
 >
   <section class="contenedor encabezado-pagina">
     <nav class="miga" aria-label="Ruta">
       <a href={ruta('/')}>Inicio</a>
       <span aria-hidden="true">/</span>
-      <span>Proyectos</span>
+      <span>Modelos</span>
     </nav>
 
     <div class="proy__cab">
       <div>
-        <h1 class="proy__tit">Índice de<br />proyectos</h1>
+        <h1 class="proy__tit">Índice de<br />modelos</h1>
         <p class="proy__sub">
-          Cuatro obras de muestra, ordenadas de la más reciente a la más antigua. Cada ficha
-          incluye el problema, la solución y el resultado medible.
+          Cuatro ejercicios de digitalización: planos 2D de referencia reconstruidos en Revit.
+          Cada ficha explica el reto de interpretación, el criterio de modelado y el resultado.
         </p>
       </div>
 
       <div>
-        <div class="proy__meta">
+        <dl class="proy__meta">
           <div>
-            <dt>Obras publicadas</dt>
+            <dt>Modelos publicados</dt>
             <dd>04</dd>
           </div>
           <div>
-            <dt>Periodo</dt>
-            <dd>2023 — 2025</dd>
+            <dt>Niveles</dt>
+            <dd>LOD 300 — 350</dd>
           </div>
           <div>
             <dt>Disciplinas</dt>
-            <dd>Estructuras · Vial · Industrial · Hidráulica</dd>
+            <dd>Arquitectura · Estructura · Metálica · Hidráulica</dd>
           </div>
-        </div>
+        </dl>
       </div>
     </div>
   </section>
@@ -62,7 +61,7 @@ const categorias = ['Todos', ...Array.from(new Set(proyectos.map(categoria)))];
         ))
       }
       <span class="filtros__cuenta eti">
-        <span data-cuenta>04</span> obras
+        <span data-cuenta>04</span> modelos
       </span>
     </div>
 
@@ -73,7 +72,7 @@ const categorias = ['Todos', ...Array.from(new Set(proyectos.map(categoria)))];
             class="tarjeta revelar"
             href={ruta(`/proyectos/${p.slug}`)}
             data-tarjeta
-            data-disciplina={categoria(p).toLowerCase()}
+            data-disciplina={p.categoria.toLowerCase()}
             style={`--d:${(i * 0.06).toFixed(2)}s`}
           >
             <div class="tarjeta__fig">
@@ -82,7 +81,7 @@ const categorias = ['Todos', ...Array.from(new Set(proyectos.map(categoria)))];
             <div class="tarjeta__pie">
               <div>
                 <span class="eti">
-                  {p.indice} · {p.disciplina}
+                  {p.indice} · {p.disciplina} · {p.lod}
                 </span>
                 <h2 class="tarjeta__t">{p.titulo}</h2>
                 <p class="tarjeta__sub">{p.subtitulo}</p>
@@ -94,9 +93,13 @@ const categorias = ['Todos', ...Array.from(new Set(proyectos.map(categoria)))];
       }
     </div>
 
-    <p class="aviso">
-      Contenido de muestra para revisión de diseño. Los nombres, cifras y clientes son
-      ficticios hasta que se cargue el portafolio real.
+    <p class="nota-autoria nota-autoria--ancha">
+      <span class="eti eti--senal">Sobre estos modelos</span>
+      <span>
+        El diseño original y los planos de referencia pertenecen a sus autores. El modelo 3D y
+        su documentación son de mi autoría: son ejercicios de digitalización para demostrar
+        manejo de Revit, no obras diseñadas por mí.
+      </span>
     </p>
   </section>
 

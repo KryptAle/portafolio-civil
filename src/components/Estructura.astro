@@ -3,25 +3,67 @@ import { generarEstructura } from '../lib/iso';
 
 const dibujo = generarEstructura({
   vanosX: 2,
-  vanosY: 2,
+  vanosY: 3,
   pisos: 8,
   vano: 6,
   alturaPiso: 3.2,
   u: 13.4,
 });
 
-const { lineas, niveles, cota, tapa, caras, viewBox } = dibujo;
+const { lineas, niveles, cota, tapa, caras, esquinas, viewBox } = dibujo;
+
+type Punto = [number, number];
+
+const cadena = (a: Punto, b: Punto, ox: number, oy: number, texto: string) => {
+  const x1 = a[0] + ox;
+  const y1 = a[1] + oy;
+  const x2 = b[0] + ox;
+  const y2 = b[1] + oy;
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const len = Math.hypot(dx, dy) || 1;
+  const px = (-dy / len) * 5;
+  const py = (dx / len) * 5;
+  let ang = (Math.atan2(dy, dx) * 180) / Math.PI;
+  if (ang > 90 || ang < -90) ang += 180;
+
+  return {
+    x1,
+    y1,
+    x2,
+    y2,
+    ang,
+    texto,
+    mx: (x1 + x2) / 2,
+    my: (y1 + y2) / 2,
+    ticks: [
+      [x1 - px, y1 - py, x1 + px, y1 + py],
+      [x2 - px, y2 - py, x2 + px, y2 + py],
+    ],
+  };
+};
+
+const cadenas = [
+  cadena(esquinas.so, esquinas.se, -14, 34, '12,00'),
+  cadena(esquinas.ne, esquinas.se, 26, 12, '18,00'),
+];
+
+const burbujas = [
+  { x: cadenas[0].x1 - 22, y: cadenas[0].y1 + 6, t: 'A' },
+  { x: cadenas[1].x2 + 20, y: cadenas[1].y2 + 18, t: '1' },
+];
 ---
 
 <svg class="iso" viewBox={viewBox} role="img" aria-labelledby="iso-titulo">
   <title id="iso-titulo">
-    Esquema isométrico de un edificio de ocho niveles: losas, columnas y cubierta.
+    Axonométrica de un edificio de ocho niveles con ejes, cotas y niveles.
   </title>
 
   {caras.map((cara) => (
     <polygon points={cara} fill="var(--papel-3)" fill-opacity="0.42" stroke="none" />
   ))}
   <polygon points={tapa} fill="var(--papel-2)" fill-opacity="0.9" stroke="none" />
+
   {
     lineas.map((linea) => (
       <line
@@ -60,4 +102,29 @@ const { lineas, niveles, cota, tapa, caras, viewBox } = dibujo;
       {cota.texto}
     </text>
   </g>
+
+  {cadenas.map((c) => (
+    <g class="iso-dim">
+      <line x1={c.x1} y1={c.y1} x2={c.x2} y2={c.y2} />
+      {c.ticks.map((t) => (
+        <line x1={t[0]} y1={t[1]} x2={t[2]} y2={t[3]} />
+      ))}
+      <text
+        transform={`translate(${c.mx} ${c.my}) rotate(${c.ang})`}
+        text-anchor="middle"
+        dy="-4"
+      >
+        {c.texto}
+      </text>
+    </g>
+  ))}
+
+  {burbujas.map((b) => (
+    <g class="iso-burbuja">
+      <circle cx={b.x} cy={b.y} r="9" />
+      <text x={b.x} y={b.y + 3} text-anchor="middle">
+        {b.t}
+      </text>
+    </g>
+  ))}
 </svg>

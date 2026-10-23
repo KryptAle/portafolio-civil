@@ -2,11 +2,10 @@
 import { sitio, navegacion, ruta } from '../config';
 
 const actual = Astro.url.pathname.replace(/\/$/, '');
-const raiz = ruta('/').replace(/\/$/, '');
 
 const esActiva = (destino: string) => {
+  if (destino.includes('#')) return false;
   const rutaLimpia = destino.replace(/\/$/, '');
-  if (rutaLimpia === raiz) return actual === raiz;
   return actual === rutaLimpia || actual.startsWith(rutaLimpia + '/');
 };
 ---
