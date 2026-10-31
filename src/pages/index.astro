@@ -3,8 +3,10 @@ import Base from '../layouts/Base.astro';
 import Hoja from '../components/Hoja.astro';
 import Estructura from '../components/Estructura.astro';
 import ProyectoCover from '../components/ProyectoCover.astro';
+import Visor3D from '../components/Visor3D.astro';
 import { sitio, ruta } from '../config';
 import { experiencia, formacion } from '../data/trayectoria';
+import { modelos3d } from '../data/modelos3d';
 import proyectos from '../data/proyectos.json';
 
 const cifras = [
@@ -162,6 +164,14 @@ const software = [
 
   <section class="seccion contenedor" id="proyectos">
     <Hoja num="03" titulo="Modelos BIM" meta="Ejercicios de digitalización · 04" />
+
+    {modelos3d.length > 0 && (
+      <Visor3D
+        titulo={modelos3d[0].titulo}
+        archivo={modelos3d[0].archivo}
+        nota={modelos3d[0].nota}
+      />
+    )}
 
     <div class="indice" data-indice>
       <div class="filas">

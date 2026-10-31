@@ -34,6 +34,8 @@ pestaña **Actions** del repositorio.
 - **Fichas individuales** con alcance, LOD, horas, reto de interpretación,
   criterio de modelado, resultado y nota de autoría.
 - Hero axonométrico generado en el build, con ejes, cotas y niveles (SVG puro).
+- **Visor IFC 3D** en «Modelos BIM», con carga bajo demanda (rotar, zoom y
+  encuadrar; sin edición ni medición).
 - Láminas técnicas ilustrativas (planta, corte y detalle) dibujadas como SVG.
 - Contacto por canales directos (correo, WhatsApp, LinkedIn), sin formulario.
 - Diseño responsive, foco visible, `prefers-reduced-motion` y metadatos Open Graph.
@@ -58,6 +60,8 @@ pnpm preview   # sirve dist/ en http://localhost:4321
 |---|---|
 | Cambiar nombre, correo, ciudad, redes | `src/config.ts` |
 | Agregar o editar modelos | `src/data/proyectos.json` |
+| Publicar un modelo en el visor 3D | `src/data/modelos3d.ts` y `public/modelos/` |
+| Cambiar el visor (cámara, luces) | `src/lib/visor3d.ts` y `src/components/Visor3D.astro` |
 | Cambiar experiencia y formación | `src/data/trayectoria.ts` |
 | Ajustar colores, retícula, tipografía | `src/styles/global.css` |
 | Cambiar el hero (ejes, cotas, niveles) | `src/components/Estructura.astro` y `src/lib/iso.ts` |
@@ -78,6 +82,63 @@ Campos que usa la ficha: `slug`, `titulo`, `subtitulo`, `tipo`, `disciplina`,
 `categoria`, `anio`, `alcance`, `lod`, `horas`, `planos`, `superficie`, `fuente`,
 `rol`, `noIncluye`, `resumen`, `reto`, `criterio`, `resultado`, `metricas`,
 `estandares`, `software`, `entregables` y `solicitarArchivos`.
+
+## Visor 3D
+
+La sección «Modelos BIM» incluye un visor IFC de solo lectura: rotar con el mouse
+o el dedo, zoom con la rueda o pinza, y un botón para reencuadrar. No edita,
+no mide y no exporta.
+
+El visor se carga **solo al pulsar «Cargar visor 3D»**. La visita normal no
+descarga three.js, web-ifc, el wasm ni el IFC. Al abrirlo, la primera carga ronda
+los 4 MB comprimidos; el navegador los cachea.
+
+### Publicar un modelo
+
+1. Exporta el modelo a **IFC** desde Revit (IFC 2x3 o IFC4).
+2. Copia el archivo a `public/modelos/mi-modelo.ifc`.
+3. Agrega la entrada en `src/data/modelos3d.ts`:
+   ```ts
+   { id: 'mi-modelo', titulo: 'Mi modelo', archivo: 'modelos/mi-modelo.ifc', nota: 'IFC 2x3 · …' }
+   ```
+4. Commit y push. GitHub Pages reconstruye y el modelo aparece.
+
+Hoy el componente muestra el primer modelo de la lista. Para un selector con
+varios modelos hay que añadir las pestañas en `Visor3D.astro` (queda como
+siguiente paso).
+
+El motor `web-ifc` se sirve desde `public/web-ifc.wasm`. Si actualizas la
+dependencia, vuelve a copiar `node_modules/web-ifc/web-ifc.wasm` a `public/`.
+
+### Formatos: por qué IFC
+
+| Formato | Sirve para visor web | Nota |
+|---|---|---|
+| **IFC** | Sí | OpenBIM, geometría + propiedades, soporte maduro (`web-ifc`) |
+| DXF | No recomendable | CAD sin semántica BIM, archivo pesado, sin materiales |
+| DWFx | No | Empaquetado de Autodesk para visualización/impresión; sin visor web fiable |
+| GLB | Sí (alternativa) | Muy liviano, pero hay que convertir y se pierden propiedades IFC |
+
+### Protección del modelo
+
+El visor no ofrece descarga, bloquea el menú contextual del canvas y muestra una
+marca de autoría. **Eso es disuasión, no seguridad**: cualquier visor web descarga
+el archivo para poder dibujarlo, y con las herramientas del navegador se puede
+recuperar. Para protección real el archivo no debe salir del servidor:
+
+- renderizado en servidor (solo imágenes o video),
+- URL firmadas con autenticación (Supabase, Cloudflare R2 + Worker),
+- un servicio como Autodesk Platform Services.
+
+Se puede implementar más adelante; para el portafolio actual, la marca de agua y
+la nota de uso suelen ser suficientes.
+
+### ¿Panel de administración o backend?
+
+Hoy no hay backend: publicar un modelo es copiar el archivo y hacer push. Para
+subir desde el navegador haría falta autenticación + almacenamiento (Supabase
+Storage o Cloudflare R2 con un Worker) y un formulario; es una fase 2 razonable,
+pero no es necesaria para empezar.
 
 ## Sobre el contenido
 
@@ -112,8 +173,8 @@ Antes de publicar contenido definitivo:
 ## Pendientes sugeridos
 
 1. Capturas reales de cada modelo y una galería por ficha.
-2. Recorrido en video (YouTube no listado) para uno o dos modelos.
-3. Visor 3D (`<model-viewer>` con GLB exportado de Revit) en la ficha destacada.
+2. Selector de varios modelos en el visor 3D.
+3. Preconvertir IFC a GLB para bajar el peso de la primera carga.
 4. CV en PDF enlazado desde el hero.
 5. Analítica ligera (Plausible/Umami) y `sitemap.xml`.
 6. Versión en inglés.
@@ -125,10 +186,12 @@ src/
   config.ts            datos personales, navegación y helper de base
   data/proyectos.json  contenido de los modelos
   data/trayectoria.ts  experiencia y formación
+  data/modelos3d.ts    modelos publicados en el visor
   lib/iso.ts           geometría axonométrica del hero
+  lib/visor3d.ts       visor IFC (three.js + web-ifc)
   styles/global.css    sistema visual completo
   layouts/Base.astro   head, header, footer, scripts
-  components/          Header, Footer, Hoja, Estructura, ProyectoCover, Plano, Corte
+  components/          Header, Footer, Hoja, Estructura, ProyectoCover, Plano, Visor3D
   pages/
     index.astro           portada con perfil, servicios, modelos, herramientas, trayectoria y contacto
     proyectos/index.astro índice con filtros
@@ -136,4 +199,7 @@ src/
     sobre-mi.astro        redirección a /#perfil
     contacto.astro        redirección a /#contacto
     404.astro
+public/
+  modelos/              archivos .ifc publicados
+  web-ifc.wasm          motor de lectura IFC (copia estable)
 ```

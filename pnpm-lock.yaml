@@ -175,6 +175,12 @@ importers:
       astro:
         specifier: ^7.4.2
         version: 7.4.2(yaml@2.9.1)
+      three:
+        specifier: ^0.187.0
+        version: 0.187.0
+      web-ifc:
+        specifier: ^0.0.78
+        version: 0.0.78
 
 packages:
 
@@ -1193,6 +1199,9 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
+  three@0.187.0:
+    resolution: {integrity: sha512-Qiu7R+Cmh8CstZsY1uJOSWnVlfo7ZtNLV7mF8Jltk3LB3AtDu9cRZlcnRKkAk8Y4z6KKw35z7Y7Urd7jWY8etA==}
+
   tiny-inflate@1.0.3:
     resolution: {integrity: sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==}
 
@@ -1376,6 +1385,9 @@ packages:
     peerDependenciesMeta:
       vite:
         optional: true
+
+  web-ifc@0.0.78:
+    resolution: {integrity: sha512-LGKMNYFVNyz9vVERN0iz+zvPQJqT7MEGBxslzcuuhwDDOA116LmJLKkg8sZ5SEvQJSc5NRVMWgpRNkDmuoQoJg==}
 
   xxhash-wasm@1.1.0:
     resolution: {integrity: sha512-147y/6YNh+tlp6nd/2pWq38i9h6mz/EuQ6njIrmW8D1BS5nCqs0P6DG+m6zTGnNz5I+uhZ0SHxBs9BsPrwcKDA==}
@@ -2396,6 +2408,8 @@ snapshots:
       picocolors: 1.1.1
       sax: 1.6.1
 
+  three@0.187.0: {}
+
   tiny-inflate@1.0.3: {}
 
   tinyclip@1.0.3: {}
@@ -2501,6 +2515,8 @@ snapshots:
   vitefu@1.1.3(vite@8.3.5(yaml@2.9.1)):
     optionalDependencies:
       vite: 8.3.5(yaml@2.9.1)
+
+  web-ifc@0.0.78: {}
 
   xxhash-wasm@1.1.0: {}
 

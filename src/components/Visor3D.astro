@@ -1,0 +1,238 @@
+---
+interface Props {
+  titulo: string;
+  archivo: string;
+  nota?: string;
+}
+
+const { titulo, archivo, nota } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const url = `${base}${archivo}`;
+---
+
+<div class="visor3d" data-visor data-archivo={url} data-base={base}>
+  <div class="visor3d__marco" data-marco>
+    <div class="visor3d__lienzo" data-lienzo></div>
+
+    <div class="visor3d__inicio" data-inicio>
+      <span class="eti eti--claro">Modelo 3D · IFC</span>
+      <h3 class="visor3d__tit">{titulo}</h3>
+      <button class="btn btn--claro" type="button" data-cargar>
+        Cargar visor 3D <span class="btn__flecha" aria-hidden="true">→</span>
+      </button>
+      <p class="visor3d__ayuda">Arrastra para rotar · rueda o pinza para acercar</p>
+    </div>
+
+    <div class="visor3d__estado" data-estado hidden>
+      <span class="eti eti--claro" data-estado-texto>Cargando…</span>
+    </div>
+
+    <div class="visor3d__hud" data-hud hidden>
+      <span class="eti eti--claro">IFC · solo lectura</span>
+      <button class="visor3d__accion" type="button" data-reset>Reencuadrar</button>
+      <button class="visor3d__accion" type="button" data-full>Pantalla completa</button>
+    </div>
+
+    <span class="visor3d__marca">© Alejandro Aguilera · uso autorizado</span>
+  </div>
+
+  {nota && <p class="visor3d__nota eti">{nota}</p>}
+</div>
+
+<style>
+  .visor3d {
+    display: grid;
+    gap: 10px;
+    margin-bottom: clamp(28px, 4vw, 48px);
+  }
+
+  .visor3d__marco {
+    position: relative;
+    height: clamp(320px, 40vw, 600px);
+    background: #10151a;
+    border: 1px solid var(--tinta);
+    overflow: hidden;
+  }
+
+  .visor3d__lienzo {
+    position: absolute;
+    inset: 0;
+  }
+
+  .visor3d__lienzo :global(canvas) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+  }
+
+  .visor3d__inicio {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 14px;
+    padding: 24px;
+    text-align: center;
+    background:
+      radial-gradient(ellipse at 50% 45%, rgba(16, 21, 26, 0.35), rgba(16, 21, 26, 0.9)),
+      linear-gradient(rgba(47, 94, 122, 0.16) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(47, 94, 122, 0.16) 1px, transparent 1px);
+    background-size: auto, 28px 28px, 28px 28px;
+    color: var(--papel);
+    z-index: 2;
+  }
+
+  .visor3d__tit {
+    font-size: clamp(1.5rem, 3vw, 2.4rem);
+    color: var(--papel);
+  }
+
+  .visor3d__ayuda {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9aa3a5;
+  }
+
+  .visor3d__estado {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(16, 21, 26, 0.86);
+    z-index: 3;
+  }
+
+  .visor3d__hud {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 12px;
+    background: linear-gradient(transparent, rgba(16, 21, 26, 0.82));
+    z-index: 2;
+  }
+
+  .visor3d__hud .eti {
+    margin-right: auto;
+  }
+
+  .visor3d__accion {
+    border: 1px solid rgba(243, 240, 232, 0.35);
+    background: rgba(16, 21, 26, 0.5);
+    color: var(--papel);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 9px;
+    cursor: pointer;
+  }
+
+  .visor3d__accion:hover {
+    border-color: var(--papel);
+  }
+
+  .visor3d__marca {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: rgba(243, 240, 232, 0.45);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .visor3d__nota {
+    font-size: 9.5px;
+  }
+
+  .visor3d__inicio[hidden],
+  .visor3d__estado[hidden],
+  .visor3d__hud[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .visor3d__marco {
+      height: 320px;
+    }
+
+    .visor3d__hud .eti {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const raices = document.querySelectorAll('[data-visor]');
+
+  raices.forEach((raiz) => {
+    const elemento = raiz;
+    const boton = elemento.querySelector('[data-cargar]');
+    const inicio = elemento.querySelector('[data-inicio]');
+    const estado = elemento.querySelector('[data-estado]');
+    const estadoTexto = elemento.querySelector('[data-estado-texto]');
+    const hud = elemento.querySelector('[data-hud]');
+    const marco = elemento.querySelector('[data-marco]');
+    const lienzo = elemento.querySelector('[data-lienzo]');
+
+    if (!boton || !lienzo || !marco) return;
+
+    let visor = null;
+
+    const mostrarEstado = (texto: string) => {
+      if (!estado) return;
+      estado.hidden = !texto;
+      if (estadoTexto) estadoTexto.textContent = texto;
+    };
+
+    boton.addEventListener('click', async () => {
+      const archivo = elemento.dataset.archivo;
+      const base = elemento.dataset.base;
+      if (!archivo || !base) return;
+
+      boton.disabled = true;
+      boton.textContent = 'Cargando…';
+      mostrarEstado('Cargando visor…');
+
+      try {
+        const { iniciarVisor } = await import('../lib/visor3d');
+        visor = await iniciarVisor({
+          contenedor: lienzo,
+          archivo,
+          base,
+          onEstado: mostrarEstado,
+        });
+        if (inicio) inicio.hidden = true;
+        if (hud) hud.hidden = false;
+        mostrarEstado('');
+      } catch (error) {
+        console.error(error);
+        mostrarEstado('No se pudo cargar el modelo 3D.');
+        boton.disabled = false;
+        boton.textContent = 'Reintentar';
+      }
+    });
+
+    elemento.querySelector('[data-reset]')?.addEventListener('click', () => visor?.reencuadrar());
+
+    elemento.querySelector('[data-full]')?.addEventListener('click', async () => {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        await marco.requestFullscreen();
+      }
+    });
+  });
+</script>
