@@ -28,14 +28,13 @@ pestaña **Actions** del repositorio.
 
 ## Qué incluye
 
-- **Una sola página de aterrizaje** pensada para un QR en el currículum: perfil,
-  servicios, modelos, herramientas, trayectoria y contacto, sin saltos entre pestañas.
-- **Índice de modelos** en `/proyectos`, con filtros por disciplina.
-- **Fichas individuales** con alcance, LOD, horas, reto de interpretación,
-  criterio de modelado, resultado y nota de autoría.
+- **Una sola página de aterrizaje**, sin pestañas: perfil, servicios, modelos,
+  herramientas, trayectoria y contacto. Es la página a la que apunta el QR del CV.
+- **Lista de modelos** con superficie modelada, disciplina, LOD y año, más nota
+  de autoría. Sin fichas ni rutas adicionales.
 - Hero axonométrico generado en el build, con ejes, cotas y niveles (SVG puro).
-- **Visor IFC 3D** en la columna derecha de «Modelos BIM» y en `/proyectos`, con
-  carga bajo demanda (rotar, zoom y encuadrar; sin edición ni medición).
+- **Visor IFC 3D** en la columna derecha de «Modelos BIM», con carga bajo demanda
+  (rotar, zoom y encuadrar; sin edición ni medición).
 - Láminas técnicas ilustrativas (planta, corte y detalle) dibujadas como SVG.
 - Contacto por canales directos (correo, WhatsApp, LinkedIn), sin formulario.
 - **Certificado de inglés EFSET** enlazado desde «Idiomas» y desde una tarjeta
@@ -74,24 +73,20 @@ pnpm preview   # sirve dist/ en http://localhost:4321
 
 ### Agregar un modelo
 
-1. Copia un objeto de `src/data/proyectos.json` y cambia `slug`, `titulo` y el resto.
+1. Copia un objeto de `src/data/proyectos.json` y cambia `titulo`, `superficie` y el resto.
 2. `tipo` controla la ilustración de portada: `torre`, `puente`, `nave` o `tanque`.
-3. `categoria` alimenta los filtros (`Arquitectura`, `Estructura`, `Metálica`,
-   `Hidráulica` u otra que agregues).
-4. `indice` es el número que aparece en la fila y en la portada.
-5. La ficha se genera sola en `/proyectos/<slug>`.
+3. `indice` es el número que aparece en la fila y en la portada.
+4. `superficie` es el dato que se muestra como «Superficie modelada» en la lista.
 
-Campos que usa la ficha: `slug`, `titulo`, `subtitulo`, `tipo`, `disciplina`,
-`categoria`, `anio`, `alcance`, `lod`, `horas`, `planos`, `superficie`, `fuente`,
-`rol`, `noIncluye`, `resumen`, `reto`, `criterio`, `resultado`, `metricas`,
-`estandares`, `software`, `entregables` y `solicitarArchivos`.
+La lista de la portada usa `titulo`, `subtitulo`, `superficie`, `disciplina`,
+`lod`, `anio`, `tipo` e `indice`. El resto de los campos del JSON (reto, criterio,
+entregables, etc.) queda disponible por si se recuperan las fichas de detalle.
 
 ## Visor 3D
 
-La portada muestra el visor en la columna derecha del índice de modelos (compacto,
-300 px) y la página `/proyectos` lo repite a mayor tamaño. Es de solo lectura:
-rotar con el mouse o el dedo, zoom con la rueda o pinza, y un botón para
-reencuadrar. No edita, no mide y no exporta.
+La portada muestra el visor en la columna derecha del índice de modelos
+(compacto, 300 px). Es de solo lectura: rotar con el mouse o el dedo, zoom con la
+rueda o pinza, y un botón para reencuadrar. No edita, no mide y no exporta.
 
 El visor se carga **solo al pulsar «Cargar visor 3D»**. La visita normal no
 descarga three.js, web-ifc, el wasm ni el IFC. Al abrirlo, la primera carga ronda
@@ -153,13 +148,13 @@ pero no es necesaria para empezar.
 **Los modelos publicados son ejercicios de digitalización BIM.** Parten de planos
 2D de referencia pública (PDF o imagen) que se reconstruyeron en Revit para
 demostrar manejo de la herramienta. No son obras diseñadas por el autor, y el
-sitio lo declara en la portada y en cada ficha con una nota de autoría.
+sitio lo declara en la portada con una nota de autoría.
 
 Antes de publicar contenido definitivo:
 
 - Reemplaza los cuatro modelos de muestra por los tuyos, con capturas reales
   de Revit (vistas 3D, plantas, tablas de planificación).
-- Ajusta `fuente` y `noIncluye` en cada ficha según el plano que usaste.
+- Ajusta `superficie` y `noIncluye` en `proyectos.json` según cada modelo.
 - Cambia el retrato («Fotografía pendiente») por una foto profesional.
 - Añade el CV en PDF y enlázalo en la portada.
 - Revisa la nota de autoría: debe nombrar a los autores del diseño original
@@ -168,19 +163,20 @@ Antes de publicar contenido definitivo:
 
 ## Decisiones técnicas
 
+- **Una sola página**: no hay rutas de proyectos ni fichas; todo se resuelve en
+  la portada, que es la que recibe el QR.
 - **Sin frameworks de UI**: HTML, CSS y un script compartido. El sitio pesa poco
   y no depende de hidratación.
 - **SVG generado en el build**: la axonométrica y las láminas se calculan en
   `src/lib/iso.ts` y en los componentes; el navegador solo recibe el resultado.
-- **Datos en JSON**: una ficha nueva no requiere tocar HTML.
+- **Datos en JSON**: un modelo nuevo no requiere tocar HTML.
 - **Contacto sin formulario**: la portada solo muestra canales directos (correo,
   WhatsApp, LinkedIn). Así no hay backend, ni datos que guardar, ni spam.
-- **Archivos .rvt**: no se sirven desde el sitio. Cada ficha abre un correo con
-  el asunto del modelo ya redactado y la entrega se coordina por esa vía.
+- **Archivos .rvt**: no se sirven desde el sitio. La entrega se coordina por correo.
 
 ## Pendientes sugeridos
 
-1. Capturas reales de cada modelo y una galería por ficha.
+1. Capturas reales de cada modelo y una galería en la portada.
 2. Selector de varios modelos en el visor 3D.
 3. Preconvertir IFC a GLB para bajar el peso de la primera carga.
 4. CV en PDF enlazado desde el hero.
@@ -201,9 +197,7 @@ src/
   layouts/Base.astro   head, header, footer, scripts
   components/          Header, Footer, Hoja, Estructura, ProyectoCover, Plano, Visor3D
   pages/
-    index.astro           portada con perfil, servicios, modelos, herramientas, trayectoria y contacto
-    proyectos/index.astro índice con filtros
-    proyectos/[slug].astro
+    index.astro           única página: perfil, servicios, modelos, herramientas, trayectoria y contacto
     sobre-mi.astro        redirección a /#perfil
     contacto.astro        redirección a /#contacto
     404.astro

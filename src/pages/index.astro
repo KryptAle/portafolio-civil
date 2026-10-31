@@ -4,7 +4,7 @@ import Hoja from '../components/Hoja.astro';
 import Estructura from '../components/Estructura.astro';
 import ProyectoCover from '../components/ProyectoCover.astro';
 import Visor3D from '../components/Visor3D.astro';
-import { sitio, ruta } from '../config';
+import { sitio } from '../config';
 import { experiencia, formacion } from '../data/trayectoria';
 import { modelos3d } from '../data/modelos3d';
 import proyectos from '../data/proyectos.json';
@@ -173,30 +173,23 @@ const software = [
     <div class="indice" data-indice>
       <div class="filas">
         {proyectos.map((p, i) => (
-          <a
-            class="fila revelar"
-            href={ruta(`/proyectos/${p.slug}`)}
-            data-fila={String(i)}
-            data-leyenda={`${p.titulo} · ${p.lod}`}
-            style={`--d:${(i * 0.06).toFixed(2)}s`}
-          >
+          <article class="fila revelar" style={`--d:${(i * 0.06).toFixed(2)}s`}>
             <div class="fila__num">{p.indice}</div>
             <div class="fila__cuerpo">
-              <span class="fila__tit">{p.titulo}</span>
-              <span class="fila__sub">{p.subtitulo}</span>
+              <h3 class="fila__tit">{p.titulo}</h3>
+              <p class="fila__sub">{p.subtitulo}</p>
               <div class="fila__fig">
                 <ProyectoCover tipo={p.tipo} indice={p.indice} titulo={p.titulo} />
               </div>
             </div>
             <div class="fila__meta">
-              {p.disciplina}
-              <br />
-              {p.lod} · {p.anio}
+              <span class="fila__cap">Superficie modelada</span>
+              <span class="fila__sup">{p.superficie}</span>
+              <span class="fila__lin">
+                {p.disciplina} · {p.lod} · {p.anio}
+              </span>
             </div>
-            <span class="fila__flecha" aria-hidden="true">
-              ↗
-            </span>
-          </a>
+          </article>
         ))}
       </div>
 
@@ -220,12 +213,6 @@ const software = [
         digitalización para demostrar manejo de Revit, no obras diseñadas por mí.
       </span>
     </p>
-
-    <div style="margin-top:32px">
-      <a class="btn" href={ruta('/proyectos')}>
-        Ver el índice completo <span class="btn__flecha" aria-hidden="true">→</span>
-      </a>
-    </div>
   </section>
 
   <section class="seccion contenedor">

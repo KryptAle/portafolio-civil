@@ -22,7 +22,7 @@ export const sitio = {
 
 export const navegacion = [
   { texto: 'Perfil', href: '/#perfil' },
-  { texto: 'Proyectos', href: '/proyectos' },
+  { texto: 'Modelos', href: '/#proyectos' },
 ];
 
 /**
