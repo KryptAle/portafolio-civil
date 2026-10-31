@@ -14,6 +14,7 @@ export const sitio = {
   telefono: '+58 412 000 0000',
   whatsapp: '584120000000',
   linkedin: 'https://www.linkedin.com/in/alejandroaguilera',
+  certificadoIngles: 'https://cert.efset.org/VXSPPg',
   anio: 2026,
   descripcion:
     'Portafolio BIM: digitalizo planos 2D en modelos Revit. Ejercicios de modelado con alcance, nivel de desarrollo y criterio técnico.',

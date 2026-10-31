@@ -3,16 +3,24 @@ interface Props {
   titulo: string;
   archivo: string;
   nota?: string;
+  compacto?: boolean;
+  alto?: number;
 }
 
-const { titulo, archivo, nota } = Astro.props;
+const { titulo, archivo, nota, compacto = false, alto } = Astro.props;
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 const url = `${base}${archivo}`;
 ---
 
-<div class="visor3d" data-visor data-archivo={url} data-base={base}>
+<div
+  class:list={['visor3d', compacto && 'visor3d--compacto']}
+  data-visor
+  data-archivo={url}
+  data-base={base}
+  style={alto ? `--visor-alto:${alto}px` : undefined}
+>
   <div class="visor3d__marco" data-marco>
     <div class="visor3d__lienzo" data-lienzo></div>
 
@@ -50,7 +58,7 @@ const url = `${base}${archivo}`;
 
   .visor3d__marco {
     position: relative;
-    height: clamp(320px, 40vw, 600px);
+    height: var(--visor-alto, clamp(320px, 40vw, 600px));
     background: #10151a;
     border: 1px solid var(--tinta);
     overflow: hidden;
@@ -163,9 +171,49 @@ const url = `${base}${archivo}`;
     display: none;
   }
 
+  .visor3d--compacto {
+    margin-bottom: 0;
+  }
+
+  .visor3d--compacto .visor3d__marco {
+    height: var(--visor-alto, 300px);
+  }
+
+  .visor3d--compacto .visor3d__inicio {
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .visor3d--compacto .visor3d__tit {
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+  }
+
+  .visor3d--compacto .visor3d__ayuda {
+    display: none;
+  }
+
+  .visor3d--compacto .visor3d__marca {
+    font-size: 7px;
+  }
+
+  .visor3d--compacto .visor3d__nota {
+    font-size: 8.5px;
+    line-height: 1.6;
+    color: var(--grafito);
+  }
+
+  .visor3d--compacto .visor3d__accion {
+    font-size: 8px;
+    padding: 5px 7px;
+  }
+
   @media (max-width: 640px) {
     .visor3d__marco {
-      height: 320px;
+      height: var(--visor-alto, 320px);
+    }
+
+    .visor3d--compacto .visor3d__marco {
+      height: 260px;
     }
 
     .visor3d__hud .eti {

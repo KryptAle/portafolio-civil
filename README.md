@@ -34,10 +34,12 @@ pestaña **Actions** del repositorio.
 - **Fichas individuales** con alcance, LOD, horas, reto de interpretación,
   criterio de modelado, resultado y nota de autoría.
 - Hero axonométrico generado en el build, con ejes, cotas y niveles (SVG puro).
-- **Visor IFC 3D** en «Modelos BIM», con carga bajo demanda (rotar, zoom y
-  encuadrar; sin edición ni medición).
+- **Visor IFC 3D** en la columna derecha de «Modelos BIM» y en `/proyectos`, con
+  carga bajo demanda (rotar, zoom y encuadrar; sin edición ni medición).
 - Láminas técnicas ilustrativas (planta, corte y detalle) dibujadas como SVG.
 - Contacto por canales directos (correo, WhatsApp, LinkedIn), sin formulario.
+- **Certificado de inglés EFSET** enlazado desde «Idiomas» y desde una tarjeta
+  destacada en «Trayectoria».
 - Diseño responsive, foco visible, `prefers-reduced-motion` y metadatos Open Graph.
 - `/sobre-mi` y `/contacto` redirigen a la página principal para no romper enlaces
   antiguos o compartidos.
@@ -59,6 +61,7 @@ pnpm preview   # sirve dist/ en http://localhost:4321
 | Quiero… | Archivo |
 |---|---|
 | Cambiar nombre, correo, ciudad, redes | `src/config.ts` |
+| Cambiar el enlace del certificado de inglés | `src/config.ts` (`certificadoIngles`) |
 | Agregar o editar modelos | `src/data/proyectos.json` |
 | Publicar un modelo en el visor 3D | `src/data/modelos3d.ts` y `public/modelos/` |
 | Cambiar el visor (cámara, luces) | `src/lib/visor3d.ts` y `src/components/Visor3D.astro` |
@@ -85,13 +88,18 @@ Campos que usa la ficha: `slug`, `titulo`, `subtitulo`, `tipo`, `disciplina`,
 
 ## Visor 3D
 
-La sección «Modelos BIM» incluye un visor IFC de solo lectura: rotar con el mouse
-o el dedo, zoom con la rueda o pinza, y un botón para reencuadrar. No edita,
-no mide y no exporta.
+La portada muestra el visor en la columna derecha del índice de modelos (compacto,
+300 px) y la página `/proyectos` lo repite a mayor tamaño. Es de solo lectura:
+rotar con el mouse o el dedo, zoom con la rueda o pinza, y un botón para
+reencuadrar. No edita, no mide y no exporta.
 
 El visor se carga **solo al pulsar «Cargar visor 3D»**. La visita normal no
 descarga three.js, web-ifc, el wasm ni el IFC. Al abrirlo, la primera carga ronda
 los 4 MB comprimidos; el navegador los cachea.
+
+El modelo se gira automáticamente a Z-arriba: se compara la extensión de cada eje
+con el rango de niveles (`IfcBuildingStorey`) y se elige el eje vertical. Así
+funcionan los IFC exportados con la altura en X, en Y o en Z.
 
 ### Publicar un modelo
 

@@ -28,7 +28,8 @@ export async function iniciarVisor({
   avisar('Cargando visor…');
   const THREE = await import('three');
   const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
-  const { IfcAPI } = await import('web-ifc');
+  const webIfc = await import('web-ifc');
+  const { IfcAPI } = webIfc;
 
   const ancho = contenedor.clientWidth || 960;
   const alto = contenedor.clientHeight || 540;
@@ -109,14 +110,64 @@ export async function iniciarVisor({
     }
   }
 
+  grupo.updateMatrixWorld(true);
+  const cajaInicial = new THREE.Box3().setFromObject(grupo);
+  const tamanoInicial = cajaInicial.getSize(new THREE.Vector3());
+
+  /* El IFC puede venir con la altura en X o Y según cómo se exportó.
+     Se compara la extensión de cada eje con el rango de niveles para
+     elegir el eje vertical y girar el modelo a Z-arriba. */
+  const rangoNiveles = (() => {
+    try {
+      const ids = api.GetLineIDsWithType(modeloID, webIfc.IFCBUILDINGSTOREY);
+      const valores: number[] = [];
+      for (let i = 0; i < ids.size(); i++) {
+        const nivel = api.GetLine(modeloID, ids.get(i)) as {
+          Elevation?: number | { value?: number; _representationValue?: number };
+        };
+        const elevacion = nivel?.Elevation;
+        const valor =
+          typeof elevacion === 'number'
+            ? elevacion
+            : (elevacion?.value ?? elevacion?._representationValue);
+        const numero = Number(valor);
+        if (Number.isFinite(numero)) valores.push(numero);
+      }
+      if (valores.length < 2) return null;
+      return Math.max(...valores) - Math.min(...valores);
+    } catch {
+      return null;
+    }
+  })();
+
+  let ejeArriba: 'x' | 'y' | 'z' = 'z';
+  if (rangoNiveles && rangoNiveles > 1) {
+    const ratios = {
+      x: tamanoInicial.x / rangoNiveles,
+      y: tamanoInicial.y / rangoNiveles,
+      z: tamanoInicial.z / rangoNiveles,
+    };
+    let mejor = Infinity;
+    (['x', 'y', 'z'] as const).forEach((eje) => {
+      const distancia = Math.abs(ratios[eje] - 1.08);
+      if (distancia < mejor) {
+        mejor = distancia;
+        ejeArriba = eje;
+      }
+    });
+  }
+
+  if (ejeArriba === 'y') grupo.rotation.x = Math.PI / 2;
+  if (ejeArriba === 'x') grupo.rotation.y = -Math.PI / 2;
+  grupo.updateMatrixWorld(true);
+
   const caja = new THREE.Box3().setFromObject(grupo);
   const centro = caja.getCenter(new THREE.Vector3());
   const tamano = caja.getSize(new THREE.Vector3());
   const mayor = Math.max(tamano.x, tamano.y, tamano.z) || 1;
-
-  grupo.position.sub(centro);
   const escala = 10 / mayor;
   grupo.scale.setScalar(escala);
+  grupo.position.copy(centro).multiplyScalar(-escala);
 
   const rejilla = new THREE.GridHelper(24, 24, 0x2a3a44, 0x1a252d);
   rejilla.rotation.x = Math.PI / 2;
@@ -124,13 +175,48 @@ export async function iniciarVisor({
   escena.add(rejilla);
 
   const encuadrar = () => {
+    const fov = (camara.fov * Math.PI) / 180;
+    const tanV = Math.tan(fov / 2);
+    const tanH = tanV * Math.max(camara.aspect, 1);
+
+    const direccion = new THREE.Vector3(0.57, -0.71, 0.43).normalize();
+    const adelante = direccion.clone().negate();
+    const derecha = new THREE.Vector3().crossVectors(adelante, new THREE.Vector3(0, 0, 1)).normalize();
+    const arriba = new THREE.Vector3().crossVectors(derecha, adelante).normalize();
+
+    const mitad = new THREE.Vector3(
+      (tamano.x * escala) / 2,
+      (tamano.y * escala) / 2,
+      (tamano.z * escala) / 2,
+    );
+
+    let distancia = 0;
+    for (const sx of [-1, 1]) {
+      for (const sy of [-1, 1]) {
+        for (const sz of [-1, 1]) {
+          const punto = new THREE.Vector3(
+            sx * mitad.x,
+            sy * mitad.y,
+            sz * mitad.z,
+          );
+          const fondo = punto.dot(adelante);
+          distancia = Math.max(
+            distancia,
+            fondo + Math.abs(punto.dot(derecha)) / tanH,
+            fondo + Math.abs(punto.dot(arriba)) / tanV,
+          );
+        }
+      }
+    }
+    distancia *= 1.08;
+
     controles.target.set(0, 0, 0);
-    camara.position.set(9, -11, 7);
+    camara.position.copy(direccion.multiplyScalar(distancia));
     camara.near = 0.1;
     camara.far = 200;
     camara.updateProjectionMatrix();
     controles.minDistance = 2;
-    controles.maxDistance = 60;
+    controles.maxDistance = distancia * 4;
     controles.update();
   };
   encuadrar();

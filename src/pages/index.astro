@@ -130,7 +130,12 @@ const software = [
           </div>
           <div class="dato">
             <dt>Idiomas</dt>
-            <dd>Español · Inglés B2</dd>
+            <dd>
+              Español · Inglés B2
+              <a class="dato__cert" href={sitio.certificadoIngles} target="_blank" rel="noopener">
+                ver certificado ↗
+              </a>
+            </dd>
           </div>
           <div class="dato">
             <dt>Disponibilidad</dt>
@@ -165,14 +170,6 @@ const software = [
   <section class="seccion contenedor" id="proyectos">
     <Hoja num="03" titulo="Modelos BIM" meta="Ejercicios de digitalización · 04" />
 
-    {modelos3d.length > 0 && (
-      <Visor3D
-        titulo={modelos3d[0].titulo}
-        archivo={modelos3d[0].archivo}
-        nota={modelos3d[0].nota}
-      />
-    )}
-
     <div class="indice" data-indice>
       <div class="filas">
         {proyectos.map((p, i) => (
@@ -203,23 +200,16 @@ const software = [
         ))}
       </div>
 
-      <aside class="vista" data-vista aria-hidden="true">
-        {proyectos.map((p, i) => (
-          <div
-            class="vista__item"
-            data-cubierta={String(i)}
-            data-activa={i === 0 ? 'true' : 'false'}
-          >
-            <ProyectoCover tipo={p.tipo} indice={p.indice} titulo={p.titulo} />
-          </div>
-        ))}
-        <div class="vista__pie">
-          <span class="eti eti--claro">Vista previa</span>
-          <span class="eti eti--claro" data-vista-pie>
-            {proyectos[0].titulo} · LOD 300
-          </span>
-        </div>
-      </aside>
+      {modelos3d.length > 0 && (
+        <aside class="indice__visor">
+          <Visor3D
+            titulo={modelos3d[0].titulo}
+            archivo={modelos3d[0].archivo}
+            nota={modelos3d[0].nota}
+            compacto
+          />
+        </aside>
+      )}
     </div>
 
     <p class="nota-autoria nota-autoria--ancha">
@@ -290,6 +280,13 @@ const software = [
 
       <div>
         <h3 class="trayectoria__t eti">Formación y cursos</h3>
+
+        <a class="certificado" href={sitio.certificadoIngles} target="_blank" rel="noopener">
+          <span class="certificado__eti">Certificado de inglés</span>
+          <span class="certificado__t">EFSET · B2 Upper Intermediate</span>
+          <span class="certificado__c">Haz clic para ver el certificado ↗</span>
+        </a>
+
         <div class="cursos">
           {formacion.map((c) => (
             <div class="curso revelar">

@@ -1,7 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
 import ProyectoCover from '../../components/ProyectoCover.astro';
+import Visor3D from '../../components/Visor3D.astro';
 import { ruta } from '../../config';
+import { modelos3d } from '../../data/modelos3d';
 import proyectos from '../../data/proyectos.json';
 
 const categorias = ['Todos', ...Array.from(new Set(proyectos.map((p) => p.categoria)))];
@@ -45,6 +47,17 @@ const categorias = ['Todos', ...Array.from(new Set(proyectos.map((p) => p.catego
       </div>
     </div>
   </section>
+
+  {modelos3d.length > 0 && (
+    <section class="contenedor proy__visor">
+      <Visor3D
+        titulo={modelos3d[0].titulo}
+        archivo={modelos3d[0].archivo}
+        nota={modelos3d[0].nota}
+        alto={440}
+      />
+    </section>
+  )}
 
   <section class="contenedor seccion seccion--ajustada">
     <div class="filtros" role="group" aria-label="Filtrar por disciplina">
@@ -102,6 +115,14 @@ const categorias = ['Todos', ...Array.from(new Set(proyectos.map((p) => p.catego
       </span>
     </p>
   </section>
+
+  <style>
+    .proy__visor {
+      max-width: 900px;
+      margin-top: clamp(10px, 2vw, 22px);
+      margin-bottom: clamp(28px, 4vw, 44px);
+    }
+  </style>
 
   <script>
     const botones = document.querySelectorAll('[data-filtro]');
