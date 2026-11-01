@@ -1,10 +1,10 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow" />
-    <title>AdministraciÃ³n Â· Aguilera</title>
+    <title>Administración · Aguilera</title>
     <style>
       :root {
         --papel: #f7f6f1;
@@ -89,14 +89,14 @@
   </head>
   <body>
     <div id="login" class="login">
-      <h1>AdministraciÃ³n</h1>
-      <p>Edita el contenido y publica los cambios en GitHub. La contraseÃ±a se valida en el Worker, no en esta pÃ¡gina.</p>
+      <h1>Administración</h1>
+      <p>Edita el contenido y publica los cambios en GitHub. La contraseña se valida en el Worker, no en esta página.</p>
       <div class="campo">
         <label for="api">URL del Worker</label>
         <input id="api" type="text" placeholder="https://portafolio-admin.tuusuario.workers.dev" />
       </div>
       <div class="campo">
-        <label for="clave">ContraseÃ±a</label>
+        <label for="clave">Contraseña</label>
         <input id="clave" type="password" autocomplete="current-password" />
       </div>
       <div class="campo">
@@ -135,11 +135,11 @@
       const etiquetas = {
         sitio: 'Datos del sitio',
         secciones: 'Secciones',
-        nav: 'NavegaciÃ³n',
+        nav: 'Navegación',
         hero: 'Portada',
-        cifras: 'InformaciÃ³n general',
-        contenido: 'Secciones de la pÃ¡gina',
-        footer: 'Pie de pÃ¡gina',
+        cifras: 'Información general',
+        contenido: 'Secciones de la página',
+        footer: 'Pie de página',
       };
 
       const campo = (clave) =>
@@ -186,7 +186,7 @@
       const subir = async (archivo, destino, alTerminar) => {
         if (!archivo) return;
         if (archivo.size > 12 * 1024 * 1024) {
-          alert('El archivo supera 12 MB. Usa un IFC mÃ¡s liviano o sÃºbelo manualmente al repositorio.');
+          alert('El archivo supera 12 MB. Usa un IFC más liviano o súbelo manualmente al repositorio.');
           return;
         }
         const nombre = prompt('Nombre del archivo (sin espacios):', archivo.name.replace(/\s+/g, '-'));
@@ -313,7 +313,7 @@
                 const subirBtn = document.createElement('button');
                 subirBtn.type = 'button';
                 subirBtn.className = 'btn mini';
-                subirBtn.textContent = 'â†‘';
+                subirBtn.textContent = '↑';
                 subirBtn.disabled = indice === 0;
                 subirBtn.addEventListener('click', () => {
                   [valor[indice - 1], valor[indice]] = [valor[indice], valor[indice - 1]];
@@ -345,7 +345,7 @@
                 const borrar = document.createElement('button');
                 borrar.type = 'button';
                 borrar.className = 'btn mini';
-                borrar.textContent = 'Ã—';
+                borrar.textContent = '×';
                 borrar.addEventListener('click', () => {
                   valor.splice(indice, 1);
                   alCambiar(valor);
@@ -362,7 +362,7 @@
           const agregar = document.createElement('button');
           agregar.type = 'button';
           agregar.className = 'btn mini';
-          agregar.textContent = 'AÃ±adir';
+          agregar.textContent = 'Añadir';
           agregar.addEventListener('click', () => {
             const modelo = valor[0];
             valor.push(modelo && typeof modelo === 'object' ? limpiar(modelo) : '');
@@ -462,7 +462,7 @@
       $('#guardar').addEventListener('click', async () => {
         const boton = $('#guardar');
         boton.disabled = true;
-        $('#estado').textContent = 'Publicandoâ€¦';
+        $('#estado').textContent = 'Publicando…';
         try {
           const datos = await pedir('/content', {
             method: 'PUT',
@@ -473,7 +473,7 @@
             }),
           });
           estado.cambios = false;
-          $('#estado').textContent = `Publicado Â· ${datos.commit?.slice(0, 7) ?? 'ok'}`;
+          $('#estado').textContent = `Publicado · ${datos.commit?.slice(0, 7) ?? 'ok'}`;
           await cargarContenido();
         } catch (error) {
           $('#estado').textContent = error.message;
@@ -497,4 +497,4 @@
     </script>
   </body>
 </html>
-
+
