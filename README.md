@@ -10,8 +10,22 @@ cotas, rótulos y una tinta de señal para el marcado.
 | | |
 |---|---|
 | **Sitio** | https://kryptale.github.io/portafolio-civil/ |
+| **Panel** | https://kryptale.github.io/portafolio-civil/admin/ |
 | **Repositorio** | https://github.com/KryptAle/portafolio-civil |
 | **Despliegue** | GitHub Actions en cada push a `main` |
+
+## Guía completa
+
+La guía de edición, recuperación del proyecto en otro equipo y despliegue está en
+**[GUIA.md](GUIA.md)**. Incluye:
+
+- Cómo clonar el proyecto en Windows o Linux.
+- Qué archivo tocar para contenido, CSS, estructura y modelos IFC.
+- Cómo funciona el panel de administración y el Worker.
+- Cómo publicar, recuperar GitHub Pages y migrar a un dominio propio.
+- Problemas frecuentes (acentos, puerto ocupado, errores del panel).
+
+Empieza por ahí si dentro de unos meses no recuerdas cómo estaba montado todo.
 
 El flujo `.github/workflows/deploy.yml` compila con `BASE_PATH=/portafolio-civil`
 y publica en GitHub Pages. En local la base es `/`, así que `pnpm dev` funciona
