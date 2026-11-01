@@ -1,6 +1,6 @@
 {
   "sitio": {
-    "nombre": "Alejandro Aguilera",
+    "nombre": "Alejandro Aguilera test",
     "nombreCorto": "A. Aguilera",
     "marca": "Aguilera",
     "marcaSigla": "AA",
@@ -74,7 +74,10 @@
     }
   ],
   "nav": {
-    "items": ["perfil", "proyectos"],
+    "items": [
+      "perfil",
+      "proyectos"
+    ],
     "cta": {
       "texto": "Hablemos",
       "href": "#contacto"
@@ -94,10 +97,22 @@
     }
   },
   "cifras": [
-    { "valor": "{{modelos}}", "etiqueta": "Modelos publicados" },
-    { "valor": "300–350", "etiqueta": "Nivel de desarrollo" },
-    { "valor": "Revit", "etiqueta": "Herramienta principal" },
-    { "valor": "Caracas", "etiqueta": "Base de trabajo" }
+    {
+      "valor": "{{modelos}}",
+      "etiqueta": "Modelos publicados"
+    },
+    {
+      "valor": "300–350",
+      "etiqueta": "Nivel de desarrollo"
+    },
+    {
+      "valor": "Revit",
+      "etiqueta": "Herramienta principal"
+    },
+    {
+      "valor": "Caracas",
+      "etiqueta": "Base de trabajo"
+    }
   ],
   "contenido": {
     "perfil": {
@@ -107,14 +122,26 @@
         "También leo planos estructurales y puedo coordinar disciplinas, generar vistas, láminas y recorridos. Me interesa el detalle que hace que un modelo sirva para construir, no solo para presentar."
       ],
       "datos": [
-        { "etiqueta": "Formación", "valor": "Ingeniero civil" },
-        { "etiqueta": "Base", "valor": "{{ciudad}}" },
+        {
+          "etiqueta": "Formación",
+          "valor": "Ingeniero civil"
+        },
+        {
+          "etiqueta": "Base",
+          "valor": "{{ciudad}}"
+        },
         {
           "etiqueta": "Idiomas",
           "valor": "Español · Inglés B2",
-          "enlace": { "texto": "ver certificado ↗", "href": "{{certificado}}" }
+          "enlace": {
+            "texto": "ver certificado ↗",
+            "href": "{{certificado}}"
+          }
         },
-        { "etiqueta": "Disponibilidad", "valor": "Proyectos remotos" }
+        {
+          "etiqueta": "Disponibilidad",
+          "valor": "Proyectos remotos"
+        }
       ],
       "foto": "",
       "fotoAlt": "Retrato de Alejandro Aguilera",
@@ -174,12 +201,42 @@
     },
     "herramientas": {
       "items": [
-        { "nombre": "Revit", "nivel": "Avanzado", "anios": 4, "pct": 92 },
-        { "nombre": "AutoCAD", "nivel": "Avanzado", "anios": 6, "pct": 90 },
-        { "nombre": "Navisworks", "nivel": "Intermedio", "anios": 3, "pct": 72 },
-        { "nombre": "Enscape", "nivel": "Intermedio", "anios": 2, "pct": 68 },
-        { "nombre": "Advance Steel", "nivel": "Básico", "anios": 1, "pct": 48 },
-        { "nombre": "Excel / Python", "nivel": "Intermedio", "anios": 4, "pct": 66 }
+        {
+          "nombre": "Revit",
+          "nivel": "Avanzado",
+          "anios": 4,
+          "pct": 92
+        },
+        {
+          "nombre": "AutoCAD",
+          "nivel": "Avanzado",
+          "anios": 6,
+          "pct": 90
+        },
+        {
+          "nombre": "Navisworks",
+          "nivel": "Intermedio",
+          "anios": 3,
+          "pct": 72
+        },
+        {
+          "nombre": "Enscape",
+          "nivel": "Intermedio",
+          "anios": 2,
+          "pct": 68
+        },
+        {
+          "nombre": "Advance Steel",
+          "nivel": "Básico",
+          "anios": 1,
+          "pct": 48
+        },
+        {
+          "nombre": "Excel / Python",
+          "nivel": "Intermedio",
+          "anios": 4,
+          "pct": 66
+        }
       ]
     },
     "trayectoria": {
@@ -242,26 +299,65 @@
       "pregunta": "¿Tienes planos que<br /><span class=\"em\">necesitas en 3D?</span>",
       "parrafo": "Cuéntame qué documentación tienes y qué nivel de detalle necesitas. Respondo con una primera lectura del alcance y un plazo estimado.",
       "canales": [
-        { "etiqueta": "Correo", "valor": "{{email}}", "href": "mailto:{{email}}" },
-        { "etiqueta": "WhatsApp", "valor": "Escribir mensaje ↗", "href": "https://wa.me/{{whatsapp}}" },
-        { "etiqueta": "LinkedIn", "valor": "/in/alejandroaguilera ↗", "href": "{{linkedin}}" },
-        { "etiqueta": "Ubicación", "valor": "{{ciudad}}" }
+        {
+          "etiqueta": "Correo",
+          "valor": "{{email}}",
+          "href": "mailto:{{email}}"
+        },
+        {
+          "etiqueta": "WhatsApp",
+          "valor": "Escribir mensaje ↗",
+          "href": "https://wa.me/{{whatsapp}}"
+        },
+        {
+          "etiqueta": "LinkedIn",
+          "valor": "/in/alejandroaguilera ↗",
+          "href": "{{linkedin}}"
+        },
+        {
+          "etiqueta": "Ubicación",
+          "valor": "{{ciudad}}"
+        }
       ],
       "aviso": "Si ya tienes los planos, adjunta una muestra en el primer mensaje. Los archivos se comparten después por enlace seguro."
     }
   },
   "footer": {
     "rotulo": [
-      { "etiqueta": "Documento", "valor": "Portafolio profesional" },
-      { "etiqueta": "Autor", "valor": "{{nombre}}" },
-      { "etiqueta": "Escala / estado", "valor": "1:100 · Borrador" },
-      { "etiqueta": "Lámina", "valor": "00 / {{anio}}" }
+      {
+        "etiqueta": "Documento",
+        "valor": "Portafolio profesional"
+      },
+      {
+        "etiqueta": "Autor",
+        "valor": "{{nombre}}"
+      },
+      {
+        "etiqueta": "Escala / estado",
+        "valor": "1:100 · Borrador"
+      },
+      {
+        "etiqueta": "Lámina",
+        "valor": "00 / {{anio}}"
+      }
     ],
     "nav": [
-      { "texto": "Inicio", "href": "/" },
-      { "texto": "Perfil", "href": "#perfil" },
-      { "texto": "Modelos", "href": "#proyectos" },
-      { "texto": "Contacto", "href": "#contacto" }
+      {
+        "texto": "Inicio",
+        "href": "/"
+      },
+      {
+        "texto": "Perfil",
+        "href": "#perfil"
+      },
+      {
+        "texto": "Modelos",
+        "href": "#proyectos"
+      },
+      {
+        "texto": "Contacto",
+        "href": "#contacto"
+      }
     ],
     "legal": "© {{anio}} {{nombre}} · Contenido de muestra para revisión de diseño"
   }
