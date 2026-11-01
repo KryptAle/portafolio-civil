@@ -33,6 +33,8 @@ pestaña **Actions** del repositorio.
 - **Lista de modelos** con superficie modelada, disciplina, LOD y año, más nota
   de autoría. Sin fichas ni rutas adicionales.
 - Hero axonométrico generado en el build, con ejes, cotas y niveles (SVG puro).
+  Sus seis niveles son enlaces: al pasar el mouse se resaltan y al pulsarlos
+  llevan a cada sección.
 - **Visor IFC 3D** en la columna derecha de «Modelos BIM», con carga bajo demanda
   (rotar, zoom y encuadrar; sin edición ni medición).
 - Láminas técnicas ilustrativas (planta, corte y detalle) dibujadas como SVG.
@@ -91,6 +93,10 @@ rueda o pinza, y un botón para reencuadrar. No edita, no mide y no exporta.
 El visor se carga **solo al pulsar «Cargar visor 3D»**. La visita normal no
 descarga three.js, web-ifc, el wasm ni el IFC. Al abrirlo, la primera carga ronda
 los 4 MB comprimidos; el navegador los cachea.
+
+El render es bajo demanda: solo dibuja cuando la cámara se mueve o el panel es
+visible, y se detiene al quedar fuera de pantalla o al ocultar la pestaña. Los
+materiales se comparten por color para reducir estados y memoria.
 
 El modelo se gira automáticamente a Z-arriba: se compara la extensión de cada eje
 con el rango de niveles (`IfcBuildingStorey`) y se elige el eje vertical. Así

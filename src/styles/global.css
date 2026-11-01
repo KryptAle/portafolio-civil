@@ -513,6 +513,58 @@ ol {
   fill: var(--senal);
 }
 
+/* Niveles clicables de la axonométrica */
+.iso-nivel {
+  cursor: pointer;
+}
+
+.iso-nivel:focus {
+  outline: none;
+}
+
+.iso-placa {
+  fill: var(--senal);
+  fill-opacity: 0;
+  stroke: var(--senal);
+  stroke-width: 1;
+  stroke-opacity: 0;
+  transition: fill-opacity 0.18s ease, stroke-opacity 0.18s ease;
+}
+
+.iso-nivel:hover .iso-placa,
+.iso-nivel:focus-visible .iso-placa {
+  fill-opacity: 0.13;
+  stroke-opacity: 0.45;
+}
+
+.iso-nivel__texto {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  fill: var(--tinta);
+  transition: fill 0.18s ease;
+}
+
+.iso-nivel__num {
+  fill: var(--senal);
+}
+
+.iso-nivel__linea {
+  stroke: var(--linea-fuerte);
+  stroke-width: 1;
+  transition: stroke 0.18s ease;
+}
+
+.iso-nivel:hover .iso-nivel__texto,
+.iso-nivel:focus-visible .iso-nivel__texto {
+  fill: var(--senal);
+}
+
+.iso-nivel:hover .iso-nivel__linea,
+.iso-nivel:focus-visible .iso-nivel__linea {
+  stroke: var(--senal);
+}
+
 @keyframes trazar {
   to {
     stroke-dashoffset: 0;

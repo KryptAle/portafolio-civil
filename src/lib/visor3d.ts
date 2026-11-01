@@ -42,7 +42,7 @@ export async function iniciarVisor({
   camara.up.set(0, 0, 1);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.setSize(ancho, alto);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.domElement.addEventListener('contextmenu', (evento) => evento.preventDefault());
@@ -73,19 +73,33 @@ export async function iniciarVisor({
   let tamano = new THREE.Vector3(1, 1, 1);
   let escala = 1;
 
+  /* Los materiales se comparten por color: menos estados y menos memoria. */
+  const materiales = new Map<string, InstanceType<typeof THREE.MeshStandardMaterial>>();
+  const materialPara = (color: { x: number; y: number; z: number }) => {
+    const clave = `${color.x.toFixed(3)},${color.y.toFixed(3)},${color.z.toFixed(3)}`;
+    let material = materiales.get(clave);
+    if (!material) {
+      material = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(color.x, color.y, color.z),
+        roughness: 0.85,
+        metalness: 0.02,
+      });
+      materiales.set(clave, material);
+    }
+    return material;
+  };
+
   const limpiar = () => {
     if (grupo) {
       grupo.traverse((objeto) => {
         const malla = objeto as InstanceType<typeof THREE.Mesh>;
-        if (malla.isMesh) {
-          malla.geometry.dispose();
-          const material = malla.material as InstanceType<typeof THREE.Material>;
-          material.dispose();
-        }
+        if (malla.isMesh) malla.geometry.dispose();
       });
       escena.remove(grupo);
       grupo = null;
     }
+    for (const material of materiales.values()) material.dispose();
+    materiales.clear();
     if (modeloID >= 0) {
       api.CloseModel(modeloID);
       modeloID = -1;
@@ -151,11 +165,7 @@ export async function iniciarVisor({
         bufferGeom.setIndex(new THREE.BufferAttribute(indices, 1));
 
         const color = colocada.color;
-        const material = new THREE.MeshStandardMaterial({
-          color: new THREE.Color(color.x, color.y, color.z),
-          roughness: 0.85,
-          metalness: 0.02,
-        });
+        const material = materialPara(color);
 
         const objeto = new THREE.Mesh(bufferGeom, material);
         objeto.matrixAutoUpdate = false;
@@ -232,6 +242,8 @@ export async function iniciarVisor({
 
     grupo = nuevoGrupo;
     encuadrar();
+    sucio = true;
+    despertar();
     avisar('');
   };
 
@@ -279,6 +291,58 @@ export async function iniciarVisor({
     controles.update();
   };
 
+  let sucio = true;
+  let animando = false;
+  let visible = true;
+
+  function dibujar() {
+    const movido = controles.update();
+    if (movido || sucio) {
+      renderer.render(escena, camara);
+      sucio = false;
+    }
+    if (!movido && !sucio) {
+      animando = false;
+      renderer.setAnimationLoop(null);
+    }
+  }
+
+  function despertar() {
+    if (!visible) return;
+    sucio = true;
+    if (animando) return;
+    animando = true;
+    renderer.setAnimationLoop(dibujar);
+  }
+
+  controles.addEventListener('start', despertar);
+  controles.addEventListener('change', despertar);
+  renderer.domElement.addEventListener('wheel', despertar, { passive: true });
+
+  const observadorVisibilidad = new IntersectionObserver(
+    (entradas) => {
+      visible = entradas[0]?.isIntersecting ?? true;
+      if (visible) {
+        despertar();
+      } else {
+        animando = false;
+        renderer.setAnimationLoop(null);
+      }
+    },
+    { rootMargin: '160px' },
+  );
+  observadorVisibilidad.observe(contenedor);
+
+  const alCambiarVisibilidad = () => {
+    if (document.hidden) {
+      animando = false;
+      renderer.setAnimationLoop(null);
+    } else {
+      despertar();
+    }
+  };
+  document.addEventListener('visibilitychange', alCambiarVisibilidad);
+
   const redimensionar = () => {
     const w = contenedor.clientWidth;
     const h = contenedor.clientHeight;
@@ -286,23 +350,26 @@ export async function iniciarVisor({
     camara.aspect = w / h;
     camara.updateProjectionMatrix();
     renderer.setSize(w, h);
+    sucio = true;
+    despertar();
   };
   const observador = new ResizeObserver(redimensionar);
   observador.observe(contenedor);
 
-  renderer.setAnimationLoop(() => {
-    controles.update();
-    renderer.render(escena, camara);
-  });
-
   await cargar(archivo);
 
   return {
-    reencuadrar: encuadrar,
+    reencuadrar: () => {
+      encuadrar();
+      sucio = true;
+      despertar();
+    },
     cambiar: cargar,
     destruir: () => {
       renderer.setAnimationLoop(null);
       observador.disconnect();
+      observadorVisibilidad.disconnect();
+      document.removeEventListener('visibilitychange', alCambiarVisibilidad);
       limpiar();
       renderer.dispose();
       contenedor.removeChild(renderer.domElement);

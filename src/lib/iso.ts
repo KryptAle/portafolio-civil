@@ -13,7 +13,17 @@ export type Linea = {
   fuerza: number;
 };
 
-export type Nivel = { x: number; y: number; texto: string };
+export type EtiquetaNivel = {
+  numero: string;
+  nombre: string;
+  href: string;
+};
+
+export type Nivel = EtiquetaNivel & {
+  x: number;
+  y: number;
+  puntos: string;
+};
 
 export type Dibujo = {
   lineas: Linea[];
@@ -37,6 +47,7 @@ type Opciones = {
   vano?: number;
   alturaPiso?: number;
   u?: number;
+  etiquetas?: EtiquetaNivel[];
 };
 
 export function generarEstructura(opciones: Opciones = {}): Dibujo {
@@ -47,11 +58,13 @@ export function generarEstructura(opciones: Opciones = {}): Dibujo {
     vano = 6,
     alturaPiso = 3.2,
     u = 13,
+    etiquetas = [],
   } = opciones;
 
+  const totalPisos = etiquetas.length > 0 ? etiquetas.length : pisos;
   const X = vanosX * vano;
   const Y = vanosY * vano;
-  const H = pisos * alturaPiso;
+  const H = totalPisos * alturaPiso;
   const ext = vano * 0.55;
 
   // Proyección isométrica: x crece a la derecha-abajo, y a la izquierda-abajo, z hacia arriba.
@@ -83,7 +96,7 @@ export function generarEstructura(opciones: Opciones = {}): Dibujo {
   medir(X + ext, Y + ext, 0);
 
   const padL = 64;
-  const padR = 74;
+  const padR = etiquetas.length > 0 ? 224 : 74;
   const padT = 30;
   const padB = 34;
   const dx = padL - minX;
@@ -116,7 +129,7 @@ export function generarEstructura(opciones: Opciones = {}): Dibujo {
   }
 
   // Columnas piso a piso.
-  for (let f = 0; f < pisos; f++) {
+  for (let f = 0; f < totalPisos; f++) {
     const z0 = f * alturaPiso;
     const z1 = z0 + alturaPiso;
     for (let i = 0; i <= vanosX; i++) {
@@ -134,7 +147,7 @@ export function generarEstructura(opciones: Opciones = {}): Dibujo {
   }
 
   // Losas: contorno de cada nivel.
-  for (let f = 0; f <= pisos; f++) {
+  for (let f = 0; f <= totalPisos; f++) {
     const z = f * alturaPiso;
     const d = 0.18 + f * 0.07;
     push(P(0, 0, z), P(X, 0, z), 'losa', d, 1);
@@ -156,17 +169,26 @@ export function generarEstructura(opciones: Opciones = {}): Dibujo {
     cara.map(([px, py]) => `${px.toFixed(1)},${py.toFixed(1)}`).join(' '),
   );
 
-  // Cotas de nivel al costado derecho.
+  // Un nivel por sección: placa clicable y etiqueta a la derecha.
   const niveles: Nivel[] = [];
-  const nivelesVisibles = [0, Math.round(pisos / 3), Math.round((2 * pisos) / 3), pisos];
-  nivelesVisibles.forEach((f) => {
-    const [px, py] = P(X, 0, f * alturaPiso);
+  for (let f = 0; f < totalPisos; f++) {
+    const z = f * alturaPiso;
+    const [px, py] = P(X, 0, z);
+    const etiqueta = etiquetas[f] ?? {
+      numero: String(f + 1).padStart(2, '0'),
+      nombre: `N+${(z).toFixed(2).replace('.', ',')}`,
+      href: '#',
+    };
+
     niveles.push({
-      x: Math.round(px + 16),
-      y: Math.round(py + 3),
-      texto: `N+${(f * alturaPiso).toFixed(2).replace('.', ',')}`,
+      ...etiqueta,
+      x: Math.round(px + 54),
+      y: Math.round(py + 4),
+      puntos: [P(0, 0, z), P(X, 0, z), P(X, Y, z), P(0, Y, z)]
+        .map(([a, b]) => `${a.toFixed(1)},${b.toFixed(1)}`)
+        .join(' '),
     });
-  });
+  }
 
   // Cota vertical total a la izquierda.
   const [izqX, izqY] = P(0, Y, 0);
