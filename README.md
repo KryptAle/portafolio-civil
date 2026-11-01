@@ -62,7 +62,7 @@ pnpm preview   # sirve dist/ en http://localhost:4321
 | Cambiar nombre, correo, ciudad, redes | `src/config.ts` |
 | Cambiar el enlace del certificado de inglés | `src/config.ts` (`certificadoIngles`) |
 | Agregar o editar modelos | `src/data/proyectos.json` |
-| Publicar un modelo en el visor 3D | `src/data/modelos3d.ts` y `public/modelos/` |
+| Publicar un modelo en el visor 3D | `src/data/proyectos.json` y `public/modelos/` |
 | Cambiar el visor (cámara, luces) | `src/lib/visor3d.ts` y `src/components/Visor3D.astro` |
 | Cambiar experiencia y formación | `src/data/trayectoria.ts` |
 | Ajustar colores, retícula, tipografía | `src/styles/global.css` |
@@ -73,14 +73,14 @@ pnpm preview   # sirve dist/ en http://localhost:4321
 
 ### Agregar un modelo
 
-1. Copia un objeto de `src/data/proyectos.json` y cambia `titulo`, `superficie` y el resto.
+1. Copia un objeto de `src/data/proyectos.json` y cambia `titulo`, `archivo` y el resto.
 2. `tipo` controla la ilustración de portada: `torre`, `puente`, `nave` o `tanque`.
 3. `indice` es el número que aparece en la fila y en la portada.
-4. `superficie` es el dato que se muestra como «Superficie modelada» en la lista.
+4. `archivo` es el IFC que carga el visor al seleccionar esa fila.
+5. `superficie` se muestra como «Superficie modelada» si tiene un valor.
 
-La lista de la portada usa `titulo`, `subtitulo`, `superficie`, `disciplina`,
-`lod`, `anio`, `tipo` e `indice`. El resto de los campos del JSON (reto, criterio,
-entregables, etc.) queda disponible por si se recuperan las fichas de detalle.
+La lista de la portada usa `titulo`, `subtitulo`, `superficie`, `meta`, `tipo`,
+`indice` y `archivo`.
 
 ## Visor 3D
 
@@ -100,15 +100,25 @@ funcionan los IFC exportados con la altura en X, en Y o en Z.
 
 1. Exporta el modelo a **IFC** desde Revit (IFC 2x3 o IFC4).
 2. Copia el archivo a `public/modelos/mi-modelo.ifc`.
-3. Agrega la entrada en `src/data/modelos3d.ts`:
-   ```ts
-   { id: 'mi-modelo', titulo: 'Mi modelo', archivo: 'modelos/mi-modelo.ifc', nota: 'IFC 2x3 · …' }
+3. Agrega la entrada en `src/data/proyectos.json`:
+   ```json
+   {
+     "id": "mi-modelo",
+     "indice": "03",
+     "titulo": "Mi modelo",
+     "subtitulo": "Descripción breve",
+     "tipo": "torre",
+     "meta": "Estructura · 5 niveles",
+     "superficie": "",
+     "archivo": "modelos/mi-modelo.ifc",
+     "nota": "IFC 2x3 · 5 niveles · exportado de Revit"
+   }
    ```
 4. Commit y push. GitHub Pages reconstruye y el modelo aparece.
 
-Hoy el componente muestra el primer modelo de la lista. Para un selector con
-varios modelos hay que añadir las pestañas en `Visor3D.astro` (queda como
-siguiente paso).
+Cada fila de la lista es un botón: al pulsarla, el visor carga ese archivo y el
+resto se atenúa. La primera vez descarga y procesa el IFC; después el navegador
+lo cachea. Los modelos grandes muestran el progreso de descarga en porcentaje.
 
 El motor `web-ifc` se sirve desde `public/web-ifc.wasm`. Si actualizas la
 dependencia, vuelve a copiar `node_modules/web-ifc/web-ifc.wasm` a `public/`.
@@ -177,11 +187,10 @@ Antes de publicar contenido definitivo:
 ## Pendientes sugeridos
 
 1. Capturas reales de cada modelo y una galería en la portada.
-2. Selector de varios modelos en el visor 3D.
-3. Preconvertir IFC a GLB para bajar el peso de la primera carga.
-4. CV en PDF enlazado desde el hero.
-5. Analítica ligera (Plausible/Umami) y `sitemap.xml`.
-6. Versión en inglés.
+2. Preconvertir IFC a GLB para bajar el peso de la primera carga (Proyecto 2 pesa 44,5 MB).
+3. CV en PDF enlazado desde el hero.
+4. Analítica ligera (Plausible/Umami) y `sitemap.xml`.
+5. Versión en inglés.
 
 ## Estructura
 
@@ -190,7 +199,6 @@ src/
   config.ts            datos personales, navegación y helper de base
   data/proyectos.json  contenido de los modelos
   data/trayectoria.ts  experiencia y formación
-  data/modelos3d.ts    modelos publicados en el visor
   lib/iso.ts           geometría axonométrica del hero
   lib/visor3d.ts       visor IFC (three.js + web-ifc)
   styles/global.css    sistema visual completo

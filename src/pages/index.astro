@@ -2,15 +2,15 @@
 import Base from '../layouts/Base.astro';
 import Hoja from '../components/Hoja.astro';
 import Estructura from '../components/Estructura.astro';
-import ProyectoCover from '../components/ProyectoCover.astro';
 import Visor3D from '../components/Visor3D.astro';
 import { sitio } from '../config';
 import { experiencia, formacion } from '../data/trayectoria';
-import { modelos3d } from '../data/modelos3d';
 import proyectos from '../data/proyectos.json';
 
+const publicados = String(proyectos.length).padStart(2, '0');
+
 const cifras = [
-  { n: '04', l: 'Modelos publicados' },
+  { n: publicados, l: 'Modelos publicados' },
   { n: '300–350', l: 'Nivel de desarrollo' },
   { n: 'Revit', l: 'Herramienta principal' },
   { n: 'Caracas', l: 'Base de trabajo' },
@@ -168,37 +168,44 @@ const software = [
   </section>
 
   <section class="seccion contenedor" id="proyectos">
-    <Hoja num="03" titulo="Modelos BIM" meta="Ejercicios de digitalización · 04" />
+    <Hoja num="03" titulo="Modelos BIM" meta={`Ejercicios de digitalización · ${publicados}`} />
 
     <div class="indice" data-indice>
       <div class="filas">
         {proyectos.map((p, i) => (
-          <article class="fila revelar" style={`--d:${(i * 0.06).toFixed(2)}s`}>
-            <div class="fila__num">{p.indice}</div>
-            <div class="fila__cuerpo">
-              <h3 class="fila__tit">{p.titulo}</h3>
-              <p class="fila__sub">{p.subtitulo}</p>
-              <div class="fila__fig">
-                <ProyectoCover tipo={p.tipo} indice={p.indice} titulo={p.titulo} />
-              </div>
-            </div>
-            <div class="fila__meta">
-              <span class="fila__cap">Superficie modelada</span>
-              <span class="fila__sup">{p.superficie}</span>
-              <span class="fila__lin">
-                {p.disciplina} · {p.lod} · {p.anio}
-              </span>
-            </div>
-          </article>
+          <button
+            class="fila revelar"
+            type="button"
+            data-modelo={p.archivo}
+            data-titulo={p.titulo}
+            data-nota={p.nota}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+            style={`--d:${(i * 0.06).toFixed(2)}s`}
+          >
+            <span class="fila__num">{p.indice}</span>
+            <span class="fila__cuerpo">
+              <span class="fila__tit">{p.titulo}</span>
+              <span class="fila__sub">{p.subtitulo}</span>
+            </span>
+            <span class="fila__meta">
+              {p.superficie && (
+                <>
+                  <span class="fila__cap">Superficie modelada</span>
+                  <span class="fila__sup">{p.superficie}</span>
+                </>
+              )}
+              <span class="fila__lin">{p.meta}</span>
+            </span>
+          </button>
         ))}
       </div>
 
-      {modelos3d.length > 0 && (
+      {proyectos.length > 0 && (
         <aside class="indice__visor">
           <Visor3D
-            titulo={modelos3d[0].titulo}
-            archivo={modelos3d[0].archivo}
-            nota={modelos3d[0].nota}
+            titulo={proyectos[0].titulo}
+            archivo={proyectos[0].archivo}
+            nota={proyectos[0].nota}
             compacto
           />
         </aside>
@@ -331,4 +338,25 @@ const software = [
       </aside>
     </div>
   </section>
+
+  <script>
+    const visor = document.querySelector('[data-visor]');
+    const filas = document.querySelectorAll('[data-modelo]');
+
+    filas.forEach((fila) => {
+      fila.addEventListener('click', () => {        filas.forEach((otra) => otra.setAttribute('aria-pressed', String(otra === fila)));
+
+        const api = visor?.visorAPI;
+        api?.cargar({
+          archivo: fila.dataset.modelo,
+          titulo: fila.dataset.titulo,
+          nota: fila.dataset.nota,
+        });
+
+        if (window.matchMedia('(max-width: 1080px)').matches) {
+          visor?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+  </script>
 </Base>

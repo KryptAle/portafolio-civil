@@ -26,7 +26,7 @@ const url = `${base}${archivo}`;
 
     <div class="visor3d__inicio" data-inicio>
       <span class="eti eti--claro">Modelo 3D · IFC</span>
-      <h3 class="visor3d__tit">{titulo}</h3>
+      <h3 class="visor3d__tit" data-titulo>{titulo}</h3>
       <button class="btn btn--claro" type="button" data-cargar>
         Cargar visor 3D <span class="btn__flecha" aria-hidden="true">→</span>
       </button>
@@ -46,7 +46,7 @@ const url = `${base}${archivo}`;
     <span class="visor3d__marca">© Alejandro Aguilera · uso autorizado</span>
   </div>
 
-  {nota && <p class="visor3d__nota eti">{nota}</p>}
+  <p class="visor3d__nota eti" data-nota>{nota ?? ''}</p>
 </div>
 
 <style>
@@ -238,6 +238,10 @@ const url = `${base}${archivo}`;
     if (!boton || !lienzo || !marco) return;
 
     let visor = null;
+    let cargando = false;
+    let iniciado = false;
+    const tituloEl = elemento.querySelector('[data-titulo]');
+    const notaEl = elemento.querySelector('[data-nota]');
 
     const mostrarEstado = (texto: string) => {
       if (!estado) return;
@@ -245,33 +249,59 @@ const url = `${base}${archivo}`;
       if (estadoTexto) estadoTexto.textContent = texto;
     };
 
-    boton.addEventListener('click', async () => {
-      const archivo = elemento.dataset.archivo;
+    const actualizar = (datos) => {
+      if (datos.titulo && tituloEl) tituloEl.textContent = datos.titulo;
+      if (datos.nota && notaEl) notaEl.textContent = datos.nota;
+      if (datos.archivo) elemento.dataset.archivo = datos.archivo;
+    };
+
+    const cargar = async (datos) => {
+      if (cargando) return;
+      const archivo = datos.archivo ?? elemento.dataset.archivo;
       const base = elemento.dataset.base;
       if (!archivo || !base) return;
 
-      boton.disabled = true;
-      boton.textContent = 'Cargando…';
-      mostrarEstado('Cargando visor…');
+      actualizar(datos);
+      cargando = true;
+
+      if (!iniciado) {
+        boton.disabled = true;
+        boton.textContent = 'Cargando…';
+        mostrarEstado('Cargando visor…');
+      } else {
+        mostrarEstado('Cambiando modelo…');
+      }
 
       try {
-        const { iniciarVisor } = await import('../lib/visor3d');
-        visor = await iniciarVisor({
-          contenedor: lienzo,
-          archivo,
-          base,
-          onEstado: mostrarEstado,
-        });
-        if (inicio) inicio.hidden = true;
-        if (hud) hud.hidden = false;
+        if (!visor) {
+          const { iniciarVisor } = await import('../lib/visor3d');
+          visor = await iniciarVisor({
+            contenedor: lienzo,
+            archivo,
+            base,
+            onEstado: mostrarEstado,
+          });
+          iniciado = true;
+          if (inicio) inicio.hidden = true;
+          if (hud) hud.hidden = false;
+        } else {
+          await visor.cambiar(archivo);
+        }
         mostrarEstado('');
       } catch (error) {
         console.error(error);
         mostrarEstado('No se pudo cargar el modelo 3D.');
+        if (!iniciado && inicio) inicio.hidden = false;
+      } finally {
+        cargando = false;
         boton.disabled = false;
-        boton.textContent = 'Reintentar';
+        boton.textContent = 'Cargar visor 3D';
       }
-    });
+    };
+
+    boton.addEventListener('click', () => cargar({ archivo: elemento.dataset.archivo }));
+
+    elemento.visorAPI = { cargar };
 
     elemento.querySelector('[data-reset]')?.addEventListener('click', () => visor?.reencuadrar());
 

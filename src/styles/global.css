@@ -623,9 +623,29 @@ ol {
   grid-template-columns: 46px minmax(0, 1fr) auto;
   gap: 18px;
   align-items: center;
+  width: 100%;
   padding: 24px 6px;
+  background: none;
+  border: 0;
   border-bottom: 1px solid var(--linea);
   color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.fila:hover {
+  background: rgba(21, 24, 26, 0.03);
+}
+
+.fila[aria-pressed='true'] {
+  background: rgba(194, 58, 31, 0.055);
+  box-shadow: inset 2px 0 var(--senal);
+}
+
+.fila[aria-pressed='true'] .fila__num {
+  color: var(--senal);
 }
 
 .fila__num {
