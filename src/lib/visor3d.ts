@@ -43,7 +43,8 @@ export async function iniciarVisor({
   camara.up.set(0, 0, 1);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  const movil = window.matchMedia('(max-width: 720px)').matches;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, movil ? 1 : 1.5));
   renderer.setSize(ancho, alto);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.domElement.addEventListener('contextmenu', (evento) => evento.preventDefault());

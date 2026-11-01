@@ -1765,6 +1765,10 @@ ol {
 /* ---------------------------------------------------------------- responsive */
 
 @media (max-width: 1080px) {
+  .iso {
+    will-change: auto;
+  }
+
   .indice {
     grid-template-columns: 1fr;
   }
