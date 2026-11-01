@@ -1,8 +1,8 @@
-/**
- * API del panel de administración.
+﻿/**
+ * API del panel de administraciÃ³n.
  *
- * Secretos (Cloudflare → Settings → Variables and Secrets):
- *   ADMIN_PASSWORD   contraseña del panel (nunca se guarda en el repo)
+ * Secretos (Cloudflare â†’ Settings â†’ Variables and Secrets):
+ *   ADMIN_PASSWORD   contraseÃ±a del panel (nunca se guarda en el repo)
  *   SESSION_SECRET   cadena aleatoria larga para firmar sesiones
  *   GITHUB_TOKEN     token fine-grained con Contents: Read and write
  *   GITHUB_REPO      usuario/repositorio, por ejemplo KryptAle/portafolio-civil
@@ -11,7 +11,7 @@
  */
 
 const RUTA_CONTENIDO = 'src/data/sitio.json';
-const MAX_SUBIDA = 9 * 1024 * 1024;
+const MAX_SUBIDA = 12 * 1024 * 1024;
 const DURACION_SESION = 12 * 60 * 60;
 
 const codificador = new TextEncoder();
@@ -154,7 +154,7 @@ const guardarContenido = async (env, contenido, sha, mensaje) => {
 const subirArchivo = async (env, archivo, destino, mensaje) => {
   const bytes = new Uint8Array(await archivo.arrayBuffer());
   if (bytes.byteLength > MAX_SUBIDA) {
-    throw new Error('El archivo supera el límite de 9 MB del Worker.');
+    throw new Error('El archivo supera el lÃ­mite de 9 MB del Worker.');
   }
   let sha;
   try {
@@ -189,7 +189,7 @@ export default {
       if (url.pathname === '/login' && request.method === 'POST') {
         const { password } = await request.json();
         if (!password || !compararSeguro(String(password), String(env.ADMIN_PASSWORD ?? ''))) {
-          return json({ error: 'Contraseña incorrecta' }, 401, cabeceras);
+          return json({ error: 'ContraseÃ±a incorrecta' }, 401, cabeceras);
         }
         const ahora = Math.floor(Date.now() / 1000);
         const token = await firmar(
@@ -200,7 +200,7 @@ export default {
       }
 
       const sesion = await autenticado(request, env);
-      if (!sesion) return json({ error: 'Sesión no válida' }, 401, cabeceras);
+      if (!sesion) return json({ error: 'SesiÃ³n no vÃ¡lida' }, 401, cabeceras);
 
       if (url.pathname === '/content' && request.method === 'GET') {
         const { contenido, sha } = await leerContenido(env);
@@ -210,7 +210,7 @@ export default {
       if (url.pathname === '/content' && request.method === 'PUT') {
         const cuerpo = await request.json();
         if (!cuerpo || typeof cuerpo.contenido !== 'object' || Array.isArray(cuerpo.contenido)) {
-          return json({ error: 'Contenido inválido' }, 400, cabeceras);
+          return json({ error: 'Contenido invÃ¡lido' }, 400, cabeceras);
         }
         if (!cuerpo.contenido.sitio || !Array.isArray(cuerpo.contenido.secciones)) {
           return json({ error: 'Faltan sitio o secciones' }, 400, cabeceras);
@@ -244,3 +244,4 @@ export default {
     }
   },
 };
+
