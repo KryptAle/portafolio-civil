@@ -344,7 +344,8 @@ const software = [
     const filas = document.querySelectorAll('[data-modelo]');
 
     filas.forEach((fila) => {
-      fila.addEventListener('click', () => {        filas.forEach((otra) => otra.setAttribute('aria-pressed', String(otra === fila)));
+      fila.addEventListener('click', () => {
+        filas.forEach((otra) => otra.setAttribute('aria-pressed', String(otra === fila)));
 
         const api = visor?.visorAPI;
         api?.cargar({

@@ -95,8 +95,9 @@ descarga three.js, web-ifc, el wasm ni el IFC. Al abrirlo, la primera carga rond
 los 4 MB comprimidos; el navegador los cachea.
 
 El render es bajo demanda: solo dibuja cuando la cámara se mueve o el panel es
-visible, y se detiene al quedar fuera de pantalla o al ocultar la pestaña. Los
-materiales se comparten por color para reducir estados y memoria.
+visible, y se detiene al quedar fuera de pantalla o al ocultar la pestaña. La
+geometría se fusiona por material (una malla por color) y se usan materiales
+Lambert, para que Firefox no se sature con cientos de draw calls.
 
 El modelo se gira automáticamente a Z-arriba: se compara la extensión de cada eje
 con el rango de niveles (`IfcBuildingStorey`) y se elige el eje vertical. Así

@@ -29,6 +29,7 @@ export async function iniciarVisor({
   avisar('Cargando visor…');
   const THREE = await import('three');
   const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
+  const { mergeGeometries } = await import('three/addons/utils/BufferGeometryUtils.js');
   const webIfc = await import('web-ifc');
   const { IfcAPI } = webIfc;
 
@@ -73,16 +74,14 @@ export async function iniciarVisor({
   let tamano = new THREE.Vector3(1, 1, 1);
   let escala = 1;
 
-  /* Los materiales se comparten por color: menos estados y menos memoria. */
-  const materiales = new Map<string, InstanceType<typeof THREE.MeshStandardMaterial>>();
+  /* Materiales planos y compartidos: más baratos que PBR, sobre todo en Firefox. */
+  const materiales = new Map<string, InstanceType<typeof THREE.MeshLambertMaterial>>();
   const materialPara = (color: { x: number; y: number; z: number }) => {
     const clave = `${color.x.toFixed(3)},${color.y.toFixed(3)},${color.z.toFixed(3)}`;
     let material = materiales.get(clave);
     if (!material) {
-      material = new THREE.MeshStandardMaterial({
+      material = new THREE.MeshLambertMaterial({
         color: new THREE.Color(color.x, color.y, color.z),
-        roughness: 0.85,
-        metalness: 0.02,
       });
       materiales.set(clave, material);
     }
@@ -146,6 +145,11 @@ export async function iniciarVisor({
 
     const malla = api.LoadAllGeometry(modeloID);
     const total = malla.size();
+    const porMaterial = new Map<
+      InstanceType<typeof THREE.MeshLambertMaterial>,
+      InstanceType<typeof THREE.BufferGeometry>[]
+    >();
+
     for (let i = 0; i < total; i++) {
       const plana = malla.get(i);
       const geometrias = plana.geometries;
@@ -157,21 +161,52 @@ export async function iniciarVisor({
           geometria.GetVertexDataSize(),
         );
         const indices = api.GetIndexArray(geometria.GetIndexData(), geometria.GetIndexDataSize());
+        const cuentas = vertices.length / 6;
+        if (!cuentas) continue;
 
-        const buffer = new THREE.InterleavedBuffer(vertices, 6);
+        const posiciones = new Float32Array(cuentas * 3);
+        const normales = new Float32Array(cuentas * 3);
+        for (let v = 0, p = 0; v < vertices.length; v += 6, p += 3) {
+          posiciones[p] = vertices[v];
+          posiciones[p + 1] = vertices[v + 1];
+          posiciones[p + 2] = vertices[v + 2];
+          normales[p] = vertices[v + 3];
+          normales[p + 1] = vertices[v + 4];
+          normales[p + 2] = vertices[v + 5];
+        }
+
         const bufferGeom = new THREE.BufferGeometry();
-        bufferGeom.setAttribute('position', new THREE.InterleavedBufferAttribute(buffer, 3, 0));
-        bufferGeom.setAttribute('normal', new THREE.InterleavedBufferAttribute(buffer, 3, 3));
-        bufferGeom.setIndex(new THREE.BufferAttribute(indices, 1));
+        bufferGeom.setAttribute('position', new THREE.BufferAttribute(posiciones, 3));
+        bufferGeom.setAttribute('normal', new THREE.BufferAttribute(normales, 3));
+        if (indices.length > 0) {
+          bufferGeom.setIndex(new THREE.BufferAttribute(indices, 1));
+        } else {
+          const secuencia = new Uint32Array(cuentas);
+          for (let k = 0; k < cuentas; k++) secuencia[k] = k;
+          bufferGeom.setIndex(new THREE.BufferAttribute(secuencia, 1));
+        }
+        bufferGeom.applyMatrix4(new THREE.Matrix4().fromArray(colocada.flatTransformation));
 
-        const color = colocada.color;
-        const material = materialPara(color);
-
-        const objeto = new THREE.Mesh(bufferGeom, material);
-        objeto.matrixAutoUpdate = false;
-        objeto.matrix.fromArray(colocada.flatTransformation);
-        nuevoGrupo.add(objeto);
+        const material = materialPara(colocada.color);
+        const lista = porMaterial.get(material);
+        if (lista) lista.push(bufferGeom);
+        else porMaterial.set(material, [bufferGeom]);
       }
+    }
+
+    /* Una sola malla por material: de cientos de draw calls a unas pocas. */
+    for (const [material, geometrias] of porMaterial) {
+      if (geometrias.length === 1) {
+        nuevoGrupo.add(new THREE.Mesh(geometrias[0], material));
+        continue;
+      }
+      const fusionada = mergeGeometries(geometrias, false);
+      if (!fusionada) {
+        for (const geometria of geometrias) nuevoGrupo.add(new THREE.Mesh(geometria, material));
+        continue;
+      }
+      for (const geometria of geometrias) geometria.dispose();
+      nuevoGrupo.add(new THREE.Mesh(fusionada, material));
     }
 
     nuevoGrupo.updateMatrixWorld(true);

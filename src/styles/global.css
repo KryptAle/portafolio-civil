@@ -40,19 +40,14 @@ html {
 body {
   margin: 0;
   background-color: var(--papel);
-  background-image:
-    linear-gradient(rgba(47, 94, 122, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(47, 94, 122, 0.045) 1px, transparent 1px),
-    linear-gradient(rgba(47, 94, 122, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(47, 94, 122, 0.08) 1px, transparent 1px);
-  background-size: 10px 10px, 10px 10px, 50px 50px, 50px 50px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50'%3E%3Cpath d='M10 0V50M20 0V50M30 0V50M40 0V50M0 10H50M0 20H50M0 30H50M0 40H50' fill='none' stroke='%232f5e7a' stroke-opacity='0.05'/%3E%3Cpath d='M0 0H50M0 0V50' fill='none' stroke='%232f5e7a' stroke-opacity='0.09'/%3E%3C/svg%3E");
+  background-size: 50px 50px;
   color: var(--tinta);
   font-family: var(--sans);
   font-size: clamp(15px, 0.35vw + 14px, 17px);
   line-height: 1.62;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
 /* Marco de lámina: el borde del pliego. */
@@ -243,13 +238,6 @@ ol {
   z-index: 60;
   background: var(--papel);
   border-bottom: 1px solid var(--linea);
-}
-
-@supports (backdrop-filter: blur(6px)) {
-  .cabecera {
-    background: color-mix(in srgb, var(--papel) 88%, transparent);
-    backdrop-filter: blur(10px) saturate(1.1);
-  }
 }
 
 .cabecera__in {
