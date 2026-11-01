@@ -1,0 +1,8 @@
+name = "portafolio-admin"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+GITHUB_REPO = "KryptAle/portafolio-civil"
+GITHUB_BRANCH = "main"
+ALLOWED_ORIGIN = "https://kryptale.github.io"
