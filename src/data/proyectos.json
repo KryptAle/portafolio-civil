@@ -18,7 +18,7 @@
     "tipo": "torre",
     "meta": "Estructura · 7 niveles",
     "superficie": "",
-    "archivo": "modelos/Proyecto2.ifc",
-    "nota": "IFC 2x3 · 7 niveles · 44,5 MB · exportado de Revit 2025"
+    "archivo": "modelos/proyecto2-ligero.ifc",
+    "nota": "IFC 2x3 · 7 niveles · 0,95 MB · exportado de Revit 2025"
   }
 ]

@@ -187,7 +187,7 @@ Antes de publicar contenido definitivo:
 ## Pendientes sugeridos
 
 1. Capturas reales de cada modelo y una galería en la portada.
-2. Preconvertir IFC a GLB para bajar el peso de la primera carga (Proyecto 2 pesa 44,5 MB).
+2. Preconvertir IFC a GLB + Draco si se quiere todavía más velocidad.
 3. CV en PDF enlazado desde el hero.
 4. Analítica ligera (Plausible/Umami) y `sitemap.xml`.
 5. Versión en inglés.
