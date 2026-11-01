@@ -96,7 +96,7 @@ export function generarEstructura(opciones: Opciones = {}): Dibujo {
   medir(X + ext, Y + ext, 0);
 
   const padL = 64;
-  const padR = etiquetas.length > 0 ? 224 : 74;
+  const padR = etiquetas.length > 0 ? 238 : 74;
   const padT = 30;
   const padB = 34;
   const dx = padL - minX;

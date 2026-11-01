@@ -127,7 +127,6 @@ const burbujas = [
 
   {niveles.map((n) => (
     <a class="iso-nivel" href={n.href} aria-label={`${n.numero} ${n.nombre}`}>
-      <title>{`${n.numero} ${n.nombre}`}</title>
       <polygon class="iso-placa" points={n.puntos} />
       <line class="iso-nivel__linea" x1={n.x - 34} y1={n.y - 3} x2={n.x - 9} y2={n.y - 3} />
       <text class="iso-nivel__texto" x={n.x} y={n.y}>

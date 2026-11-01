@@ -539,8 +539,8 @@ ol {
 
 .iso-nivel__texto {
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
+  font-size: 12px;
+  letter-spacing: 0.05em;
   fill: var(--tinta);
   transition: fill 0.18s ease;
 }
