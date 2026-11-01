@@ -209,24 +209,6 @@
           "nivelUso": "Avanzado"
         },
         {
-          "nombre": "Navisworks",
-          "anios": 3,
-          "pct": 72,
-          "nivelUso": "Intermedio"
-        },
-        {
-          "nombre": "Enscape",
-          "anios": 2,
-          "pct": 68,
-          "nivelUso": "Intermedio"
-        },
-        {
-          "nombre": "Advance Steel",
-          "anios": 1,
-          "pct": 48,
-          "nivelUso": "Básico"
-        },
-        {
           "nombre": "Excel / Python",
           "anios": 4,
           "pct": 66,
