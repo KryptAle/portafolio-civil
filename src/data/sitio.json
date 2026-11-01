@@ -1,0 +1,268 @@
+{
+  "sitio": {
+    "nombre": "Alejandro Aguilera",
+    "nombreCorto": "A. Aguilera",
+    "marca": "Aguilera",
+    "marcaSigla": "AA",
+    "marcaRol": "Ingeniería civil",
+    "titulo": "Ingeniero civil",
+    "especialidad": "Digitalización BIM · Revit",
+    "ciudad": "Caracas, Venezuela",
+    "email": "hola@alejandroaguilera.ing",
+    "telefono": "+58 412 000 0000",
+    "whatsapp": "584120000000",
+    "linkedin": "https://www.linkedin.com/in/alejandroaguilera",
+    "certificadoIngles": "https://cert.efset.org/VXSPPg",
+    "anio": 2026,
+    "revision": "REV. A",
+    "descripcion": "Portafolio BIM: digitalizo planos 2D en modelos Revit. Ejercicios de modelado con alcance, nivel de desarrollo y criterio técnico."
+  },
+  "secciones": [
+    {
+      "id": "perfil",
+      "numero": "01",
+      "nombre": "Perfil",
+      "href": "#perfil",
+      "meta": "Quién firma · L-02",
+      "visible": true,
+      "nivel": true
+    },
+    {
+      "id": "servicios",
+      "numero": "02",
+      "nombre": "Qué hago",
+      "href": "#servicios",
+      "meta": "Servicios · L-03",
+      "visible": true,
+      "nivel": true
+    },
+    {
+      "id": "proyectos",
+      "numero": "03",
+      "nombre": "Modelos BIM",
+      "href": "#proyectos",
+      "meta": "Ejercicios de digitalización · {{modelos}}",
+      "visible": true,
+      "nivel": true
+    },
+    {
+      "id": "herramientas",
+      "numero": "04",
+      "nombre": "Herramientas",
+      "href": "#herramientas",
+      "meta": "Nivel de uso · L-04",
+      "visible": true,
+      "nivel": true
+    },
+    {
+      "id": "trayectoria",
+      "numero": "05",
+      "nombre": "Trayectoria",
+      "href": "#trayectoria",
+      "meta": "Experiencia y formación · L-05",
+      "visible": true,
+      "nivel": true
+    },
+    {
+      "id": "contacto",
+      "numero": "06",
+      "nombre": "Contacto",
+      "href": "#contacto",
+      "meta": "Proyectos y consultas · L-06",
+      "visible": true,
+      "nivel": true
+    }
+  ],
+  "nav": {
+    "items": ["perfil", "proyectos"],
+    "cta": {
+      "texto": "Hablemos",
+      "href": "#contacto"
+    }
+  },
+  "hero": {
+    "eyebrow": "BIM · Revit · Digitalización 2D → 3D",
+    "titulo": "Planos en 2D, <em>modelos</em> que se recorren.",
+    "parrafo": "Soy ingeniero civil y digitalizo planos. Reconstruyo documentación en PDF o imagen dentro de Revit: ejes, niveles, estructura, cerramientos y familias coordinadas para que el modelo se pueda medir, revisar y recorrer.",
+    "boton": {
+      "texto": "Ver modelos",
+      "href": "#proyectos"
+    },
+    "figura": {
+      "etiqueta": "Fig. 01 — Axonométrica",
+      "pie": "{{niveles}} niveles · {{altura}} m"
+    }
+  },
+  "cifras": [
+    { "valor": "{{modelos}}", "etiqueta": "Modelos publicados" },
+    { "valor": "300–350", "etiqueta": "Nivel de desarrollo" },
+    { "valor": "Revit", "etiqueta": "Herramienta principal" },
+    { "valor": "Caracas", "etiqueta": "Base de trabajo" }
+  ],
+  "contenido": {
+    "perfil": {
+      "parrafos": [
+        "Soy ingeniero civil y trabajo digitalizando planos. Tomo documentación 2D —PDF, escaneos, imágenes— y la reconstruyo en Revit: ejes, niveles, muros, losas, estructura y familias. El objetivo no es solo que el modelo se vea bien, sino que sea medible, navegable y consistente.",
+        "Los proyectos de este portafolio son ejercicios de modelado: el diseño original es de sus autores y los planos son de referencia pública. Lo que es mío es el modelo —la interpretación, la geometría y el criterio con que se construyó—, y lo dejo claro en la nota de autoría de esta página.",
+        "También leo planos estructurales y puedo coordinar disciplinas, generar vistas, láminas y recorridos. Me interesa el detalle que hace que un modelo sirva para construir, no solo para presentar."
+      ],
+      "datos": [
+        { "etiqueta": "Formación", "valor": "Ingeniero civil" },
+        { "etiqueta": "Base", "valor": "{{ciudad}}" },
+        {
+          "etiqueta": "Idiomas",
+          "valor": "Español · Inglés B2",
+          "enlace": { "texto": "ver certificado ↗", "href": "{{certificado}}" }
+        },
+        { "etiqueta": "Disponibilidad", "valor": "Proyectos remotos" }
+      ],
+      "foto": "",
+      "fotoAlt": "Retrato de Alejandro Aguilera",
+      "fotoPie": "Retrato · 4:5",
+      "fotoPendiente": "Fotografía pendiente"
+    },
+    "servicios": {
+      "items": [
+        {
+          "icono": "",
+          "titulo": "Digitalización 2D a 3D",
+          "detalle": "Reconstruyo plantas, cortes y detalles en PDF o imagen dentro de Revit, con ejes y niveles como esqueleto."
+        },
+        {
+          "icono": "",
+          "titulo": "Modelado arquitectónico",
+          "detalle": "Muros, losas, cubiertas, carpinterías y familias propias para puertas y ventanas."
+        },
+        {
+          "icono": "",
+          "titulo": "Modelado estructural",
+          "detalle": "Columnas, vigas, losas y armaduras, con parámetros que permiten verificar el despiece."
+        },
+        {
+          "icono": "",
+          "titulo": "Documentación y vistas",
+          "detalle": "Láminas, tablas de planificación, recorridos y detección de interferencias."
+        }
+      ]
+    },
+    "modelos": {
+      "nota": "El diseño original y los planos de referencia pertenecen a sus autores. El modelo 3D, la interpretación y la documentación son de mi autoría: son ejercicios de digitalización para demostrar manejo de Revit, no obras diseñadas por mí.",
+      "items": [
+        {
+          "id": "proyecto1",
+          "indice": "01",
+          "titulo": "Proyecto 1",
+          "subtitulo": "Vivienda de 4 niveles: arquitectura, estructura y cerramientos.",
+          "meta": "Arquitectura y estructura · 4 niveles",
+          "superficie": "",
+          "archivo": "modelos/proyecto1.ifc",
+          "peso": 1448461,
+          "nota": "IFC 2x3 · 4 niveles · exportado de Revit 2025"
+        },
+        {
+          "id": "proyecto2",
+          "indice": "02",
+          "titulo": "Proyecto 2",
+          "subtitulo": "Modelo de 7 niveles con estructura y cerramientos.",
+          "meta": "Estructura · 7 niveles",
+          "superficie": "",
+          "archivo": "modelos/proyecto2-ligero.ifc",
+          "peso": 993177,
+          "nota": "IFC 2x3 · 7 niveles · 0,95 MB · exportado de Revit 2025"
+        }
+      ]
+    },
+    "herramientas": {
+      "items": [
+        { "nombre": "Revit", "nivel": "Avanzado", "anios": 4, "pct": 92 },
+        { "nombre": "AutoCAD", "nivel": "Avanzado", "anios": 6, "pct": 90 },
+        { "nombre": "Navisworks", "nivel": "Intermedio", "anios": 3, "pct": 72 },
+        { "nombre": "Enscape", "nivel": "Intermedio", "anios": 2, "pct": 68 },
+        { "nombre": "Advance Steel", "nivel": "Básico", "anios": 1, "pct": 48 },
+        { "nombre": "Excel / Python", "nivel": "Intermedio", "anios": 4, "pct": 66 }
+      ]
+    },
+    "trayectoria": {
+      "experiencia": [
+        {
+          "periodo": "2024 — hoy",
+          "cargo": "Modelador BIM independiente",
+          "detalle": "Digitalización de planos 2D a modelos Revit para estudios de arquitectura y clientes particulares.",
+          "lugar": "Remoto"
+        },
+        {
+          "periodo": "2022 — 2024",
+          "cargo": "Coordinador BIM",
+          "detalle": "Federación de modelos de arquitectura y estructura, detección de interferencias y láminas de coordinación.",
+          "lugar": "Caracas"
+        },
+        {
+          "periodo": "2020 — 2022",
+          "cargo": "Proyectista y modelador",
+          "detalle": "Levantamiento de planos, modelado de arquitectura y documentación de obra.",
+          "lugar": "Caracas"
+        },
+        {
+          "periodo": "2018 — 2020",
+          "cargo": "Ingeniero civil junior",
+          "detalle": "Apoyo en cálculo estructural, cómputos y seguimiento de obra.",
+          "lugar": "Venezuela"
+        }
+      ],
+      "formacion": [
+        {
+          "anio": "2024",
+          "titulo": "Autodesk Certified Professional — Revit Structure",
+          "detalle": "Certificación de modelado estructural y documentación."
+        },
+        {
+          "anio": "2023",
+          "titulo": "BIM Management",
+          "detalle": "Gestión de modelos federados y flujos de coordinación."
+        },
+        {
+          "anio": "2022",
+          "titulo": "Diseño sismorresistente",
+          "detalle": "Análisis modal y diseño por desempeño."
+        },
+        {
+          "anio": "2018",
+          "titulo": "Ingeniería civil",
+          "detalle": "Mención Estructuras."
+        }
+      ],
+      "certificado": {
+        "etiqueta": "Certificado de inglés",
+        "titulo": "EFSET · B2 Upper Intermediate",
+        "texto": "Haz clic para ver el certificado ↗",
+        "href": "{{certificado}}"
+      }
+    },
+    "contacto": {
+      "pregunta": "¿Tienes planos que<br /><span class=\"em\">necesitas en 3D?</span>",
+      "parrafo": "Cuéntame qué documentación tienes y qué nivel de detalle necesitas. Respondo con una primera lectura del alcance y un plazo estimado.",
+      "canales": [
+        { "etiqueta": "Correo", "valor": "{{email}}", "href": "mailto:{{email}}" },
+        { "etiqueta": "WhatsApp", "valor": "Escribir mensaje ↗", "href": "https://wa.me/{{whatsapp}}" },
+        { "etiqueta": "LinkedIn", "valor": "/in/alejandroaguilera ↗", "href": "{{linkedin}}" },
+        { "etiqueta": "Ubicación", "valor": "{{ciudad}}" }
+      ],
+      "aviso": "Si ya tienes los planos, adjunta una muestra en el primer mensaje. Los archivos se comparten después por enlace seguro."
+    }
+  },
+  "footer": {
+    "rotulo": [
+      { "etiqueta": "Documento", "valor": "Portafolio profesional" },
+      { "etiqueta": "Autor", "valor": "{{nombre}}" },
+      { "etiqueta": "Escala / estado", "valor": "1:100 · Borrador" },
+      { "etiqueta": "Lámina", "valor": "00 / {{anio}}" }
+    ],
+    "nav": [
+      { "texto": "Inicio", "href": "/" },
+      { "texto": "Perfil", "href": "#perfil" },
+      { "texto": "Modelos", "href": "#proyectos" },
+      { "texto": "Contacto", "href": "#contacto" }
+    ],
+    "legal": "© {{anio}} {{nombre}} · Contenido de muestra para revisión de diseño"
+  }
+}

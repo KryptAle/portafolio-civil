@@ -1,29 +1,17 @@
 /**
- * Datos del sitio en un solo lugar.
- * Cambia aquí el nombre, correo y ciudad; se propagan a todas las páginas.
+ * Compatibilidad: el contenido vive en src/data/sitio.json y se resuelve en
+ * src/lib/contenido.ts. Aquí quedan la base pública y el helper de rutas.
  */
-export const sitio = {
-  nombre: 'Alejandro Aguilera',
-  nombreCorto: 'A. Aguilera',
-  marca: 'Aguilera',
-  marcaSigla: 'AA',
-  titulo: 'Ingeniero civil',
-  especialidad: 'Digitalización BIM · Revit',
-  ciudad: 'Caracas, Venezuela',
-  email: 'hola@alejandroaguilera.ing',
-  telefono: '+58 412 000 0000',
-  whatsapp: '584120000000',
-  linkedin: 'https://www.linkedin.com/in/alejandroaguilera',
-  certificadoIngles: 'https://cert.efset.org/VXSPPg',
-  anio: 2026,
-  descripcion:
-    'Portafolio BIM: digitalizo planos 2D en modelos Revit. Ejercicios de modelado con alcance, nivel de desarrollo y criterio técnico.',
-};
 
-export const navegacion = [
-  { texto: 'Perfil', href: '/#perfil' },
-  { texto: 'Modelos', href: '/#proyectos' },
-];
+import { sitio, navEnlaces } from './lib/contenido';
+
+export { sitio };
+
+/** Navegación principal resuelta desde las secciones. */
+export const navegacion = navEnlaces.map(({ texto, href }) => ({
+  texto,
+  href: href.startsWith('#') ? `/${href}` : href,
+}));
 
 /**
  * Base pública del sitio. En local es '/'; en GitHub Pages se compila con

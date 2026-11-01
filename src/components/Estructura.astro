@@ -1,21 +1,15 @@
 ---
 import { generarEstructura } from '../lib/iso';
+import { etiquetasNivel, niveles as nivelesSitio } from '../lib/contenido';
 
 const dibujo = generarEstructura({
   vanosX: 2,
   vanosY: 3,
-  pisos: 6,
+  pisos: etiquetasNivel.length,
   vano: 6,
   alturaPiso: 3.2,
   u: 13.4,
-  etiquetas: [
-    { numero: '01', nombre: 'Perfil', href: '#perfil' },
-    { numero: '02', nombre: 'Qué hago', href: '#servicios' },
-    { numero: '03', nombre: 'Modelos BIM', href: '#proyectos' },
-    { numero: '04', nombre: 'Herramientas', href: '#herramientas' },
-    { numero: '05', nombre: 'Trayectoria', href: '#trayectoria' },
-    { numero: '06', nombre: 'Contacto', href: '#contacto' },
-  ],
+  etiquetas: etiquetasNivel,
 });
 
 const { lineas, niveles, cota, tapa, caras, esquinas, viewBox } = dibujo;
@@ -64,7 +58,7 @@ const burbujas = [
 
 <svg class="iso" viewBox={viewBox} role="img" aria-labelledby="iso-titulo">
   <title id="iso-titulo">
-    Axonométrica de un edificio de seis niveles con las secciones del portafolio.
+    Axonométrica de un edificio de {nivelesSitio.length} niveles con las secciones del portafolio.
   </title>
 
   {caras.map((cara) => (

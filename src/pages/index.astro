@@ -3,68 +3,46 @@ import Base from '../layouts/Base.astro';
 import Hoja from '../components/Hoja.astro';
 import Estructura from '../components/Estructura.astro';
 import Visor3D from '../components/Visor3D.astro';
-import { sitio } from '../config';
-import { experiencia, formacion } from '../data/trayectoria';
-import proyectos from '../data/proyectos.json';
+import { ruta } from '../config';
+import {
+  contenido,
+  seccion,
+  t,
+  perfil,
+  servicios,
+  modelos,
+  herramientas,
+  trayectoria,
+  contacto,
+} from '../lib/contenido';
 
+const hero = contenido.hero;
+const cifras = contenido.cifras;
+const proyectos = modelos.items;
 const publicados = String(proyectos.length).padStart(2, '0');
 
-const cifras = [
-  { n: publicados, l: 'Modelos publicados' },
-  { n: '300–350', l: 'Nivel de desarrollo' },
-  { n: 'Revit', l: 'Herramienta principal' },
-  { n: 'Caracas', l: 'Base de trabajo' },
-];
+const visible = (id: string) => Boolean(seccion(id)?.visible);
+const meta = (id: string) => t(seccion(id)?.meta ?? '');
+const titulo = (id: string) => seccion(id)?.nombre ?? '';
 
-const servicios = [
-  {
-    t: 'Digitalización 2D a 3D',
-    d: 'Reconstruyo plantas, cortes y detalles en PDF o imagen dentro de Revit, con ejes y niveles como esqueleto.',
-  },
-  {
-    t: 'Modelado arquitectónico',
-    d: 'Muros, losas, cubiertas, carpinterías y familias propias para puertas y ventanas.',
-  },
-  {
-    t: 'Modelado estructural',
-    d: 'Columnas, vigas, losas y armaduras, con parámetros que permiten verificar el despiece.',
-  },
-  {
-    t: 'Documentación y vistas',
-    d: 'Láminas, tablas de planificación, recorridos y detección de interferencias.',
-  },
-];
-
-const software = [
-  { nombre: 'Revit', nivel: 'Avanzado', anios: 4, pct: 92 },
-  { nombre: 'AutoCAD', nivel: 'Avanzado', anios: 6, pct: 90 },
-  { nombre: 'Navisworks', nivel: 'Intermedio', anios: 3, pct: 72 },
-  { nombre: 'Enscape', nivel: 'Intermedio', anios: 2, pct: 68 },
-  { nombre: 'Advance Steel', nivel: 'Básico', anios: 1, pct: 48 },
-  { nombre: 'Excel / Python', nivel: 'Intermedio', anios: 4, pct: 66 },
-];
+const destino = (href: string) => (href.startsWith('#') ? href : ruta(href));
 ---
 
 <Base>
   <section class="contenedor hero">
     <div class="hero__txt">
       <div class="hero__eyebrow">
-        <span class="eti">BIM · Revit · Digitalización 2D → 3D</span>
+        <span class="eti">{t(hero.eyebrow)}</span>
       </div>
 
-      <h1 class="hero__h1">
-        Planos en 2D, <span class="em">modelos</span> que se recorren.
-      </h1>
+      {/* El título admite <em>; el contenido lo edita el administrador. */}
+      <h1 class="hero__h1" set:html={t(hero.titulo)} />
 
-      <p class="hero__p">
-        Soy ingeniero civil y digitalizo planos. Reconstruyo documentación en PDF o imagen
-        dentro de Revit: ejes, niveles, estructura, cerramientos y familias coordinadas para
-        que el modelo se pueda medir, revisar y recorrer.
-      </p>
+      <p class="hero__p">{t(hero.parrafo)}</p>
 
       <div class="hero__acciones">
-        <a class="btn btn--lleno" href="#proyectos">
-          Ver modelos <span class="btn__flecha" aria-hidden="true">→</span>
+        <a class="btn btn--lleno" href={destino(hero.boton.href)}>
+          {hero.boton.texto} <span class="btn__flecha" aria-hidden="true">→</span>
         </a>
       </div>
     </div>
@@ -75,8 +53,8 @@ const software = [
           <Estructura />
         </div>
         <figcaption class="figura__pie">
-          <span class="eti">Fig. 01 — Axonométrica</span>
-          <span class="eti">6 niveles · 16,00 m</span>
+          <span class="eti">{t(hero.figura.etiqueta)}</span>
+          <span class="eti">{t(hero.figura.pie)}</span>
         </figcaption>
       </figure>
     </div>
@@ -84,259 +62,285 @@ const software = [
 
   <div class="contenedor">
     <div class="cifras">
-      {cifras.map((c) => (
+      {cifras.map((cifra) => (
         <div class="cifra">
-          <span class="cifra__n">{c.n}</span>
-          <span class="cifra__l">{c.l}</span>
+          <span class="cifra__n">{t(cifra.valor)}</span>
+          <span class="cifra__l">{t(cifra.etiqueta)}</span>
         </div>
       ))}
     </div>
   </div>
 
-  <section class="seccion contenedor" id="perfil">
-    <Hoja num="01" titulo="Perfil" meta="Quién firma · L-02" />
+  {visible('perfil') && (
+    <section class="seccion contenedor" id="perfil">
+      <Hoja num={seccion('perfil')?.numero ?? ''} titulo={titulo('perfil')} meta={meta('perfil')} />
 
-    <div class="perfil perfil--bio">
-      <div class="perfil__bio revelar">
-        <p>
-          Soy ingeniero civil y trabajo digitalizando planos. Tomo documentación 2D —PDF,
-          escaneos, imágenes— y la reconstruyo en Revit: ejes, niveles, muros, losas,
-          estructura y familias. El objetivo no es solo que el modelo se vea bien, sino que sea
-          medible, navegable y consistente.
-        </p>
-        <p>
-          Los proyectos de este portafolio son ejercicios de modelado: el diseño original es de
-          sus autores y los planos son de referencia pública. Lo que es mío es el modelo —la
-          interpretación, la geometría y el criterio con que se construyó—, y lo dejo claro en
-          la nota de autoría de esta página.
-        </p>
-        <p>
-          También leo planos estructurales y puedo coordinar disciplinas, generar vistas,
-          láminas y recorridos. Me interesa el detalle que hace que un modelo sirva para
-          construir, no solo para presentar.
-        </p>
+      <div class="perfil perfil--bio">
+        <div class="perfil__bio revelar">
+          {perfil.parrafos.map((parrafo) => (
+            <p>{t(parrafo)}</p>
+          ))}
 
-        <div class="datos">
-          <div class="dato">
-            <dt>Formación</dt>
-            <dd>Ingeniero civil</dd>
-          </div>
-          <div class="dato">
-            <dt>Base</dt>
-            <dd>{sitio.ciudad}</dd>
-          </div>
-          <div class="dato">
-            <dt>Idiomas</dt>
-            <dd>
-              Español · Inglés B2
-              <a class="dato__cert" href={sitio.certificadoIngles} target="_blank" rel="noopener">
-                ver certificado ↗
-              </a>
-            </dd>
-          </div>
-          <div class="dato">
-            <dt>Disponibilidad</dt>
-            <dd>Proyectos remotos</dd>
+          <div class="datos">
+            {perfil.datos.map((dato) => (
+              <div class="dato">
+                <dt>{dato.etiqueta}</dt>
+                <dd>
+                  {t(dato.valor)}
+                  {dato.enlace && (
+                    <a
+                      class="dato__cert"
+                      href={t(dato.enlace.href)}
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      {t(dato.enlace.texto)}
+                    </a>
+                  )}
+                </dd>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
 
-      <div class="retrato revelar" style="--d:.08s">
-        <div class="retrato__texto">
-          <span class="eti">Retrato · 4:5</span>
-          <p class="eti" style="margin-top:10px; opacity:.7">Fotografía pendiente</p>
+        <div class="retrato revelar" style="--d:.08s">
+          {perfil.foto ? (
+            <img
+              class="retrato__img"
+              src={ruta(`/${perfil.foto}`)}
+              alt={perfil.fotoAlt}
+              loading="lazy"
+            />
+          ) : (
+            <div class="retrato__texto">
+              <span class="eti">{perfil.fotoPie}</span>
+              <p class="eti" style="margin-top:10px; opacity:.7">{perfil.fotoPendiente}</p>
+            </div>
+          )}
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  <section class="seccion contenedor" id="servicios">
-    <Hoja num="02" titulo="Qué hago" meta="Servicios · L-03" />
+  {visible('servicios') && (
+    <section class="seccion contenedor" id="servicios">
+      <Hoja
+        num={seccion('servicios')?.numero ?? ''}
+        titulo={titulo('servicios')}
+        meta={meta('servicios')}
+      />
 
-    <div class="especialidades">
-      {servicios.map((s, i) => (
-        <article class="especialidad revelar" style={`--d:${(i * 0.07).toFixed(2)}s`}>
-          <span class="especialidad__n">{String(i + 1).padStart(2, '0')}</span>
-          <h3 class="especialidad__t">{s.t}</h3>
-          <p class="especialidad__d">{s.d}</p>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="seccion contenedor" id="proyectos">
-    <Hoja num="03" titulo="Modelos BIM" meta={`Ejercicios de digitalización · ${publicados}`} />
-
-    <div class="indice" data-indice>
-      <div class="filas">
-        {proyectos.map((p, i) => (
-          <button
-            class="fila revelar"
-            type="button"
-            data-modelo={p.archivo}
-            data-peso={p.peso}
-            data-titulo={p.titulo}
-            data-nota={p.nota}
-            aria-pressed={i === 0 ? 'true' : 'false'}
-            style={`--d:${(i * 0.06).toFixed(2)}s`}
-          >
-            <span class="fila__num">{p.indice}</span>
-            <span class="fila__cuerpo">
-              <span class="fila__tit">{p.titulo}</span>
-              <span class="fila__sub">{p.subtitulo}</span>
-            </span>
-            <span class="fila__meta">
-              {p.superficie && (
-                <>
-                  <span class="fila__cap">Superficie modelada</span>
-                  <span class="fila__sup">{p.superficie}</span>
-                </>
-              )}
-              <span class="fila__lin">{p.meta}</span>
-            </span>
-          </button>
+      <div class="especialidades">
+        {servicios.map((servicio, i) => (
+          <article class="especialidad revelar" style={`--d:${(i * 0.07).toFixed(2)}s`}>
+            {servicio.icono && (
+              <img
+                class="especialidad__icono"
+                src={ruta(`/${servicio.icono}`)}
+                alt=""
+                loading="lazy"
+              />
+            )}
+            <h3 class="especialidad__t">{servicio.titulo}</h3>
+            <p class="especialidad__d">{t(servicio.detalle)}</p>
+          </article>
         ))}
       </div>
+    </section>
+  )}
 
-      {proyectos.length > 0 && (
-        <aside class="indice__visor">
-          <Visor3D
-            titulo={proyectos[0].titulo}
-            archivo={proyectos[0].archivo}
-            peso={proyectos[0].peso}
-            nota={proyectos[0].nota}
-            compacto
-          />
-        </aside>
-      )}
-    </div>
+  {visible('proyectos') && (
+    <section class="seccion contenedor" id="proyectos">
+      <Hoja
+        num={seccion('proyectos')?.numero ?? ''}
+        titulo={titulo('proyectos')}
+        meta={meta('proyectos')}
+      />
 
-    <p class="nota-autoria nota-autoria--ancha">
-      <span class="eti eti--senal">Sobre estos modelos</span>
-      <span>
-        El diseño original y los planos de referencia pertenecen a sus autores. El modelo 3D,
-        la interpretación y la documentación son de mi autoría: son ejercicios de
-        digitalización para demostrar manejo de Revit, no obras diseñadas por mí.
-      </span>
-    </p>
-  </section>
+      <div class="indice" data-indice>
+        <div class="filas">
+          {proyectos.map((proyecto, i) => (
+            <button
+              class="fila revelar"
+              type="button"
+              data-modelo={proyecto.archivo}
+              data-peso={proyecto.peso}
+              data-titulo={proyecto.titulo}
+              data-nota={proyecto.nota}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              style={`--d:${(i * 0.06).toFixed(2)}s`}
+            >
+              <span class="fila__num">{proyecto.indice}</span>
+              <span class="fila__cuerpo">
+                <span class="fila__tit">{proyecto.titulo}</span>
+                <span class="fila__sub">{t(proyecto.subtitulo)}</span>
+              </span>
+              <span class="fila__meta">
+                {proyecto.superficie && (
+                  <>
+                    <span class="fila__cap">Superficie modelada</span>
+                    <span class="fila__sup">{proyecto.superficie}</span>
+                  </>
+                )}
+                <span class="fila__lin">{t(proyecto.meta)}</span>
+              </span>
+            </button>
+          ))}
+        </div>
 
-  <section class="seccion contenedor" id="herramientas">
-    <Hoja num="04" titulo="Herramientas" meta="Nivel de uso · L-04" />
+        {proyectos.length > 0 && (
+          <aside class="indice__visor">
+            <Visor3D
+              titulo={proyectos[0].titulo}
+              archivo={proyectos[0].archivo}
+              peso={proyectos[0].peso}
+              nota={proyectos[0].nota}
+              compacto
+            />
+          </aside>
+        )}
+      </div>
 
-    <table class="tabla-software">
-      <thead>
-        <tr>
-          <th scope="col">Herramienta</th>
-          <th scope="col">Nivel</th>
-          <th scope="col" style="text-align:right">Años</th>
-        </tr>
-      </thead>
-      <tbody>
-        {software.map((s) => (
+      <p class="nota-autoria nota-autoria--ancha">
+        <span class="eti eti--senal">Sobre estos modelos</span>
+        <span>{t(modelos.nota)}</span>
+      </p>
+    </section>
+  )}
+
+  {visible('herramientas') && (
+    <section class="seccion contenedor" id="herramientas">
+      <Hoja
+        num={seccion('herramientas')?.numero ?? ''}
+        titulo={titulo('herramientas')}
+        meta={meta('herramientas')}
+      />
+
+      <table class="tabla-software">
+        <thead>
           <tr>
-            <td>{s.nombre}</td>
-            <td>
-              <div class="nivel">
-                <div class="nivel__barra">
-                  <span class={s.nivel === 'Avanzado' ? 'es-alto' : ''} style={`width:${s.pct}%`} />
-                </div>
-                <span class="nivel__txt">{s.nivel}</span>
-              </div>
-            </td>
-            <td style="text-align:right; font-family:var(--mono); font-size:12px">{s.anios}</td>
+            <th scope="col">Herramienta</th>
+            <th scope="col">Nivel</th>
+            <th scope="col" style="text-align:right">Años</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  </section>
-
-  <section class="seccion contenedor" id="trayectoria">
-    <Hoja num="05" titulo="Trayectoria" meta="Experiencia y formación · L-05" />
-
-    <div class="trayectoria">
-      <div>
-        <h3 class="trayectoria__t eti">Experiencia</h3>
-        <div class="linea-tiempo">
-          {experiencia.map((h) => (
-            <div class="hito revelar">
-              <span class="hito__fecha">{h.periodo}</span>
-              <div>
-                <h4 class="hito__t">{h.cargo}</h4>
-                <p class="hito__d">{h.detalle}</p>
-              </div>
-              <span class="hito__lugar">{h.lugar}</span>
-            </div>
+        </thead>
+        <tbody>
+          {herramientas.map((software) => (
+            <tr>
+              <td>{software.nombre}</td>
+              <td>
+                <div class="nivel">
+                  <div class="nivel__barra">
+                    <span
+                      class={software.nivel === 'Avanzado' ? 'es-alto' : ''}
+                      style={`width:${software.pct}%`}
+                    />
+                  </div>
+                  <span class="nivel__txt">{software.nivel}</span>
+                </div>
+              </td>
+              <td style="text-align:right; font-family:var(--mono); font-size:12px">
+                {software.anios}
+              </td>
+            </tr>
           ))}
-        </div>
-      </div>
+        </tbody>
+      </table>
+    </section>
+  )}
 
-      <div>
-        <h3 class="trayectoria__t eti">Formación y cursos</h3>
+  {visible('trayectoria') && (
+    <section class="seccion contenedor" id="trayectoria">
+      <Hoja
+        num={seccion('trayectoria')?.numero ?? ''}
+        titulo={titulo('trayectoria')}
+        meta={meta('trayectoria')}
+      />
 
-        <a class="certificado" href={sitio.certificadoIngles} target="_blank" rel="noopener">
-          <span class="certificado__eti">Certificado de inglés</span>
-          <span class="certificado__t">EFSET · B2 Upper Intermediate</span>
-          <span class="certificado__c">Haz clic para ver el certificado ↗</span>
-        </a>
-
-        <div class="cursos">
-          {formacion.map((c) => (
-            <div class="curso revelar">
-              <span class="curso__a">{c.anio}</span>
-              <div>
-                <h4 class="curso__t">{c.titulo}</h4>
-                <p class="curso__d">{c.detalle}</p>
+      <div class="trayectoria">
+        <div>
+          <h3 class="trayectoria__t eti">Experiencia</h3>
+          <div class="linea-tiempo">
+            {trayectoria.experiencia.map((hito) => (
+              <div class="hito revelar">
+                <span class="hito__fecha">{hito.periodo}</span>
+                <div>
+                  <h4 class="hito__t">{hito.cargo}</h4>
+                  <p class="hito__d">{t(hito.detalle)}</p>
+                </div>
+                <span class="hito__lugar">{hito.lugar}</span>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="seccion contenedor" id="contacto">
-    <Hoja num="06" titulo="Contacto" meta="Proyectos y consultas · L-06" />
-
-    <div class="contacto-grid">
-      <div class="revelar">
-        <h2 class="contacto__tit">
-          ¿Tienes planos que<br /><span class="em">necesitas en 3D?</span>
-        </h2>
-        <p class="contacto__p">
-          Cuéntame qué documentación tienes y qué nivel de detalle necesitas. Respondo con una
-          primera lectura del alcance y un plazo estimado.
-        </p>
-      </div>
-
-      <aside class="revelar" style="--d:.08s">
-        <h2 class="eti" style="margin-bottom:18px">Canales directos</h2>
-        <div class="canales">
-          <a class="canal" href={`mailto:${sitio.email}`}>
-            <span class="canal__k">Correo</span>
-            <span class="canal__v">{sitio.email}</span>
-          </a>
-          <a class="canal" href={`https://wa.me/${sitio.whatsapp}`} rel="noopener">
-            <span class="canal__k">WhatsApp</span>
-            <span class="canal__v">Escribir mensaje ↗</span>
-          </a>
-          <a class="canal" href={sitio.linkedin} rel="noopener">
-            <span class="canal__k">LinkedIn</span>
-            <span class="canal__v">/in/alejandroaguilera ↗</span>
-          </a>
-          <div class="canal">
-            <span class="canal__k">Ubicación</span>
-            <span class="canal__v">{sitio.ciudad}</span>
+            ))}
           </div>
         </div>
 
-        <p class="aviso" style="margin-top:22px">
-          Si ya tienes los planos, adjunta una muestra en el primer mensaje. Los archivos se
-          comparten después por enlace seguro.
-        </p>
-      </aside>
-    </div>
-  </section>
+        <div>
+          <h3 class="trayectoria__t eti">Formación y cursos</h3>
+
+          <a
+            class="certificado"
+            href={t(trayectoria.certificado.href)}
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="certificado__eti">{trayectoria.certificado.etiqueta}</span>
+            <span class="certificado__t">{t(trayectoria.certificado.titulo)}</span>
+            <span class="certificado__c">{trayectoria.certificado.texto}</span>
+          </a>
+
+          <div class="cursos">
+            {trayectoria.formacion.map((curso) => (
+              <div class="curso revelar">
+                <span class="curso__a">{curso.anio}</span>
+                <div>
+                  <h4 class="curso__t">{curso.titulo}</h4>
+                  <p class="curso__d">{t(curso.detalle)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {visible('contacto') && (
+    <section class="seccion contenedor" id="contacto">
+      <Hoja
+        num={seccion('contacto')?.numero ?? ''}
+        titulo={titulo('contacto')}
+        meta={meta('contacto')}
+      />
+
+      <div class="contacto-grid">
+        <div class="revelar">
+          <h2 class="contacto__tit" set:html={t(contacto.pregunta)} />
+          <p class="contacto__p">{t(contacto.parrafo)}</p>
+        </div>
+
+        <aside class="revelar" style="--d:.08s">
+          <h2 class="eti" style="margin-bottom:18px">Canales directos</h2>
+          <div class="canales">
+            {contacto.canales.map((canal) =>
+              canal.href ? (
+                <a class="canal" href={t(canal.href)} target="_blank" rel="noopener">
+                  <span class="canal__k">{t(canal.etiqueta)}</span>
+                  <span class="canal__v">{t(canal.valor)}</span>
+                </a>
+              ) : (
+                <div class="canal">
+                  <span class="canal__k">{t(canal.etiqueta)}</span>
+                  <span class="canal__v">{t(canal.valor)}</span>
+                </div>
+              ),
+            )}
+          </div>
+
+          <p class="aviso" style="margin-top:22px">{t(contacto.aviso)}</p>
+        </aside>
+      </div>
+    </section>
+  )}
 
   <script>
     const visor = document.querySelector('[data-visor]');

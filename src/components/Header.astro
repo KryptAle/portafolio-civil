@@ -1,5 +1,6 @@
 ---
-import { sitio, navegacion, ruta } from '../config';
+import { sitio, navEnlaces, navCta } from '../lib/contenido';
+import { ruta } from '../config';
 
 const actual = Astro.url.pathname.replace(/\/$/, '');
 
@@ -16,13 +17,13 @@ const esActiva = (destino: string) => {
       <span class="marca__sigla" aria-hidden="true">{sitio.marcaSigla}</span>
       <span class="marca__txt">
         <span class="marca__nombre">{sitio.marca}</span>
-        <span class="marca__rol">Ingeniería civil</span>
+        <span class="marca__rol">{sitio.marcaRol}</span>
       </span>
     </a>
 
     <nav class="nav" aria-label="Navegación principal">
-      {navegacion.map((enlace) => {
-        const destino = ruta(enlace.href);
+      {navEnlaces.map((enlace) => {
+        const destino = ruta(`/${enlace.href}`);
         return (
           <a
             class="nav__enlace"
@@ -35,10 +36,10 @@ const esActiva = (destino: string) => {
       })}
     </nav>
 
-    <a class="btn btn--lleno cabecera__cta" href={ruta('/#contacto')}>
-      Hablemos <span class="btn__flecha" aria-hidden="true">→</span>
+    <a class="btn btn--lleno cabecera__cta" href={ruta(`/${navCta.href}`)}>
+      {navCta.texto} <span class="btn__flecha" aria-hidden="true">→</span>
     </a>
 
-    <span class="cabecera__rev" title="Versión del borrador">REV. A</span>
+    <span class="cabecera__rev" title="Versión del borrador">{sitio.revision}</span>
   </div>
 </header>
