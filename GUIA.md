@@ -186,6 +186,8 @@ El `push` a `main` dispara GitHub Actions. En ~40 segundos la web pública se ac
 
 Panel: https://kryptale.github.io/portafolio-civil/admin/
 
+El panel tiene un menú lateral con **General**, **Contenido** y **Ayuda**. Cada sección de la página se edita por separado (Perfil, Qué hago, Modelos BIM, Herramientas, Trayectoria, Contacto). En **Valores globales** están los tokens `{{…}}`, su valor actual y de qué campo salen. Solo se muestran campos que existen en la landing.
+
 ### 6.2 Usa el archivo para
 
 - Ajustes de diseño (CSS).
@@ -266,7 +268,8 @@ Cada objeto de `secciones` tiene:
 
 - `visible: false` la oculta del menú y de la figura.
 - `nivel: true` la convierte en un piso de la axonométrica.
-- El número y el nombre se comparten entre el menú, la figura y la cabecera de la sección.
+- El nombre se comparte entre el menú, la figura y la cabecera de la sección. El número solo aparece en la cabecera de la página, no en la figura.
+- **La primera sección de la lista queda arriba en la axonométrica**; la última, abajo. Si reordenas las secciones, la figura cambia con ellas.
 - `nav.items` usa los `id`, no los nombres.
 
 **Importante:** la página tiene bloques escritos para las seis secciones actuales (`perfil`, `servicios`, `proyectos`, `herramientas`, `trayectoria`, `contacto`). Puedes ocultarlas, reordenar el menú y cambiar sus textos, pero **una sección nueva con otro `id` aparecerá en el menú y en la figura sin tener cuerpo en la página**. Para eso hace falta un bloque genérico (siguiente fase).

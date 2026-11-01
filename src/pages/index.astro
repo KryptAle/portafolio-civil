@@ -232,11 +232,11 @@ const destino = (href: string) => (href.startsWith('#') ? href : ruta(href));
                 <div class="nivel">
                   <div class="nivel__barra">
                     <span
-                      class={software.nivel === 'Avanzado' ? 'es-alto' : ''}
+                      class={software.nivelUso === 'Avanzado' ? 'es-alto' : ''}
                       style={`width:${software.pct}%`}
                     />
                   </div>
-                  <span class="nivel__txt">{software.nivel}</span>
+                  <span class="nivel__txt">{software.nivelUso}</span>
                 </div>
               </td>
               <td style="text-align:right; font-family:var(--mono); font-size:12px">

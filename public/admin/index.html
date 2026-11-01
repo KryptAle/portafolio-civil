@@ -7,83 +7,115 @@
     <title>Administración · Aguilera</title>
     <style>
       :root {
-        --papel: #f7f6f1;
-        --tinta: #101417;
-        --grafito: #5b6266;
-        --linea: #cdc8ba;
-        --senal: #c23a1f;
+        --fondo: #f4f1ea;
+        --panel: #fffefb;
+        --tinta: #141719;
+        --suave: #62696d;
+        --linea: #d8d1c3;
+        --rojo: #bf3b22;
         --mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
         --sans: system-ui, 'Segoe UI', sans-serif;
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
-        background: var(--papel);
+        background: var(--fondo);
         color: var(--tinta);
         font-family: var(--sans);
         font-size: 15px;
       }
       button, input, textarea, select { font: inherit; }
       .oculto { display: none !important; }
-      .barra {
-        position: sticky; top: 0; z-index: 5;
-        display: flex; align-items: center; gap: 16px;
-        padding: 12px 20px;
-        background: var(--papel);
-        border-bottom: 1px solid var(--linea);
-      }
-      .barra strong { font-size: 16px; letter-spacing: -0.02em; }
-      .barra__estado { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--grafito); }
       .btn {
         border: 1px solid var(--tinta); background: transparent; color: var(--tinta);
         padding: 8px 14px; cursor: pointer; font-family: var(--mono); font-size: 11px;
         letter-spacing: .08em; text-transform: uppercase;
       }
-      .btn--lleno { background: var(--tinta); color: var(--papel); }
-      .btn--senal { background: var(--senal); border-color: var(--senal); color: #fff; }
-      .btn:disabled { opacity: .45; cursor: default; }
-      .login {
-        max-width: 420px; margin: 12vh auto; padding: 28px;
-        border: 1px solid var(--linea); background: #fff;
-      }
-      .login h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -.04em; }
-      .login p { color: var(--grafito); font-size: 13px; }
+      .btn--lleno { background: var(--tinta); color: var(--fondo); }
+      .btn--rojo { background: var(--rojo); border-color: var(--rojo); color: #fff; }
+      .btn--mini { padding: 4px 8px; font-size: 10px; }
+      .btn:disabled { opacity: .4; cursor: default; }
+
+      /* Login */
+      .login { max-width: 430px; margin: 10vh auto; padding: 30px; background: var(--panel); border: 1px solid var(--linea); }
+      .login h1 { margin: 0 0 6px; font-size: 30px; letter-spacing: -.04em; }
+      .login p { color: var(--suave); font-size: 13px; line-height: 1.5; }
       .campo { margin-top: 16px; }
-      .campo > label { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--grafito); margin-bottom: 6px; }
-      .campo input[type='text'], .campo input[type='password'], .campo input[type='number'], .campo textarea {
+      .campo > label { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--suave); margin-bottom: 6px; }
+      .campo input, .campo textarea {
         width: 100%; border: 1px solid var(--linea); background: #fff; padding: 10px; color: var(--tinta);
       }
-      .campo textarea { min-height: 90px; resize: vertical; line-height: 1.5; }
-      .layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); min-height: calc(100vh - 57px); }
-      .menu { border-right: 1px solid var(--linea); padding: 18px 12px; position: sticky; top: 57px; align-self: start; max-height: calc(100vh - 57px); overflow: auto; }
+      .campo textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
+      .campo input[readonly] { background: #f2efe8; color: var(--suave); }
+      .ayuda { display: block; margin-top: 6px; color: var(--suave); font-size: 12px; line-height: 1.45; }
+      .aviso { padding: 12px; border-left: 2px solid var(--rojo); background: #f3e7e2; font-size: 13px; margin: 16px 0; }
+
+      /* App */
+      .barra {
+        position: sticky; top: 0; z-index: 20;
+        display: flex; align-items: center; gap: 14px;
+        padding: 12px 20px; background: var(--tinta); color: var(--fondo);
+      }
+      .barra strong { font-size: 16px; letter-spacing: -.02em; }
+      .barra__sub { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; opacity: .6; }
+      .barra__estado { margin-left: auto; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; opacity: .8; max-width: 45vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .barra .btn { border-color: #6c7175; color: var(--fondo); }
+      .barra .btn--rojo { border-color: var(--rojo); color: #fff; }
+
+      .layout { display: grid; grid-template-columns: 255px minmax(0, 1fr); min-height: calc(100vh - 57px); }
+      .menu { border-right: 1px solid var(--linea); background: #efece4; padding: 16px 10px 40px; position: sticky; top: 57px; align-self: start; max-height: calc(100vh - 57px); overflow: auto; }
+      .menu__grupo { margin: 18px 8px 6px; font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--suave); }
       .menu button {
         display: block; width: 100%; text-align: left; padding: 9px 10px; border: 0; background: none;
-        cursor: pointer; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+        cursor: pointer; font-size: 14px; color: var(--tinta);
       }
-      .menu button:hover { background: #eeece4; }
-      .menu button.activo { background: var(--tinta); color: var(--papel); }
-      .panel { padding: 26px clamp(16px, 3vw, 44px) 80px; max-width: 1000px; }
-      .panel h2 { margin: 0 0 4px; font-size: 30px; letter-spacing: -.04em; }
-      .panel__nota { color: var(--grafito); font-size: 13px; margin: 0 0 20px; }
-      fieldset { border: 1px solid var(--linea); margin: 16px 0; padding: 16px; }
-      legend { padding: 0 8px; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--senal); }
-      .objeto { border-left: 2px solid var(--linea); padding-left: 14px; margin: 14px 0; }
-      .lista { border: 1px dashed var(--linea); padding: 12px; margin: 12px 0; }
-      .lista__item { border: 1px solid var(--linea); background: #fff; padding: 12px; margin: 10px 0; }
-      .lista__acciones { display: flex; gap: 6px; margin-bottom: 8px; }
-      .mini { padding: 4px 8px; font-size: 10px; }
-      .fila { display: flex; gap: 8px; align-items: center; margin: 8px 0; }
-      .fila input[type='text'] { flex: 1; }
-      .check { display: flex; gap: 8px; align-items: center; margin-top: 14px; }
-      .check label { font-family: var(--mono); font-size: 11px; }
-      .subida { display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
-      .subida img { max-height: 64px; border: 1px solid var(--linea); background: #fff; }
-      .subida code { font-size: 10px; color: var(--grafito); }
-      .aviso { padding: 12px; border-left: 2px solid var(--senal); background: #f3e7e2; font-size: 13px; margin: 16px 0; }
-      @media (max-width: 800px) {
+      .menu button:hover { background: #e3dfd4; }
+      .menu button.activo { background: var(--tinta); color: var(--fondo); }
+      .menu button.activo::after { content: '→'; float: right; opacity: .7; }
+
+      .panel { padding: 30px clamp(18px, 4vw, 52px) 100px; max-width: 980px; }
+      .panel h2 { margin: 0; font-size: clamp(26px, 3vw, 38px); letter-spacing: -.045em; }
+      .panel__nota { color: var(--suave); font-size: 13px; line-height: 1.5; margin: 6px 0 22px; max-width: 70ch; }
+
+      .grupo { margin: 26px 0; padding: 18px 20px; background: var(--panel); border: 1px solid var(--linea); }
+      .grupo > h3 { margin: 0 0 4px; font-size: 18px; letter-spacing: -.02em; }
+      .grupo__nota { margin: 0 0 8px; color: var(--suave); font-size: 12px; }
+        .campos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 18px; }
+      .campos .campo--ancho { grid-column: 1 / -1; }
+      .campos > .grupo { grid-column: 1 / -1; }
+
+      .check { display: flex; gap: 9px; align-items: flex-start; margin-top: 14px; padding: 10px 12px; background: #f5f2eb; border: 1px solid var(--linea); }
+      .check input { margin-top: 3px; }
+      .check label { font-size: 13px; font-weight: 600; }
+      .check .ayuda { margin-top: 2px; }
+
+      .lista { margin: 14px 0 0; }
+      .lista__item { background: #fbf9f3; border: 1px solid var(--linea); margin: 12px 0; }
+      .lista__cab { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-bottom: 1px solid var(--linea); background: #f2eee5; }
+      .lista__cab strong { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; margin-right: auto; }
+      .lista__cuerpo { padding: 4px 14px 14px; }
+      .lista__pie { padding: 0 14px 14px; }
+      .subida { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+      .subida input[type='file'] { font-size: 12px; max-width: 100%; }
+      .subida img { width: 54px; height: 54px; object-fit: cover; border: 1px solid var(--linea); background: #fff; }
+      .subida code { font-size: 11px; color: var(--suave); }
+
+      .tokens { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--linea); }
+      .tokens th, .tokens td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--linea); vertical-align: top; font-size: 13px; }
+      .tokens th { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--suave); background: #f2eee5; }
+      .tokens td code { font-family: var(--mono); background: #f2eee5; padding: 2px 5px; }
+      .tokens td:last-child { color: var(--suave); }
+      .tokens__valor { font-weight: 600; }
+
+      @media (max-width: 860px) {
         .layout { grid-template-columns: 1fr; }
-        .menu { position: static; max-height: none; border-right: 0; border-bottom: 1px solid var(--linea); display: flex; overflow-x: auto; gap: 4px; }
-        .menu button { white-space: nowrap; width: auto; }
+        .menu { position: static; max-height: none; display: flex; overflow-x: auto; gap: 4px; padding: 10px 12px; border-right: 0; border-bottom: 1px solid var(--linea); }
+        .menu__grupo { display: none; }
+        .menu button { width: auto; white-space: nowrap; font-size: 13px; }
+        .menu button.activo::after { content: ''; }
+        .campos { grid-template-columns: 1fr; }
+        .barra { flex-wrap: wrap; }
+        .barra__estado { order: 5; margin-left: 0; max-width: 100%; flex-basis: 100%; }
       }
     </style>
   </head>
@@ -108,8 +140,9 @@
     <div id="app" class="oculto">
       <header class="barra">
         <strong>Contenido</strong>
+        <span class="barra__sub">Portafolio</span>
         <span id="estado" class="barra__estado">Sin cambios</span>
-        <button id="guardar" class="btn btn--senal">Guardar y publicar</button>
+        <button id="guardar" class="btn btn--rojo">Guardar y publicar</button>
         <button id="salir" class="btn">Salir</button>
       </header>
       <div class="layout">
@@ -132,21 +165,173 @@
         cambios: false,
       };
 
-      const etiquetas = {
+      const MENU = [
+        { id: 'sitio', etiqueta: 'Datos del sitio', grupo: 'General' },
+        { id: 'secciones', etiqueta: 'Secciones', grupo: 'General' },
+        { id: 'nav', etiqueta: 'Navegación', grupo: 'General' },
+        { id: 'hero', etiqueta: 'Portada', grupo: 'General' },
+        { id: 'cifras', etiqueta: 'Información general', grupo: 'General' },
+        { id: 'footer', etiqueta: 'Pie de página', grupo: 'General' },
+        { id: 'contenido.perfil', etiqueta: 'Perfil', grupo: 'Contenido' },
+        { id: 'contenido.servicios', etiqueta: 'Qué hago', grupo: 'Contenido' },
+        { id: 'contenido.modelos', etiqueta: 'Modelos BIM', grupo: 'Contenido' },
+        { id: 'contenido.herramientas', etiqueta: 'Herramientas', grupo: 'Contenido' },
+        { id: 'contenido.trayectoria', etiqueta: 'Trayectoria', grupo: 'Contenido' },
+        { id: 'contenido.contacto', etiqueta: 'Contacto', grupo: 'Contenido' },
+        { id: 'tokens', etiqueta: 'Valores globales', grupo: 'Ayuda' },
+      ];
+
+      const NOTAS = {
+        sitio: 'Estos datos aparecen en la cabecera, el perfil, el contacto y el pie.',
+        secciones: 'El orden, los nombres y la visibilidad de las secciones. La axonométrica usa las que tienen “Nivel” activo. Una sección nueva aparece en el menú y la figura, pero la página solo tiene bloques para las seis secciones actuales.',
+        nav: 'Los enlaces del menú superior. Usa los identificadores de “Secciones”.',
+        hero: 'Textos e imagen de la portada. El título admite <em> para la cursiva roja.',
+        cifras: 'La franja de cuatro datos bajo la portada. Puedes usar {{modelos}} y otros valores globales.',
+        footer: 'El rótulo del plano y los enlaces del pie.',
+        tokens: 'Estos valores se sustituyen solos en los textos. No se editan aquí: vienen de los datos del sitio o se calculan.',
+        'contenido.perfil': 'Párrafos, cuadros de datos y fotografía.',
+        'contenido.servicios': 'Las tarjetas de “Qué hago”. Cada una puede tener icono.',
+        'contenido.modelos': 'Los modelos IFC del visor y su nota de autoría.',
+        'contenido.herramientas': 'La tabla de herramientas, con nivel, barra y años.',
+        'contenido.trayectoria': 'Experiencia, cursos y el certificado de inglés.',
+        'contenido.contacto': 'El texto y los canales directos de contacto.',
+      };
+
+      const ETIQUETAS = {
         sitio: 'Datos del sitio',
         secciones: 'Secciones',
         nav: 'Navegación',
         hero: 'Portada',
         cifras: 'Información general',
-        contenido: 'Secciones de la página',
         footer: 'Pie de página',
+        nombre: 'Nombre',
+        marca: 'Marca',
+        marcaSigla: 'Sigla',
+        marcaRol: 'Rol de la marca',
+        ciudad: 'Ciudad',
+        email: 'Correo',
+        whatsapp: 'WhatsApp',
+        linkedin: 'LinkedIn',
+        certificadoIngles: 'Certificado de inglés',
+        anio: 'Año',
+        anios: 'Años',
+        revision: 'Revisión',
+        id: 'Identificador',
+        numero: 'Número',
+        href: 'Enlace',
+        meta: 'Línea de la sección',
+        visible: 'Visible',
+        nivel: 'Nivel en la axonométrica',
+        items: 'Elementos',
+        cta: 'Botón principal',
+        texto: 'Texto',
+        eyebrow: 'Antetítulo',
+        titulo: 'Título',
+        parrafo: 'Párrafo',
+        parrafos: 'Párrafos',
+        boton: 'Botón',
+        figura: 'Figura',
+        etiqueta: 'Etiqueta',
+        pie: 'Pie de figura',
+        valor: 'Valor',
+        indice: 'Índice',
+        subtitulo: 'Subtítulo',
+        superficie: 'Superficie modelada',
+        archivo: 'Archivo IFC',
+        peso: 'Peso del IFC (bytes)',
+        nota: 'Nota',
+        icono: 'Icono',
+        detalle: 'Detalle',
+        foto: 'Fotografía',
+        fotoAlt: 'Texto alternativo de la foto',
+        fotoPie: 'Etiqueta del retrato',
+        fotoPendiente: 'Texto cuando no hay foto',
+        datos: 'Cuadros de datos',
+        pregunta: 'Pregunta de contacto',
+        canales: 'Canales',
+        aviso: 'Aviso',
+        rotulo: 'Rótulo',
+        legal: 'Texto legal',
+        experiencia: 'Experiencia',
+        formacion: 'Formación y cursos',
+        certificado: 'Certificado',
+        periodo: 'Periodo',
+        cargo: 'Cargo',
+        lugar: 'Lugar',
+        pct: 'Porcentaje de la barra',
+        nivelUso: 'Nivel de uso',
       };
 
-      const campo = (clave) =>
-        clave
-          .replace(/([a-z])([A-Z])/g, '$1 $2')
-          .replace(/^./, (letra) => letra.toUpperCase())
-          .replace(/_/g, ' ');
+      const LISTAS = {
+        'contenido.modelos.items': 'Modelos',
+        'contenido.servicios.items': 'Servicios',
+        'contenido.herramientas.items': 'Herramientas',
+        'contenido.perfil.datos': 'Cuadros de datos',
+        'contenido.perfil.parrafos': 'Párrafos',
+        'contenido.contacto.canales': 'Canales',
+        'contenido.trayectoria.experiencia': 'Experiencia',
+        'contenido.trayectoria.formacion': 'Cursos',
+        'nav.items': 'Enlaces del menú',
+        cifras: 'Cifras',
+        secciones: 'Secciones',
+        'footer.rotulo': 'Celdas del rótulo',
+        'footer.nav': 'Enlaces del pie',
+      };
+
+      const AYUDAS = {        'sitio.nombre': 'Se usa en el título de la página, el pie y los valores globales.',
+        'sitio.anio': 'Año que aparece en el pie. Actualízalo cada año.',
+        'secciones.id': 'Identificador interno. No lo cambies si hay enlaces que lo usan.',
+        'secciones.href': 'Si empieza con #, navega dentro de la página.',
+        'secciones.meta': 'Aparece junto al título de la sección. Admite {{modelos}}.',
+        'secciones.visible': 'Si lo desactivas, desaparece del menú y de la página.',
+        'secciones.nivel': 'Si lo desactivas, no aparece en la axonométrica.',
+        'nav.items': 'Escribe los identificadores de las secciones, en orden.',
+        'hero.titulo': 'Admite <em> para la parte en cursiva roja.',
+        'hero.figura.pie': 'Puedes usar {{niveles}} y {{altura}}.',
+        'cifras.valor': 'Admite {{modelos}}, {{niveles}}, {{altura}}, {{ciudad}}…',
+        'contenido.modelos.items.archivo': 'Ruta relativa dentro de public/. Usa el botón para subir el IFC.',
+        'contenido.modelos.items.peso': 'Tamaño real en bytes. Se usa para el progreso de descarga.',
+        'contenido.modelos.items.superficie': 'Opcional. Si está vacío, no se muestra.',
+        'contenido.servicios.items.icono': 'Se muestra a 38×38 px. Usa SVG o PNG transparente.',
+        'contenido.perfil.foto': 'Se recorta a 4:5. Sube JPG, PNG o WebP.',
+        'contenido.perfil.datos': 'Los cuadros de Formación, Base, Idiomas, etc.',
+        'contenido.herramientas.items.pct': 'Ancho de la barra: de 0 a 100.',
+        'contenido.herramientas.items.nivelUso': 'Nivel de uso: Avanzado, Intermedio o Básico.',
+        'footer.rotulo': 'Las celdas del rótulo del plano.',
+        id: 'Identificador interno. No lo cambies si hay enlaces que lo usan.',
+        visible: 'Si lo desactivas, desaparece del menú y de la página.',
+        nivel: 'Si lo desactivas, no aparece en la axonométrica.',
+        href: 'Si empieza con #, navega dentro de la página.',
+        meta: 'Aparece junto al título de la sección. Admite {{modelos}}.',
+        valor: 'Admite {{modelos}}, {{niveles}}, {{altura}}, {{ciudad}}…',
+        archivo: 'Ruta relativa dentro de public/. Usa el botón para subir el IFC.',
+        peso: 'Tamaño real en bytes. Se usa para el progreso de descarga.',
+        icono: 'Se muestra a 38×38 px. Usa SVG o PNG transparente.',
+        foto: 'Se recorta a 4:5. Sube JPG, PNG o WebP.',
+        pct: 'Ancho de la barra: de 0 a 100.',
+        anio: 'Año del curso o certificado.',
+      };
+
+      const etiquetaDe = (clave) => ETIQUETAS[clave] || clave.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (l) => l.toUpperCase()).replace(/_/g, ' ');
+      const ayudaDe = (ruta) => {
+        if (AYUDAS[ruta]) return AYUDAS[ruta];
+        const clave = ruta.split('.').pop();
+        return AYUDAS[clave] || '';
+      };
+
+      const nodo = (etiqueta, clase) => {
+        const el = document.createElement(etiqueta);
+        if (clase) el.className = clase;
+        return el;
+      };
+
+      const leer = (ruta) => ruta.split('.').reduce((obj, clave) => obj?.[clave], estado.contenido);
+      const escribir = (ruta, valor) => {
+        const partes = ruta.split('.');
+        let obj = estado.contenido;
+        partes.slice(0, -1).forEach((clave) => { obj = obj[clave]; });
+        obj[partes[partes.length - 1]] = valor;
+      };
 
       const marcar = () => {
         estado.cambios = true;
@@ -167,11 +352,10 @@
         return datos;
       };
 
+      const esImagen = (ruta) => /\.(png|jpe?g|webp|avif|svg)$/i.test(ruta || '');
       const textoLargo = (clave, valor) =>
         typeof valor === 'string' &&
-        (valor.length > 90 || /<(p|br|em|strong|span)/i.test(valor) || /parrafo|detalle|nota|descripcion|legal|aviso|pregunta|titulo/i.test(clave));
-
-      const esImagen = (ruta) => /\.(png|jpe?g|webp|avif|svg)$/i.test(ruta || '');
+        (valor.length > 90 || /<(p|br|em|strong|span)/i.test(valor) || /parrafo|detalle|nota|descripcion|legal|aviso|pregunta|titulo|subtitulo/i.test(clave));
 
       const limpiar = (valor) => {
         if (Array.isArray(valor)) return [];
@@ -183,242 +367,342 @@
         return '';
       };
 
-      const subir = async (archivo, destino, alTerminar) => {
-        if (!archivo) return;
+      const subirArchivo = async (archivo, destino) => {
         if (archivo.size > 12 * 1024 * 1024) {
-          alert('El archivo supera 12 MB. Usa un IFC más liviano o súbelo manualmente al repositorio.');
-          return;
+          throw new Error('El archivo supera 12 MB. Comprime el IFC o reduce la geometría.');
         }
-        const nombre = prompt('Nombre del archivo (sin espacios):', archivo.name.replace(/\s+/g, '-'));
-        if (!nombre) return;
-        const limpio = nombre.toLowerCase().replace(/[^a-z0-9._-]/g, '-');
+        const base = archivo.name
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9._-]+/g, '-');
+        const nombre = base || `archivo-${Date.now()}`;
         const formulario = new FormData();
         formulario.append('file', archivo);
-        formulario.append('destino', `public/${destino}/${limpio}`);
-        formulario.append('mensaje', `Subir ${limpio} desde el panel`);
-        try {
-          const datos = await pedir('/upload', { method: 'POST', body: formulario });
-          alTerminar(datos.ruta);
-        } catch (error) {
-          alert(error.message);
-        }
+        formulario.append('destino', `public/${destino}/${nombre}`);
+        formulario.append('mensaje', `Subir ${nombre} desde el panel`);
+        const datos = await pedir('/upload', { method: 'POST', body: formulario });
+        return { ruta: datos.ruta, bytes: datos.bytes };
       };
 
-      const crearEntrada = (clave, valor, ruta, alCambiar) => {
-        if (typeof valor === 'string') {
-          const contenedor = document.createElement('div');
-          contenedor.className = 'campo';
-          const id = `c-${Math.random().toString(36).slice(2)}`;
-          const label = document.createElement('label');
-          label.htmlFor = id;
-          label.textContent = campo(clave);
-          const control = document.createElement(textoLargo(clave, valor) ? 'textarea' : 'input');
-          control.id = id;
-          if (control.tagName === 'INPUT') control.type = 'text';
-          control.value = valor;
-          control.addEventListener('input', () => {
-            alCambiar(control.value);
-            marcar();
-          });
-          contenedor.append(label, control);
-          if (/foto|icono|archivo|imagen/i.test(clave)) {
-            const subida = document.createElement('div');
-            subida.className = 'subida';
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = /archivo/i.test(clave) ? '.ifc' : 'image/*';
-            input.addEventListener('change', () => {
-              const destino = /archivo/i.test(clave) ? 'modelos' : 'uploads';
-              subir(input.files[0], destino, (nueva) => {
-                control.value = nueva;
-                alCambiar(nueva);
-                marcar();
-                if (esImagen(nueva)) {
-                  vista.src = BASE + nueva;
-                  vista.hidden = false;
-                }
-              });
-            });
-            const vista = document.createElement('img');
-            vista.alt = '';
-            vista.hidden = !esImagen(valor);
-            if (esImagen(valor)) vista.src = BASE + valor;
-            subida.append(input, vista);
-            contenedor.append(subida);
-          }
-          return contenedor;
-        }
+      const aviso = (texto) => {
+        const p = nodo('small', 'ayuda');
+        p.textContent = texto;
+        return p;
+      };
 
+      const crearCampo = (clave, valor, ruta, set, padre) => {
+        const caja = nodo('div', 'campo');
+        const id = `c-${Math.random().toString(36).slice(2)}`;
+        const label = nodo('label');
+        label.htmlFor = id;
+        label.textContent = etiquetaDe(clave);
+        const control = document.createElement(textoLargo(clave, valor) ? 'textarea' : 'input');
+        control.id = id;
+        control.dataset.campo = clave;
+        if (control.tagName === 'INPUT') control.type = 'text';
+        control.value = valor;
+        if (clave === 'id') control.readOnly = true;
+        control.addEventListener('input', () => {
+          set(control.value);
+          marcar();
+        });
+        caja.append(label, control);
+        if (textoLargo(clave, valor)) caja.classList.add('campo--ancho');
+        const ayuda = ayudaDe(ruta);
+        if (ayuda) caja.append(aviso(ayuda));
+
+        if (/foto|icono|archivo|imagen/i.test(clave)) {
+          const subida = nodo('div', 'subida');
+          const file = document.createElement('input');
+          file.type = 'file';
+          file.accept = /archivo/i.test(clave) ? '.ifc' : 'image/*';
+          const vista = document.createElement('img');
+          vista.alt = '';
+          vista.hidden = !esImagen(valor);
+          if (esImagen(valor)) vista.src = BASE + valor;
+          const rutaTexto = nodo('code');
+          rutaTexto.textContent = valor || 'Sin archivo';
+          file.addEventListener('change', async () => {
+            try {
+              const datos = await subirArchivo(file.files[0], /archivo/i.test(clave) ? 'modelos' : 'uploads');
+              control.value = datos.ruta;
+              rutaTexto.textContent = datos.ruta;
+              set(datos.ruta);
+              if (padre && clave === 'archivo' && 'peso' in padre) {
+                padre.peso = datos.bytes;
+                const contenedorItem = control.closest('.lista__item');
+                const pesoInput = contenedorItem
+                  ? contenedorItem.querySelector('[data-campo="peso"]')
+                  : document.querySelector('[data-campo="peso"]');
+                if (pesoInput) pesoInput.value = String(datos.bytes);
+              }
+              if (esImagen(datos.ruta)) {
+                vista.src = BASE + datos.ruta;
+                vista.hidden = false;
+              }
+              marcar();
+            } catch (error) {
+              alert(error.message);
+            }
+          });
+          subida.append(file, vista, rutaTexto);
+          caja.append(subida);
+        }
+        return caja;
+      };
+
+      const crearLista = (clave, valor, ruta, set) => {
+        const bloque = nodo('section', 'grupo campo--ancho');
+        const rotulo = LISTAS[ruta] || etiquetaDe(clave);
+        const h3 = nodo('h3');
+        h3.textContent = rotulo;
+        bloque.append(h3);
+        const ayuda = ayudaDe(ruta);
+        if (ayuda) bloque.append(aviso(ayuda));
+        const lista = nodo('div', 'lista');
+
+        const pintar = () => {
+          lista.textContent = '';
+          valor.forEach((elemento, indice) => {
+            const item = nodo('div', 'lista__item');
+            const cab = nodo('div', 'lista__cab');
+            const titulo = nodo('strong');
+            titulo.textContent =
+              elemento?.nombre ||
+              elemento?.titulo ||
+              elemento?.etiqueta ||
+              `${rotulo} ${indice + 1}`;
+            const quitar = nodo('button', 'btn btn--mini');
+            quitar.type = 'button';
+            quitar.textContent = 'Quitar';
+            quitar.addEventListener('click', () => {
+              valor.splice(indice, 1);
+              set(valor);
+              marcar();
+              pintar();
+            });
+            const subir = nodo('button', 'btn btn--mini');
+            subir.type = 'button';
+            subir.textContent = '↑';
+            subir.disabled = indice === 0;
+            subir.addEventListener('click', () => {
+              [valor[indice - 1], valor[indice]] = [valor[indice], valor[indice - 1]];
+              set(valor);
+              marcar();
+              pintar();
+            });
+            cab.append(titulo, quitar, subir);
+            item.append(cab);
+
+            const cuerpo = nodo('div', 'lista__cuerpo');
+            if (elemento && typeof elemento === 'object') {
+              const campos = nodo('div', 'campos');
+              Object.keys(elemento).forEach((subclave) => {
+                campos.append(
+                  crearElemento(subclave, elemento[subclave], `${ruta}.${indice}.${subclave}`, (nuevo) => {
+                    elemento[subclave] = nuevo;
+                  }, elemento),
+                );
+              });
+              cuerpo.append(campos);
+            } else {
+              cuerpo.append(
+                crearCampo(clave, String(elemento), `${ruta}.${indice}`, (nuevo) => {
+                  valor[indice] = nuevo;
+                }),
+              );
+            }
+            item.append(cuerpo);
+            lista.append(item);
+          });
+        };
+
+        pintar();
+        const agregar = nodo('button', 'btn btn--mini');
+        agregar.type = 'button';
+        agregar.textContent = 'Añadir elemento';
+        agregar.addEventListener('click', () => {
+          const modelo = valor[0];
+          const nuevo = modelo && typeof modelo === 'object' ? limpiar(modelo) : '';
+          if (nuevo && typeof nuevo === 'object' && 'id' in nuevo) nuevo.id = '';
+          valor.push(nuevo);
+          set(valor);
+          marcar();
+          pintar();
+        });
+        const pie = nodo('div', 'lista__pie');
+        pie.append(agregar);
+        bloque.append(lista, pie);
+        return bloque;
+      };
+
+      const crearObjeto = (clave, valor, ruta, set) => {
+        const bloque = nodo('section', 'grupo');
+        if (clave) {
+          const h3 = nodo('h3');
+          h3.textContent = etiquetaDe(clave);
+          bloque.append(h3);
+        }
+        const campos = nodo('div', 'campos');
+        Object.keys(valor).forEach((subclave) => {
+          campos.append(
+            crearElemento(subclave, valor[subclave], `${ruta}.${subclave}`, (nuevo) => {
+              valor[subclave] = nuevo;
+            }, valor),
+          );
+        });
+        bloque.append(campos);
+        return bloque;
+      };
+
+      const crearElemento = (clave, valor, ruta, set, padre) => {
+        if (typeof valor === 'string') return crearCampo(clave, valor, ruta, set, padre);
         if (typeof valor === 'number') {
-          const contenedor = document.createElement('div');
-          contenedor.className = 'campo';
-          const label = document.createElement('label');
-          label.textContent = campo(clave);
+          const caja = nodo('div', 'campo');
+          const label = nodo('label');
+          label.textContent = etiquetaDe(clave);
           const control = document.createElement('input');
           control.type = 'number';
           control.value = String(valor);
+          control.dataset.campo = clave;
           control.addEventListener('input', () => {
-            alCambiar(Number(control.value));
+            set(Number(control.value));
             marcar();
           });
-          contenedor.append(label, control);
-          return contenedor;
+          caja.append(label, control);
+          const ayuda = ayudaDe(ruta);
+          if (ayuda) caja.append(aviso(ayuda));
+          return caja;
         }
-
         if (typeof valor === 'boolean') {
-          const contenedor = document.createElement('div');
-          contenedor.className = 'check';
+          const caja = nodo('div', 'check');
           const control = document.createElement('input');
           control.type = 'checkbox';
           control.checked = valor;
           control.id = `b-${Math.random().toString(36).slice(2)}`;
           control.addEventListener('change', () => {
-            alCambiar(control.checked);
+            set(control.checked);
             marcar();
           });
-          const label = document.createElement('label');
+          const texto = nodo('div');
+          const label = nodo('label');
           label.htmlFor = control.id;
-          label.textContent = campo(clave);
-          contenedor.append(control, label);
-          return contenedor;
+          label.textContent = etiquetaDe(clave);
+          texto.append(label);
+          const ayuda = ayudaDe(ruta);
+          if (ayuda) texto.append(aviso(ayuda));
+          caja.append(control, texto);
+          return caja;
         }
+        if (Array.isArray(valor)) return crearLista(clave, valor, ruta, set);
+        if (valor && typeof valor === 'object') return crearObjeto(clave, valor, ruta, set);
+        return nodo('span');
+      };
 
-        if (Array.isArray(valor)) {
-          const fieldset = document.createElement('fieldset');
-          const legend = document.createElement('legend');
-          legend.textContent = campo(clave);
-          fieldset.append(legend);
+      const valoresGlobales = () => {
+        const secciones = (estado.contenido?.secciones ?? []).filter((s) => s.visible && s.nivel);
+        const modelos = estado.contenido?.contenido?.modelos?.items?.length ?? 0;
+        const sitio = estado.contenido?.sitio ?? {};
+        const altura = (Math.max(secciones.length - 1, 1) * 3.2).toFixed(2).replace('.', ',');
+        return [
+          ['{{modelos}}', String(modelos).padStart(2, '0'), 'Cantidad de modelos en “Modelos BIM”.'],
+          ['{{niveles}}', String(secciones.length), 'Secciones visibles con “Nivel en la axonométrica”.'],
+          ['{{altura}}', altura, 'Altura calculada de la axonométrica (niveles × 3,20 m).'],
+          ['{{nombre}}', sitio.nombre ?? '', 'Datos del sitio → Nombre.'],
+          ['{{ciudad}}', sitio.ciudad ?? '', 'Datos del sitio → Ciudad.'],
+          ['{{email}}', sitio.email ?? '', 'Datos del sitio → Correo.'],
+          ['{{whatsapp}}', sitio.whatsapp ?? '', 'Datos del sitio → WhatsApp.'],
+          ['{{linkedin}}', sitio.linkedin ?? '', 'Datos del sitio → LinkedIn.'],
+          ['{{certificado}}', sitio.certificadoIngles ?? '', 'Datos del sitio → Certificado de inglés.'],
+          ['{{anio}}', String(sitio.anio ?? ''), 'Datos del sitio → Año.'],
+          ['{{marca}}', sitio.marca ?? '', 'Datos del sitio → Marca.'],
+        ];
+      };
 
-          const lista = document.createElement('div');
-          lista.className = 'lista';
+      const pintarTokens = () => {
+        const panel = $('#panel');
+        panel.textContent = '';
+        const h2 = nodo('h2');
+        h2.textContent = 'Valores globales';
+        const nota = nodo('p', 'panel__nota');
+        nota.textContent = NOTAS.tokens;
+        panel.append(h2, nota);
 
-          const pintar = () => {
-            lista.textContent = '';
-            valor.forEach((elemento, indice) => {
-              if (typeof elemento === 'object' && elemento !== null) {
-                const caja = document.createElement('div');
-                caja.className = 'lista__item';
-                const acciones = document.createElement('div');
-                acciones.className = 'lista__acciones';
-                const borrar = document.createElement('button');
-                borrar.type = 'button';
-                borrar.className = 'btn mini';
-                borrar.textContent = 'Quitar';
-                borrar.addEventListener('click', () => {
-                  valor.splice(indice, 1);
-                  alCambiar(valor);
-                  marcar();
-                  pintar();
-                });
-                const subirBtn = document.createElement('button');
-                subirBtn.type = 'button';
-                subirBtn.className = 'btn mini';
-                subirBtn.textContent = '↑';
-                subirBtn.disabled = indice === 0;
-                subirBtn.addEventListener('click', () => {
-                  [valor[indice - 1], valor[indice]] = [valor[indice], valor[indice - 1]];
-                  alCambiar(valor);
-                  marcar();
-                  pintar();
-                });
-                acciones.append(borrar, subirBtn);
-                caja.append(acciones);
-                Object.keys(elemento).forEach((subclave) => {
-                  caja.append(
-                    crearEntrada(subclave, elemento[subclave], `${ruta}.${indice}.${subclave}`, (nuevo) => {
-                      elemento[subclave] = nuevo;
-                    }),
-                  );
-                });
-                lista.append(caja);
-              } else {
-                const fila = document.createElement('div');
-                fila.className = 'fila';
-                const control = document.createElement('input');
-                control.type = 'text';
-                control.value = String(elemento);
-                control.addEventListener('input', () => {
-                  valor[indice] = control.value;
-                  alCambiar(valor);
-                  marcar();
-                });
-                const borrar = document.createElement('button');
-                borrar.type = 'button';
-                borrar.className = 'btn mini';
-                borrar.textContent = '×';
-                borrar.addEventListener('click', () => {
-                  valor.splice(indice, 1);
-                  alCambiar(valor);
-                  marcar();
-                  pintar();
-                });
-                fila.append(control, borrar);
-                lista.append(fila);
-              }
-            });
-          };
+        const tabla = nodo('table', 'tokens');
+        const thead = nodo('thead');
+        const fila = nodo('tr');
+        ['Token', 'Valor actual', 'De dónde sale'].forEach((texto) => {
+          const th = nodo('th');
+          th.textContent = texto;
+          fila.append(th);
+        });
+        thead.append(fila);
+        const tbody = nodo('tbody');
+        valoresGlobales().forEach(([token, valor, origen]) => {
+          const tr = nodo('tr');
+          const tdToken = nodo('td');
+          const code = nodo('code');
+          code.textContent = token;
+          tdToken.append(code);
+          const tdValor = nodo('td', 'tokens__valor');
+          tdValor.textContent = String(valor);
+          const tdOrigen = nodo('td');
+          tdOrigen.textContent = origen;
+          tr.append(tdToken, tdValor, tdOrigen);
+          tbody.append(tr);
+        });
+        tabla.append(thead, tbody);
+        panel.append(tabla);
 
-          pintar();
-          const agregar = document.createElement('button');
-          agregar.type = 'button';
-          agregar.className = 'btn mini';
-          agregar.textContent = 'Añadir';
-          agregar.addEventListener('click', () => {
-            const modelo = valor[0];
-            valor.push(modelo && typeof modelo === 'object' ? limpiar(modelo) : '');
-            alCambiar(valor);
-            marcar();
-            pintar();
-          });
-          fieldset.append(lista, agregar);
-          return fieldset;
-        }
-
-        if (valor && typeof valor === 'object') {
-          const fieldset = document.createElement('fieldset');
-          const legend = document.createElement('legend');
-          legend.textContent = campo(clave);
-          fieldset.append(legend);
-          Object.keys(valor).forEach((subclave) => {
-            fieldset.append(
-              crearEntrada(subclave, valor[subclave], `${ruta}.${subclave}`, (nuevo) => {
-                valor[subclave] = nuevo;
-              }),
-            );
-          });
-          return fieldset;
-        }
-
-        return document.createElement('span');
+        const sugerencia = nodo('p', 'panel__nota');
+        sugerencia.style.marginTop = '18px';
+        sugerencia.textContent = 'Copia el token y pégalo dentro de cualquier texto. Al publicar, se sustituye por el valor de la tabla.';
+        panel.append(sugerencia);
       };
 
       const pintarPanel = () => {
+        if (estado.activo === 'tokens') {
+          pintarTokens();
+          return;
+        }
+        const item = MENU.find((entrada) => entrada.id === estado.activo);
         const panel = $('#panel');
         panel.textContent = '';
-        const titulo = document.createElement('h2');
-        titulo.textContent = etiquetas[estado.activo] || campo(estado.activo);
-        const nota = document.createElement('p');
-        nota.className = 'panel__nota';
-        nota.textContent =
-          'Los cambios se publican como un commit en GitHub; el sitio se reconstruye solo.';
-        panel.append(titulo, nota);
-        panel.append(
-          crearEntrada(estado.activo, estado.contenido[estado.activo], estado.activo, (nuevo) => {
-            estado.contenido[estado.activo] = nuevo;
-          }),
-        );
+        const h2 = nodo('h2');
+        h2.textContent = item?.etiqueta ?? estado.activo;
+        const nota = nodo('p', 'panel__nota');
+        nota.textContent = NOTAS[estado.activo] ?? '';
+        panel.append(h2, nota);
+
+        const valor = leer(estado.activo);
+        const bloque = Array.isArray(valor)
+          ? crearLista(item?.etiqueta ?? '', valor, estado.activo, (nuevo) => {
+              escribir(estado.activo, nuevo);
+            })
+          : crearElemento('', valor, estado.activo, (nuevo) => {
+              escribir(estado.activo, nuevo);
+            });
+        panel.append(bloque);
       };
 
       const pintarMenu = () => {
         const menu = $('#menu');
         menu.textContent = '';
-        Object.keys(estado.contenido).forEach((clave) => {
-          const boton = document.createElement('button');
+        let grupo = '';
+        MENU.forEach((item) => {
+          if (item.grupo !== grupo) {
+            grupo = item.grupo;
+            const titulo = nodo('div', 'menu__grupo');
+            titulo.textContent = grupo;
+            menu.append(titulo);
+          }
+          const boton = nodo('button');
           boton.type = 'button';
-          boton.textContent = etiquetas[clave] || campo(clave);
-          boton.classList.toggle('activo', clave === estado.activo);
+          boton.textContent = item.etiqueta;
+          boton.classList.toggle('activo', item.id === estado.activo);
           boton.addEventListener('click', () => {
-            estado.activo = clave;
+            estado.activo = item.id;
             pintarMenu();
             pintarPanel();
           });
@@ -453,9 +737,9 @@
           localStorage.setItem('admin_token', datos.token);
           await cargarContenido();
         } catch (error) {
-          const aviso = $('#login-error');
-          aviso.textContent = error.message;
-          aviso.classList.remove('oculto');
+          const caja = $('#login-error');
+          caja.textContent = error.message;
+          caja.classList.remove('oculto');
         }
       });
 
@@ -483,8 +767,15 @@
       });
 
       $('#salir').addEventListener('click', () => {
+        if (estado.cambios && !confirm('Hay cambios sin publicar. ¿Salir igualmente?')) return;
         localStorage.removeItem('admin_token');
         location.reload();
+      });
+
+      window.addEventListener('beforeunload', (evento) => {
+        if (!estado.cambios) return;
+        evento.preventDefault();
+        evento.returnValue = '';
       });
 
       if (estado.token) {
@@ -497,4 +788,3 @@
     </script>
   </body>
 </html>
-

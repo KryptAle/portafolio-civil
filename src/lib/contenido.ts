@@ -40,10 +40,8 @@ const altura = Math.max(niveles.length - 1, 1) * ALTURA_PISO;
 const valores: Record<string, string> = {
   nombre: sitio.nombre,
   marca: sitio.marca,
-  titulo: sitio.titulo,
   ciudad: sitio.ciudad,
   email: sitio.email,
-  telefono: sitio.telefono,
   whatsapp: sitio.whatsapp,
   linkedin: sitio.linkedin,
   certificado: sitio.certificadoIngles,

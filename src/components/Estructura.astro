@@ -2,14 +2,19 @@
 import { generarEstructura } from '../lib/iso';
 import { etiquetasNivel, niveles as nivelesSitio } from '../lib/contenido';
 
+/* La primera sección va arriba: se invierte el orden para que Perfil quede en el nivel superior. */
+const etiquetasFigura = [...etiquetasNivel]
+  .reverse()
+  .map(({ nombre, href }) => ({ numero: '', nombre, href }));
+
 const dibujo = generarEstructura({
   vanosX: 2,
   vanosY: 3,
-  pisos: etiquetasNivel.length,
+  pisos: etiquetasFigura.length,
   vano: 6,
   alturaPiso: 3.2,
   u: 13.4,
-  etiquetas: etiquetasNivel,
+  etiquetas: etiquetasFigura,
 });
 
 const { lineas, niveles, cota, tapa, caras, esquinas, viewBox } = dibujo;
@@ -120,12 +125,11 @@ const burbujas = [
   ))}
 
   {niveles.map((n) => (
-    <a class="iso-nivel" href={n.href} aria-label={`${n.numero} ${n.nombre}`}>
+    <a class="iso-nivel" href={n.href} aria-label={n.nombre}>
       <polygon class="iso-placa" points={n.puntos} />
       <line class="iso-nivel__linea" x1={n.x - 34} y1={n.y - 3} x2={n.x - 9} y2={n.y - 3} />
       <text class="iso-nivel__texto" x={n.x} y={n.y}>
-        <tspan class="iso-nivel__num">{n.numero}</tspan>
-        <tspan dx="7">{n.nombre}</tspan>
+        {n.nombre}
       </text>
     </a>
   ))}

@@ -1,21 +1,16 @@
 {
   "sitio": {
-    "nombre": "Alejandro Aguilera test",
-    "nombreCorto": "A. Aguilera",
+    "nombre": "Alejandro Aguilera",
     "marca": "Aguilera",
     "marcaSigla": "AA",
     "marcaRol": "Ingeniería civil",
-    "titulo": "Ingeniero civil",
-    "especialidad": "Digitalización BIM · Revit",
     "ciudad": "Caracas, Venezuela",
     "email": "hola@alejandroaguilera.ing",
-    "telefono": "+58 412 000 0000",
     "whatsapp": "584120000000",
     "linkedin": "https://www.linkedin.com/in/alejandroaguilera",
     "certificadoIngles": "https://cert.efset.org/VXSPPg",
     "anio": 2026,
-    "revision": "REV. A",
-    "descripcion": "Portafolio BIM: digitalizo planos 2D en modelos Revit. Ejercicios de modelado con alcance, nivel de desarrollo y criterio técnico."
+    "revision": "REV. A"
   },
   "secciones": [
     {
@@ -203,39 +198,39 @@
       "items": [
         {
           "nombre": "Revit",
-          "nivel": "Avanzado",
           "anios": 4,
-          "pct": 92
+          "pct": 92,
+          "nivelUso": "Avanzado"
         },
         {
           "nombre": "AutoCAD",
-          "nivel": "Avanzado",
           "anios": 6,
-          "pct": 90
+          "pct": 90,
+          "nivelUso": "Avanzado"
         },
         {
           "nombre": "Navisworks",
-          "nivel": "Intermedio",
           "anios": 3,
-          "pct": 72
+          "pct": 72,
+          "nivelUso": "Intermedio"
         },
         {
           "nombre": "Enscape",
-          "nivel": "Intermedio",
           "anios": 2,
-          "pct": 68
+          "pct": 68,
+          "nivelUso": "Intermedio"
         },
         {
           "nombre": "Advance Steel",
-          "nivel": "Básico",
           "anios": 1,
-          "pct": 48
+          "pct": 48,
+          "nivelUso": "Básico"
         },
         {
           "nombre": "Excel / Python",
-          "nivel": "Intermedio",
           "anios": 4,
-          "pct": 66
+          "pct": 66,
+          "nivelUso": "Intermedio"
         }
       ]
     },

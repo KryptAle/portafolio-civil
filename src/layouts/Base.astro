@@ -15,18 +15,22 @@ interface Props {
   ogTipo?: string;
 }
 
-const { titulo, descripcion = sitio.descripcion, ogTipo = 'website' } = Astro.props;
+const {
+  titulo,
+  descripcion = 'Portafolio BIM: digitalización de planos 2D a modelos Revit.',
+  ogTipo = 'website',
+} = Astro.props;
 const tituloPagina = titulo
   ? `${titulo} — ${sitio.nombre}`
-  : `${sitio.nombre} — ${sitio.titulo} · ${sitio.especialidad}`;
+  : `${sitio.nombre} — Portafolio BIM`;
 const canonica = new URL(Astro.url.pathname, Astro.site ?? 'https://rivas.ing');
 
 const ficha = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: sitio.nombre,
-  jobTitle: sitio.titulo,
-  description: sitio.descripcion,
+  jobTitle: 'Ingeniero civil',
+  description: descripcion,
   email: `mailto:${sitio.email}`,
   url: canonica.origin,
   address: { '@type': 'PostalAddress', addressLocality: sitio.ciudad },
