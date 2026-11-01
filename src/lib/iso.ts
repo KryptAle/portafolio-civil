@@ -62,9 +62,11 @@ export function generarEstructura(opciones: Opciones = {}): Dibujo {
   } = opciones;
 
   const totalPisos = etiquetas.length > 0 ? etiquetas.length : pisos;
+  /* Con secciones, el último nivel es la placa superior: no se dibuja techo extra. */
+  const intervalos = etiquetas.length > 0 ? Math.max(totalPisos - 1, 1) : totalPisos;
   const X = vanosX * vano;
   const Y = vanosY * vano;
-  const H = totalPisos * alturaPiso;
+  const H = intervalos * alturaPiso;
   const ext = vano * 0.55;
 
   // Proyección isométrica: x crece a la derecha-abajo, y a la izquierda-abajo, z hacia arriba.
@@ -129,7 +131,7 @@ export function generarEstructura(opciones: Opciones = {}): Dibujo {
   }
 
   // Columnas piso a piso.
-  for (let f = 0; f < totalPisos; f++) {
+  for (let f = 0; f < intervalos; f++) {
     const z0 = f * alturaPiso;
     const z1 = z0 + alturaPiso;
     for (let i = 0; i <= vanosX; i++) {
@@ -147,7 +149,7 @@ export function generarEstructura(opciones: Opciones = {}): Dibujo {
   }
 
   // Losas: contorno de cada nivel.
-  for (let f = 0; f <= totalPisos; f++) {
+  for (let f = 0; f <= intervalos; f++) {
     const z = f * alturaPiso;
     const d = 0.18 + f * 0.07;
     push(P(0, 0, z), P(X, 0, z), 'losa', d, 1);

@@ -66,9 +66,6 @@ const software = [
         <a class="btn btn--lleno" href="#proyectos">
           Ver modelos <span class="btn__flecha" aria-hidden="true">→</span>
         </a>
-        <a class="btn" href="#contacto">
-          Hablemos <span class="btn__flecha" aria-hidden="true">↗</span>
-        </a>
       </div>
     </div>
 
@@ -79,7 +76,7 @@ const software = [
         </div>
         <figcaption class="figura__pie">
           <span class="eti">Fig. 01 — Axonométrica</span>
-          <span class="eti">6 niveles · 19,20 m</span>
+          <span class="eti">6 niveles · 16,00 m</span>
         </figcaption>
       </figure>
     </div>
@@ -177,6 +174,7 @@ const software = [
             class="fila revelar"
             type="button"
             data-modelo={p.archivo}
+            data-peso={p.peso}
             data-titulo={p.titulo}
             data-nota={p.nota}
             aria-pressed={i === 0 ? 'true' : 'false'}
@@ -205,6 +203,7 @@ const software = [
           <Visor3D
             titulo={proyectos[0].titulo}
             archivo={proyectos[0].archivo}
+            peso={proyectos[0].peso}
             nota={proyectos[0].nota}
             compacto
           />
@@ -350,6 +349,7 @@ const software = [
         const api = visor?.visorAPI;
         api?.cargar({
           archivo: fila.dataset.modelo,
+          peso: fila.dataset.peso,
           titulo: fila.dataset.titulo,
           nota: fila.dataset.nota,
         });

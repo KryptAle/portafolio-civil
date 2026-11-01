@@ -8,6 +8,7 @@
     "meta": "Arquitectura y estructura · 4 niveles",
     "superficie": "",
     "archivo": "modelos/proyecto1.ifc",
+    "peso": 1448461,
     "nota": "IFC 2x3 · 4 niveles · exportado de Revit 2025"
   },
   {
@@ -19,6 +20,7 @@
     "meta": "Estructura · 7 niveles",
     "superficie": "",
     "archivo": "modelos/proyecto2-ligero.ifc",
+    "peso": 993177,
     "nota": "IFC 2x3 · 7 niveles · 0,95 MB · exportado de Revit 2025"
   }
 ]

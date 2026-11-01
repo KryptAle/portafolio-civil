@@ -9,12 +9,13 @@ export interface OpcionesVisor {
   contenedor: HTMLElement;
   archivo: string;
   base: string;
+  peso?: number;
   onEstado?: EstadoCarga;
 }
 
 export interface Visor {
   reencuadrar: () => void;
-  cambiar: (archivo: string) => Promise<void>;
+  cambiar: (archivo: string, peso?: number) => Promise<void>;
   destruir: () => void;
 }
 
@@ -22,6 +23,7 @@ export async function iniciarVisor({
   contenedor,
   archivo,
   base,
+  peso,
   onEstado,
 }: OpcionesVisor): Promise<Visor> {
   const avisar = (texto: string) => onEstado?.(texto);
@@ -106,12 +108,17 @@ export async function iniciarVisor({
     }
   };
 
-  const descargar = async (url: string) => {
+  const mb = (bytes: number) =>
+    (bytes / 1048576).toLocaleString('es-ES', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+  const descargar = async (url: string, tamano?: number) => {
     const respuesta = await fetch(url);
     if (!respuesta.ok) throw new Error(`No se pudo descargar el modelo (${respuesta.status})`);
-    const total = Number(respuesta.headers.get('content-length') ?? 0);
 
-    if (!respuesta.body || !total) {
+    if (!respuesta.body) {
       return new Uint8Array(await respuesta.arrayBuffer());
     }
 
@@ -123,7 +130,11 @@ export async function iniciarVisor({
       if (done) break;
       trozos.push(value);
       leido += value.length;
-      avisar(`Descargando modelo… ${Math.round((leido / total) * 100)} %`);
+      avisar(
+        tamano && tamano > 0
+          ? `Descargando modelo… ${mb(leido)} / ${mb(tamano)} MB`
+          : `Descargando modelo… ${mb(leido)} MB`,
+      );
     }
     const datos = new Uint8Array(leido);
     let posicion = 0;
@@ -134,9 +145,9 @@ export async function iniciarVisor({
     return datos;
   };
 
-  const cargar = async (nuevoArchivo: string) => {
+  const cargar = async (nuevoArchivo: string, nuevoPeso?: number) => {
     avisar('Descargando modelo…');
-    const datos = await descargar(nuevoArchivo);
+    const datos = await descargar(nuevoArchivo, nuevoPeso);
 
     avisar('Leyendo geometría…');
     limpiar();
@@ -392,7 +403,7 @@ export async function iniciarVisor({
   const observador = new ResizeObserver(redimensionar);
   observador.observe(contenedor);
 
-  await cargar(archivo);
+  await cargar(archivo, peso);
 
   return {
     reencuadrar: () => {
