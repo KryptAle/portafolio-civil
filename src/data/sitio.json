@@ -180,9 +180,9 @@
           "peso": 1448461,
           "nota": "IFC 2x3 · 4 niveles · exportado de Revit 2025",
           "vistaInicial": {
-            "azimut": -51,
-            "elevacion": 25,
-            "zoom": 1
+            "azimut": 29.6,
+            "elevacion": 10.5,
+            "zoom": 0.93
           }
         },
         {
@@ -195,9 +195,9 @@
           "peso": 993177,
           "nota": "IFC 2x3 · 7 niveles · 0,95 MB · exportado de Revit 2025",
           "vistaInicial": {
-            "azimut": -51,
-            "elevacion": 25,
-            "zoom": 1
+            "azimut": -48.2,
+            "elevacion": 10.1,
+            "zoom": 0.92
           }
         }
       ]
