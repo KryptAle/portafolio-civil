@@ -652,13 +652,21 @@
         ];
       };
 
+      const normalizarToken = (texto) =>
+        texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+
       const resolverTexto = (texto) => {
         const mapa = new Map(
-          valoresGlobales().map(([token, valor]) => [token.slice(2, -2), String(valor)]),
+          valoresGlobales().map(([token, valor]) => [
+            normalizarToken(token.slice(2, -2)),
+            String(valor),
+          ]),
         );
-        return texto.replace(/\{\{\s*([\w-]+)\s*\}\}/g, (original, clave) =>
-          mapa.has(clave) ? mapa.get(clave) : original,
-        );
+        if (mapa.has('anio')) mapa.set('ano', mapa.get('anio'));
+        return texto.replace(/\{\{\s*([^{}]+?)\s*\}\}/g, (original, clave) => {
+          const normal = normalizarToken(clave);
+          return mapa.has(normal) ? mapa.get(normal) : original;
+        });
       };
 
       const pintarTokens = () => {        const panel = $('#panel');

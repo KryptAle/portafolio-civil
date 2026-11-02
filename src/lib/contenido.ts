@@ -37,6 +37,13 @@ export const modelosPublicados = proyectos.length;
 const ALTURA_PISO = 3.2;
 const altura = Math.max(niveles.length - 1, 1) * ALTURA_PISO;
 
+const normalizarClave = (clave: string) =>
+  clave
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase();
+
 const valores: Record<string, string> = {
   nombre: sitio.nombre,
   marca: sitio.marca,
@@ -46,16 +53,18 @@ const valores: Record<string, string> = {
   linkedin: sitio.linkedin,
   certificado: sitio.certificadoIngles,
   anio: String(sitio.anio),
+  ano: String(sitio.anio),
   modelos: String(modelosPublicados).padStart(2, '0'),
   niveles: String(niveles.length),
   altura: altura.toFixed(2).replace('.', ','),
 };
 
-/** Sustituye {{claves}} por sus valores; deja el texto intacto si no existe. */
+/** Sustituye {{claves}} por sus valores; acepta anio, año o ano. */
 export const t = (texto: string): string =>
-  texto.replace(/\{\{\s*([\w-]+)\s*\}\}/g, (original, clave: string) =>
-    clave in valores ? valores[clave] : original,
-  );
+  texto.replace(/\{\{\s*([^{}]+?)\s*\}\}/g, (original, clave: string) => {
+    const normal = normalizarClave(clave);
+    return normal in valores ? valores[normal] : original;
+  });
 
 const buscarSeccion = (id: string) => secciones.find((seccion) => seccion.id === id);
 
