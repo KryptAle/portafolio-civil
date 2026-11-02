@@ -228,27 +228,52 @@ const ficha = {
         pintarProgreso();
       }
 
-      /* Enlace activo según la sección visible */
+      /* Enlace activo solo mientras la sección está en la zona visible */
       const enlacesNav = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav__enlace'));
-      if (enlacesNav.length && 'IntersectionObserver' in window) {
-        const porSeccion = new Map<Element, HTMLAnchorElement>();
-        enlacesNav.forEach((enlace) => {
-          const id = new URL(enlace.href).hash.slice(1);
-          const seccion = document.getElementById(id);
-          if (seccion) porSeccion.set(seccion, enlace);
-        });
+      if (enlacesNav.length) {
+        const seccionesNav = enlacesNav
+          .map((enlace) => {
+            const id = new URL(enlace.href).hash.slice(1);
+            const seccion = document.getElementById(id);
+            return seccion ? { seccion, enlace } : null;
+          })
+          .filter((entrada): entrada is { seccion: HTMLElement; enlace: HTMLAnchorElement } =>
+            Boolean(entrada),
+          );
 
-        const observadorNav = new IntersectionObserver(
-          (entradas) => {
-            entradas.forEach((entrada) => {
-              if (!entrada.isIntersecting) return;
-              enlacesNav.forEach((enlace) => enlace.classList.remove('nav__enlace--activo'));
-              porSeccion.get(entrada.target)?.classList.add('nav__enlace--activo');
-            });
-          },
-          { rootMargin: '-35% 0px -55% 0px', threshold: 0 },
-        );
-        porSeccion.forEach((_, seccion) => observadorNav.observe(seccion));
+        let activa: HTMLAnchorElement | null = null;
+        let pendienteNav = false;
+
+        const actualizarNav = () => {
+          const linea =
+            window.scrollY + (cabecera?.clientHeight ?? 0) + window.innerHeight * 0.28;
+          let encontrada: HTMLAnchorElement | null = null;
+
+          for (const { seccion, enlace } of seccionesNav) {
+            const top = seccion.getBoundingClientRect().top + window.scrollY;
+            if (linea >= top && linea < top + seccion.offsetHeight) {
+              encontrada = enlace;
+              break;
+            }
+          }
+
+          if (encontrada !== activa) {
+            enlacesNav.forEach((enlace) => enlace.classList.remove('nav__enlace--activo'));
+            encontrada?.classList.add('nav__enlace--activo');
+            activa = encontrada;
+          }
+          pendienteNav = false;
+        };
+
+        const programarNav = () => {
+          if (pendienteNav) return;
+          pendienteNav = true;
+          requestAnimationFrame(actualizarNav);
+        };
+
+        window.addEventListener('scroll', programarNav, { passive: true });
+        window.addEventListener('resize', programarNav);
+        actualizarNav();
       }
     </script>
   </body>

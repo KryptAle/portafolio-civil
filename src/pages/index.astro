@@ -168,6 +168,7 @@ const destino = (href: string) => (href.startsWith('#') ? href : ruta(href));
               data-peso={proyecto.peso}
               data-titulo={proyecto.titulo}
               data-nota={proyecto.nota}
+              data-vista={proyecto.vistaInicial ? JSON.stringify(proyecto.vistaInicial) : undefined}
               aria-pressed={i === 0 ? 'true' : 'false'}
               style={`--d:${(i * 0.06).toFixed(2)}s`}
             >
@@ -195,6 +196,7 @@ const destino = (href: string) => (href.startsWith('#') ? href : ruta(href));
               archivo={proyectos[0].archivo}
               peso={proyectos[0].peso}
               nota={proyectos[0].nota}
+              vista={proyectos[0].vistaInicial}
               compacto
             />
           </aside>
@@ -225,7 +227,8 @@ const destino = (href: string) => (href.startsWith('#') ? href : ruta(href));
         <ul class="herramientas__grid">
           {herramientas.map((software, indice) => (
             <li class="herramienta revelar" style={`--d:${indice * 0.07}s`}>
-              <div class="herramienta__top">
+              <div class="herramienta__cab">
+                <h3 class="herramienta__nombre">{software.nombre}</h3>
                 <img
                   class="herramienta__icono"
                   src={ruta(`/${software.icono}`)}
@@ -235,7 +238,6 @@ const destino = (href: string) => (href.startsWith('#') ? href : ruta(href));
                   loading="lazy"
                 />
               </div>
-              <h3 class="herramienta__nombre">{software.nombre}</h3>
               <p class="herramienta__nivel">
                 <span>{software.nivelUso}</span>
                 <span class="herramienta__anios">{software.años} años</span>
@@ -357,11 +359,18 @@ const destino = (href: string) => (href.startsWith('#') ? href : ruta(href));
         filas.forEach((otra) => otra.setAttribute('aria-pressed', String(otra === fila)));
 
         const api = visor?.visorAPI;
+        let vista;
+        try {
+          vista = fila.dataset.vista ? JSON.parse(fila.dataset.vista) : undefined;
+        } catch {
+          vista = undefined;
+        }
         api?.cargar({
           archivo: fila.dataset.modelo,
           peso: fila.dataset.peso,
           titulo: fila.dataset.titulo,
           nota: fila.dataset.nota,
+          vista,
         });
 
         if (window.matchMedia('(max-width: 1080px)').matches) {

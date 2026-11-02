@@ -178,7 +178,12 @@
           "superficie": "",
           "archivo": "modelos/proyecto1.ifc",
           "peso": 1448461,
-          "nota": "IFC 2x3 · 4 niveles · exportado de Revit 2025"
+          "nota": "IFC 2x3 · 4 niveles · exportado de Revit 2025",
+          "vistaInicial": {
+            "azimut": -51,
+            "elevacion": 25,
+            "zoom": 1
+          }
         },
         {
           "id": "proyecto2",
@@ -188,7 +193,12 @@
           "superficie": "",
           "archivo": "modelos/proyecto2-ligero.ifc",
           "peso": 993177,
-          "nota": "IFC 2x3 · 7 niveles · 0,95 MB · exportado de Revit 2025"
+          "nota": "IFC 2x3 · 7 niveles · 0,95 MB · exportado de Revit 2025",
+          "vistaInicial": {
+            "azimut": -51,
+            "elevacion": 25,
+            "zoom": 1
+          }
         }
       ]
     },

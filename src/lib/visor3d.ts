@@ -5,17 +5,26 @@
 
 export type EstadoCarga = (texto: string) => void;
 
+export interface VistaInicial {
+  azimut: number;
+  elevacion: number;
+  zoom: number;
+}
+
 export interface OpcionesVisor {
   contenedor: HTMLElement;
   archivo: string;
   base: string;
   peso?: number;
+  vista?: VistaInicial;
   onEstado?: EstadoCarga;
 }
 
 export interface Visor {
   reencuadrar: () => void;
-  cambiar: (archivo: string, peso?: number) => Promise<void>;
+  obtenerVista: () => VistaInicial;
+  aplicarVista: (vista: VistaInicial) => void;
+  cambiar: (archivo: string, peso?: number, vista?: VistaInicial) => Promise<void>;
   destruir: () => void;
 }
 
@@ -24,6 +33,7 @@ export async function iniciarVisor({
   archivo,
   base,
   peso,
+  vista,
   onEstado,
 }: OpcionesVisor): Promise<Visor> {
   const avisar = (texto: string) => onEstado?.(texto);
@@ -145,7 +155,12 @@ export async function iniciarVisor({
     return datos;
   };
 
-  const cargar = async (nuevoArchivo: string, nuevoPeso?: number) => {
+  const cargar = async (
+    nuevoArchivo: string,
+    nuevoPeso?: number,
+    nuevaVista?: VistaInicial,
+  ) => {
+    vistaActual = normalizarVista(nuevaVista);
     avisar('Descargando modelo…');
     const datos = await descargar(nuevoArchivo, nuevoPeso);
 
@@ -294,18 +309,44 @@ export async function iniciarVisor({
     avisar('');
   };
 
-  const encuadrar = () => {
+  const VISTA_POR_DEFECTO: VistaInicial = {
+    azimut: -51,
+    elevacion: 25,
+    zoom: 1,
+  };
+
+  const normalizarVista = (valor?: Partial<VistaInicial>): VistaInicial => ({
+    azimut: Number.isFinite(valor?.azimut) ? Number(valor?.azimut) : VISTA_POR_DEFECTO.azimut,
+    elevacion: Number.isFinite(valor?.elevacion)
+      ? Math.max(-89, Math.min(89, Number(valor?.elevacion)))
+      : VISTA_POR_DEFECTO.elevacion,
+    zoom: Number.isFinite(valor?.zoom)
+      ? Math.max(0.2, Math.min(5, Number(valor?.zoom)))
+      : VISTA_POR_DEFECTO.zoom,
+  });
+
+  let vistaActual = normalizarVista(vista);
+
+  const direccionDeVista = (valor: VistaInicial) => {
+    const azimut = (valor.azimut * Math.PI) / 180;
+    const elevacion = (valor.elevacion * Math.PI) / 180;
+    const coseno = Math.cos(elevacion);
+    return new THREE.Vector3(
+      coseno * Math.cos(azimut),
+      coseno * Math.sin(azimut),
+      Math.sin(elevacion),
+    ).normalize();
+  };
+
+  const distanciaEncuadre = (direccion: THREE.Vector3) => {
     const fov = (camara.fov * Math.PI) / 180;
     const tanV = Math.tan(fov / 2);
     const tanH = tanV * Math.max(camara.aspect, 1);
-
-    const direccion = new THREE.Vector3(0.57, -0.71, 0.43).normalize();
     const adelante = direccion.clone().negate();
     const derecha = new THREE.Vector3()
       .crossVectors(adelante, new THREE.Vector3(0, 0, 1))
       .normalize();
     const arriba = new THREE.Vector3().crossVectors(derecha, adelante).normalize();
-
     const mitad = new THREE.Vector3(
       (tamano.x * escala) / 2,
       (tamano.y * escala) / 2,
@@ -326,15 +367,20 @@ export async function iniciarVisor({
         }
       }
     }
-    distancia *= 1.08;
+    return distancia * 1.08;
+  };
+
+  const encuadrar = () => {
+    const direccion = direccionDeVista(vistaActual);
+    const distancia = distanciaEncuadre(direccion) * vistaActual.zoom;
 
     controles.target.set(0, 0, 0);
-    camara.position.copy(direccion.multiplyScalar(distancia));
+    camara.position.copy(direccion).multiplyScalar(distancia);
     camara.near = 0.1;
     camara.far = 200;
     camara.updateProjectionMatrix();
     controles.minDistance = 2;
-    controles.maxDistance = distancia * 4;
+    controles.maxDistance = distancia * 5;
     controles.update();
   };
 
@@ -403,7 +449,30 @@ export async function iniciarVisor({
   const observador = new ResizeObserver(redimensionar);
   observador.observe(contenedor);
 
-  await cargar(archivo, peso);
+  await cargar(archivo, peso, vista);
+
+  const obtenerVista = (): VistaInicial => {
+    const direccion = camara.position.clone().sub(controles.target);
+    const distancia = direccion.length() || 1;
+    direccion.normalize();
+    const azimut = (Math.atan2(direccion.y, direccion.x) * 180) / Math.PI;
+    const elevacion =
+      (Math.asin(Math.max(-1, Math.min(1, direccion.z))) * 180) / Math.PI;
+    const base = distanciaEncuadre(direccion);
+
+    return {
+      azimut: Math.round(azimut * 10) / 10,
+      elevacion: Math.round(elevacion * 10) / 10,
+      zoom: Math.round((distancia / base) * 100) / 100,
+    };
+  };
+
+  const aplicarVista = (nuevaVista: VistaInicial) => {
+    vistaActual = normalizarVista(nuevaVista);
+    encuadrar();
+    sucio = true;
+    despertar();
+  };
 
   return {
     reencuadrar: () => {
@@ -411,6 +480,8 @@ export async function iniciarVisor({
       sucio = true;
       despertar();
     },
+    obtenerVista,
+    aplicarVista,
     cambiar: cargar,
     destruir: () => {
       renderer.setAnimationLoop(null);

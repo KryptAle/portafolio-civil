@@ -1,18 +1,22 @@
 ---
+import type { VistaInicial } from '../lib/visor3d';
+
 interface Props {
   titulo: string;
   archivo: string;
   peso?: number;
   nota?: string;
+  vista?: VistaInicial;
   compacto?: boolean;
   alto?: number;
 }
 
-const { titulo, archivo, peso, nota, compacto = false, alto } = Astro.props;
+const { titulo, archivo, peso, nota, vista, compacto = false, alto } = Astro.props;
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 const url = `${base}${archivo}`;
+const vistaJSON = vista ? JSON.stringify(vista) : undefined;
 ---
 
 <div
@@ -21,6 +25,7 @@ const url = `${base}${archivo}`;
   data-archivo={url}
   data-peso={peso}
   data-base={base}
+  data-vista={vistaJSON}
   style={alto ? `--visor-alto:${alto}px` : undefined}
 >
   <div class="visor3d__marco" data-marco>
@@ -259,6 +264,17 @@ const url = `${base}${archivo}`;
       if (datos.nota && notaEl) notaEl.textContent = datos.nota;
       if (datos.archivo) elemento.dataset.archivo = datos.archivo;
       if (datos.peso) elemento.dataset.peso = String(datos.peso);
+      if (datos.vista) elemento.dataset.vista = JSON.stringify(datos.vista);
+    };
+
+    const leerVista = (datos) => {
+      if (datos.vista) return datos.vista;
+      if (!elemento.dataset.vista) return undefined;
+      try {
+        return JSON.parse(elemento.dataset.vista);
+      } catch {
+        return undefined;
+      }
     };
 
     const cargar = async (datos) => {
@@ -266,6 +282,7 @@ const url = `${base}${archivo}`;
       const archivo = datos.archivo ?? elemento.dataset.archivo;
       const base = elemento.dataset.base;
       const peso = Number(datos.peso ?? elemento.dataset.peso) || undefined;
+      const vista = leerVista(datos);
       if (!archivo || !base) return;
 
       actualizar(datos);
@@ -287,13 +304,14 @@ const url = `${base}${archivo}`;
             archivo,
             base,
             peso,
+            vista,
             onEstado: mostrarEstado,
           });
           iniciado = true;
           if (inicio) inicio.hidden = true;
           if (hud) hud.hidden = false;
         } else {
-          await visor.cambiar(archivo, peso);
+          await visor.cambiar(archivo, peso, vista);
         }
         mostrarEstado('');
       } catch (error) {
@@ -308,7 +326,11 @@ const url = `${base}${archivo}`;
     };
 
     boton.addEventListener('click', () =>
-      cargar({ archivo: elemento.dataset.archivo, peso: elemento.dataset.peso }),
+      cargar({
+        archivo: elemento.dataset.archivo,
+        peso: elemento.dataset.peso,
+        vista: leerVista({}),
+      }),
     );
 
     elemento.visorAPI = { cargar };

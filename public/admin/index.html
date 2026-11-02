@@ -121,6 +121,46 @@
       .tokens td:last-child { color: var(--suave); }
       .tokens__valor { font-weight: 600; }
 
+      .modal[hidden] { display: none; }
+      .modal {
+        position: fixed; inset: 0; z-index: 100; display: grid; place-items: center;
+        padding: 18px; background: rgba(16, 21, 26, 0.76);
+      }
+      .modal__caja {
+        display: flex; flex-direction: column; width: min(1180px, 100%);
+        height: min(82vh, 820px); background: #10151a; border: 1px solid #3d494f;
+        color: #f3f0e8;
+      }
+      .modal__cab {
+        display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+        border-bottom: 1px solid #2d383e; background: #171d21;
+      }
+      .modal__cab strong { display: block; font-size: 16px; }
+      .modal__sub {
+        display: block; margin-top: 2px; color: #9aa3a5; font-family: var(--mono);
+        font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+      }
+      .modal__cab .btn { margin-left: auto; color: #f3f0e8; border-color: #5f6b70; }
+      .modal__caja iframe { flex: 1; width: 100%; border: 0; background: #10151a; }
+      .modal__pie {
+        display: flex; align-items: center; gap: 14px; padding: 12px 16px;
+        border-top: 1px solid #2d383e; background: #171d21;
+      }
+      .modal__pie p { margin: 0; color: #b9c0c2; font-size: 12px; line-height: 1.45; }
+      .modal__estado {
+        margin-left: auto; color: #e8b4a8; font-family: var(--mono);
+        font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+      }
+      .modal .btn--rojo { color: #fff; border-color: var(--rojo); }
+
+      @media (max-width: 700px) {
+        .modal { padding: 0; }
+        .modal__caja { width: 100%; height: 100%; border: 0; }
+        .modal__pie { flex-wrap: wrap; }
+        .modal__estado { margin-left: 0; }
+        .modal__pie .btn { width: 100%; }
+      }
+
       @media (max-width: 860px) {
         .layout { grid-template-columns: 1fr; }
         .menu { position: static; max-height: none; display: flex; overflow-x: auto; gap: 4px; padding: 10px 12px; border-right: 0; border-bottom: 1px solid var(--linea); }
@@ -165,6 +205,24 @@
       </div>
     </div>
 
+    <div id="modal-vista" class="modal" hidden>
+      <div class="modal__caja" role="dialog" aria-modal="true" aria-labelledby="modal-vista-titulo">
+        <header class="modal__cab">
+          <div>
+            <strong id="modal-vista-titulo">Vista inicial del modelo</strong>
+            <span id="modal-vista-modelo" class="modal__sub"></span>
+          </div>
+          <button id="cerrar-vista" class="btn btn--mini" type="button">Cerrar</button>
+        </header>
+        <iframe id="iframe-vista" title="Vista previa del modelo 3D"></iframe>
+        <footer class="modal__pie">
+          <p>Orbita, acerca y encuadra la vista que quieres que aparezca al cargar el modelo.</p>
+          <span id="vista-estado" class="modal__estado">Cargando visor…</span>
+          <button id="usar-vista" class="btn btn--rojo" type="button" disabled>Usar esta vista</button>
+        </footer>
+      </div>
+    </div>
+
     <script>
       const API_POR_DEFECTO = 'https://TU-WORKER.workers.dev';
       const $ = (selector) => document.querySelector(selector);
@@ -178,6 +236,9 @@
         activo: 'sitio',
         cambios: false,
       };
+
+      let modeloVista = null;
+      let temporizadorVista = null;
 
       const MENU = [
         { id: 'sitio', etiqueta: 'Datos del sitio', grupo: 'General' },
@@ -209,6 +270,10 @@
         'contenido.herramientas': 'La matriz de herramientas, con nivel, contexto y especialidades. Sin barras ni porcentajes.',
         'contenido.herramientas.entrada': 'Frase de entrada de la sección, encima de las tarjetas.',
         'contenido.herramientas.nota': 'Nota sobre cómo se declaran los niveles. Se muestra a la derecha.',
+        'contenido.modelos.items.vistaInicial': 'Se elige visualmente con “Ajustar vista 3D”. También puedes ajustar los números.',
+        azimut: 'Ángulo horizontal de la cámara, en grados.',
+        elevacion: 'Ángulo vertical de la cámara, en grados.',
+        zoom: '1 = encuadre completo. Menos de 1 acerca; más de 1 aleja.',
         'contenido.trayectoria': 'Experiencia, cursos y el certificado de inglés.',
         'contenido.contacto': 'El texto y los canales directos de contacto.',
       };
@@ -278,6 +343,10 @@
         contexto: 'Contexto',
         tags: 'Especialidades',
         entrada: 'Entrada',
+        vistaInicial: 'Vista inicial 3D',
+        azimut: 'Azimut (°)',
+        elevacion: 'Elevación (°)',
+        zoom: 'Zoom',
       };
 
       const LISTAS = {
@@ -359,6 +428,81 @@
         estado.cambios = true;
         $('#estado').textContent = 'Cambios sin publicar';
       };
+
+      const modalVista = $('#modal-vista');
+      const iframeVista = $('#iframe-vista');
+      const estadoVista = $('#vista-estado');
+      const usarVista = $('#usar-vista');
+      const modeloVistaTitulo = $('#modal-vista-modelo');
+
+      function cerrarVista() {
+        if (temporizadorVista) clearTimeout(temporizadorVista);
+        temporizadorVista = null;
+        modeloVista = null;
+        if (modalVista) modalVista.hidden = true;
+        if (iframeVista) iframeVista.src = 'about:blank';
+        document.body.style.overflow = '';
+      }
+
+      function abrirVista(modelo) {
+        if (!modelo?.archivo) {
+          alert('Primero sube o escribe el archivo IFC del modelo.');
+          return;
+        }
+        modeloVista = modelo;
+        const url = new URL(`${BASE}visor/`, location.origin);
+        url.searchParams.set('archivo', modelo.archivo);
+        if (modelo.peso) url.searchParams.set('peso', String(modelo.peso));
+        if (modelo.vistaInicial) url.searchParams.set('vista', JSON.stringify(modelo.vistaInicial));
+        if (iframeVista) iframeVista.src = url.toString();
+        if (estadoVista) estadoVista.textContent = 'Cargando visor…';
+        if (usarVista) usarVista.disabled = true;
+        if (modeloVistaTitulo) modeloVistaTitulo.textContent = modelo.titulo || 'Modelo 3D';
+        if (modalVista) modalVista.hidden = false;
+        document.body.style.overflow = 'hidden';
+        if (temporizadorVista) clearTimeout(temporizadorVista);
+        temporizadorVista = setTimeout(() => {
+          if (estadoVista && estadoVista.textContent === 'Cargando visor…') {
+            estadoVista.textContent = 'El visor tarda en cargar…';
+          }
+        }, 8000);
+      }
+
+      if (usarVista) {
+        usarVista.addEventListener('click', () => {
+          if (!modeloVista || !iframeVista?.contentWindow) return;
+          if (estadoVista) estadoVista.textContent = 'Leyendo vista…';
+          usarVista.disabled = true;
+          iframeVista.contentWindow.postMessage({ tipo: 'pedir-vista' }, location.origin);
+          if (temporizadorVista) clearTimeout(temporizadorVista);
+          temporizadorVista = setTimeout(() => {
+            if (estadoVista) estadoVista.textContent = 'No se pudo leer la vista.';
+            usarVista.disabled = false;
+          }, 6000);
+        });
+      }
+
+      window.addEventListener('message', (evento) => {
+        if (evento.origin !== location.origin) return;
+        if (evento.data?.tipo === 'visor-listo') {
+          if (estadoVista) estadoVista.textContent = 'Listo. Ajusta la vista.';
+          if (usarVista) usarVista.disabled = false;
+        }
+        if (evento.data?.tipo === 'vista' && modeloVista) {
+          modeloVista.vistaInicial = evento.data.vista;
+          marcar();
+          cerrarVista();
+          pintarPanel();
+        }
+      });
+
+      $('#cerrar-vista')?.addEventListener('click', cerrarVista);
+      modalVista?.addEventListener('click', (evento) => {
+        if (evento.target === modalVista) cerrarVista();
+      });
+      document.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Escape' && modalVista && !modalVista.hidden) cerrarVista();
+      });
 
       const pedir = async (ruta, opciones = {}) => {
         const respuesta = await fetch(`${estado.api.replace(/\/$/, '')}${ruta}`, {
@@ -532,7 +676,15 @@
               marcar();
               pintar();
             });
-            cab.append(titulo, quitar, subir);
+            cab.append(titulo);
+            if (ruta === 'contenido.modelos.items' && elemento?.archivo) {
+              const vistaBtn = nodo('button', 'btn btn--mini');
+              vistaBtn.type = 'button';
+              vistaBtn.textContent = 'Ajustar vista 3D';
+              vistaBtn.addEventListener('click', () => abrirVista(elemento));
+              cab.append(vistaBtn);
+            }
+            cab.append(quitar, subir);
             item.append(cab);
 
             const cuerpo = nodo('div', 'lista__cuerpo');

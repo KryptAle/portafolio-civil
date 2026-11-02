@@ -1059,8 +1059,7 @@ ol {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 320px;
-  padding: clamp(20px, 2.5vw, 30px);
+  padding: clamp(22px, 2.5vw, 30px);
   background: var(--papel);
   overflow: hidden;
 }
@@ -1082,21 +1081,22 @@ ol {
   transform: scaleX(1);
 }
 
-.herramienta__top {
+.herramienta__cab {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 14px;
+  gap: 18px;
 }
 
 .herramienta__icono {
   width: 64px;
   height: 64px;
+  flex: none;
   object-fit: contain;
 }
 
 .herramienta__nombre {
-  margin: clamp(18px, 2vw, 28px) 0 8px;
+  margin: 0;
   font-size: clamp(2rem, 3.1vw, 2.8rem);
   line-height: 0.92;
   letter-spacing: -0.05em;
@@ -1108,7 +1108,7 @@ ol {
   align-items: center;
   flex-wrap: wrap;
   gap: 10px 14px;
-  margin: 0;
+  margin: 12px 0 0;
   font-family: var(--mono);
   font-size: 12.5px;
   letter-spacing: 0.08em;
@@ -1982,16 +1982,24 @@ section:focus {
 @media (max-width: 760px) {
   .cabecera__in {
     flex-wrap: wrap;
-    gap: 10px 18px;
-    padding-block: 12px;
+    align-items: center;
+    gap: 8px 10px;
+    padding-block: 10px 0;
+  }
+
+  .marca {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .nav {
     order: 3;
     width: 100%;
-    gap: 20px;
+    gap: 18px;
     overflow-x: auto;
-    padding-bottom: 2px;
+    margin: 2px 0 0;
+    padding: 9px 0 10px;
+    border-top: 1px solid var(--linea);
     margin-left: 0;
   }
 
@@ -2001,7 +2009,16 @@ section:focus {
 
   .cabecera__cta {
     order: 2;
-    margin-left: auto;
+    margin-left: 0;
+    padding: 9px 11px;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .cabecera__cta .btn__flecha {
+    display: none;
   }
 
   .cabecera__rev {
