@@ -152,7 +152,7 @@ const destino = (href: string) => (href.startsWith('#') ? href : ruta(href));
   {visible('proyectos') && (
     <section class="seccion contenedor" id="proyectos">
       <Hoja
-        num={seccion('proyectos')?.numero ?? ''}
+        num=""
         titulo={titulo('proyectos')}
         meta={meta('proyectos')}
       />
@@ -216,36 +216,47 @@ const destino = (href: string) => (href.startsWith('#') ? href : ruta(href));
         meta={meta('herramientas')}
       />
 
-      <table class="tabla-software">
-        <thead>
-          <tr>
-            <th scope="col">Herramienta</th>
-            <th scope="col">Nivel</th>
-            <th scope="col" style="text-align:right">Años</th>
-          </tr>
-        </thead>
-        <tbody>
-          {herramientas.map((software) => (
-            <tr>
-              <td>{software.nombre}</td>
-              <td>
-                <div class="nivel">
-                  <div class="nivel__barra">
-                    <span
-                      class={software.nivelUso === 'Avanzado' ? 'es-alto' : ''}
-                      style={`width:${software.pct}%`}
-                    />
-                  </div>
-                  <span class="nivel__txt">{software.nivelUso}</span>
-                </div>
-              </td>
-              <td style="text-align:right; font-family:var(--mono); font-size:12px">
-                {software.años}
-              </td>
-            </tr>
+      <div class="herramientas">
+        <div class="herramientas__intro">
+          <p class="herramientas__lead">
+            Las herramientas con las que convierto planos y documentación en modelos coordinados.
+          </p>
+          <p class="herramientas__nota">
+            Niveles declarados: Básico, Intermedio y Avanzado. Sin porcentajes ni barras.
+          </p>
+        </div>
+
+        <ul class="herramientas__grid">
+          {herramientas.map((software, indice) => (
+            <li class="herramienta revelar" style={`--d:${indice * 0.07}s`}>
+              <div class="herramienta__top">
+                <span class="herramienta__num">{String(indice + 1).padStart(2, '0')}</span>
+                <img
+                  class="herramienta__icono"
+                  src={ruta(`/${software.icono}`)}
+                  alt=""
+                  width="64"
+                  height="64"
+                  loading="lazy"
+                />
+              </div>
+              <h3 class="herramienta__nombre">{software.nombre}</h3>
+              <p class="herramienta__nivel">
+                <span>{software.nivelUso}</span>
+                <span class="herramienta__anios">{software.años} años</span>
+              </p>
+              <p class="herramienta__contexto">{t(software.contexto)}</p>
+              {software.tags?.length > 0 && (
+                <ul class="herramienta__tags" aria-label={`Especialidades de ${software.nombre}`}>
+                  {software.tags.map((tag) => (
+                    <li>{tag}</li>
+                  ))}
+                </ul>
+              )}
+            </li>
           ))}
-        </tbody>
-      </table>
+        </ul>
+      </div>
     </section>
   )}
 

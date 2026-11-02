@@ -10,7 +10,7 @@ const { num, titulo, meta } = Astro.props;
 
 <div class="hoja">
   <div class="hoja__izq">
-    <span class="hoja__n" aria-hidden="true">{num}</span>
+    {num && <span class="hoja__n" aria-hidden="true">{num}</span>}
     <h2 class="hoja__t">{titulo}</h2>
   </div>
   {meta && <p class="hoja__meta">{meta}</p>}

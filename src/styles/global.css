@@ -44,7 +44,7 @@ body {
   background-size: 50px 50px;
   color: var(--tinta);
   font-family: var(--sans);
-  font-size: clamp(15px, 0.35vw + 14px, 17px);
+  font-size: clamp(17px, 0.35vw + 16px, 19px);
   line-height: 1.62;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -129,7 +129,7 @@ ol {
 
 .eti {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -187,7 +187,7 @@ ol {
   background: transparent;
   color: var(--tinta);
   font-family: var(--mono);
-  font-size: 11.5px;
+  font-size: 12.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
@@ -264,7 +264,7 @@ ol {
   height: 34px;
   border: 1px solid var(--tinta);
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.04em;
   transition: background 0.25s ease, color 0.25s ease;
 }
@@ -290,7 +290,7 @@ ol {
 
 .marca__rol {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -306,7 +306,7 @@ ol {
 .nav__enlace {
   position: relative;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
@@ -356,7 +356,7 @@ ol {
 
 .cabecera__rev {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.14em;
   color: var(--senal);
   border: 1px solid currentColor;
@@ -470,6 +470,7 @@ ol {
   border-top: 1px solid var(--linea);
   margin-top: 14px;
   padding-block: 9px;
+  font-size: 12.5px;
 }
 
 .iso {
@@ -551,8 +552,8 @@ ol {
 
 .iso-nivel__texto {
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.05em;
+  font-size: 17px;
+  letter-spacing: 0.04em;
   fill: var(--tinta);
   transition: fill 0.18s ease;
 }
@@ -616,7 +617,7 @@ ol {
   display: block;
   margin-top: 8px;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -644,19 +645,19 @@ ol {
 .hoja__n {
   margin-top: 0.7em;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   color: var(--senal);
 }
 
 .hoja__t {
-  font-size: clamp(1.9rem, 3.6vw, 3.1rem);
+  font-size: clamp(2.1rem, 3.9vw, 3.35rem);
   line-height: 0.95;
 }
 
 .hoja__meta {
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 13px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -714,7 +715,7 @@ ol {
 
 .fila__num {
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   color: var(--grafito);
 }
@@ -739,7 +740,7 @@ ol {
   gap: 2px;
   justify-items: end;
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -849,7 +850,7 @@ ol {
 
 .especialidad__n {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12.5px;
   color: var(--senal);
   letter-spacing: 0.1em;
 }
@@ -1007,7 +1008,7 @@ ol {
 
 .dato dt {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -1018,68 +1019,152 @@ ol {
   font-size: 14.5px;
 }
 
-/* ------------------------------------------------------------------ software */
+/* --------------------------------------------------------------- herramientas */
 
-.tabla-software {
-  width: 100%;
-  border-collapse: collapse;
+.herramientas {
+  margin-top: clamp(8px, 2vw, 24px);
 }
 
-.tabla-software th {
+.herramientas__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.85fr);
+  gap: clamp(18px, 3vw, 48px);
+  align-items: end;
+  padding: 18px 0 22px;
+  border-top: 1px solid var(--linea);
+}
+
+.herramientas__lead {
+  margin: 0;
+  max-width: 48ch;
+  font-size: clamp(1.05rem, 1.35vw, 1.3rem);
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+}
+
+.herramientas__nota {
+  margin: 0;
+  max-width: 32ch;
+  padding-left: 14px;
+  border-left: 2px solid var(--senal);
   font-family: var(--mono);
-  font-size: 9.5px;
-  font-weight: 400;
-  letter-spacing: 0.12em;
+  font-size: 12.5px;
+  line-height: 1.55;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--grafito);
-  text-align: left;
-  padding: 0 0 10px;
-  border-bottom: 1px solid var(--tinta);
 }
 
-.tabla-software td {
-  padding: 13px 0;
-  border-bottom: 1px solid var(--linea);
-  vertical-align: middle;
-  font-size: 14px;
+.herramientas__grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 1px;
+  background: var(--linea);
+  border: 1px solid var(--linea);
 }
 
-.tabla-software td:first-child {
-  font-weight: 500;
-}
-
-.nivel {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 132px;
-}
-
-.nivel__barra {
+.herramienta {
   position: relative;
-  flex: 1;
-  height: 5px;
-  background: var(--papel-3);
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  padding: clamp(20px, 2.5vw, 30px);
+  background: var(--papel);
   overflow: hidden;
 }
 
-.nivel__barra span {
+.herramienta::before {
+  content: '';
   position: absolute;
-  inset: 0 auto 0 0;
-  background: var(--tinta);
-}
-
-.nivel__barra span.es-alto {
+  inset: 0 auto auto 0;
+  width: 56px;
+  height: 2px;
   background: var(--senal);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.nivel__txt {
+.herramienta:hover::before,
+.herramienta:focus-within::before {
+  transform: scaleX(1);
+}
+
+.herramienta__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.herramienta__num {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--grafito);
+}
+
+.herramienta__icono {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.herramienta__nombre {
+  margin: clamp(18px, 2vw, 28px) 0 8px;
+  font-size: clamp(2rem, 3.1vw, 2.8rem);
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  font-weight: 620;
+}
+
+.herramienta__nivel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--grafito);
-  white-space: nowrap;
+}
+
+.herramienta__nivel > span:first-child {
+  padding: 5px 9px;
+  border: 1px solid var(--linea-fuerte);
+  color: var(--tinta);
+}
+
+.herramienta__contexto {
+  margin: 16px 0 22px;
+  max-width: 38ch;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: var(--tinta-2);
+}
+
+.herramienta__tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: auto 0 0;
+  padding: 0;
+}
+
+.herramienta__tags li {
+  padding: 5px 8px;
+  border: 1px solid var(--linea);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--grafito);
 }
 
 /* ------------------------------------------------------------------ timeline */
@@ -1099,7 +1184,7 @@ ol {
 
 .hito__fecha {
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   color: var(--grafito);
 }
@@ -1120,7 +1205,7 @@ ol {
 
 .hito__lugar {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -1189,7 +1274,7 @@ ol {
   background: var(--senal);
   color: var(--papel);
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -1225,7 +1310,7 @@ ol {
 
 .curso__a {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12.5px;
   letter-spacing: 0.1em;
   color: var(--senal);
 }
@@ -1346,7 +1431,7 @@ ol {
   display: block;
   margin-top: 5px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.04em;
 }
 
@@ -1368,7 +1453,7 @@ ol {
 
 .pie__nav a {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
@@ -1382,7 +1467,7 @@ ol {
 
 .pie__legal {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.08em;
   color: #8f9799;
 }
@@ -1400,7 +1485,7 @@ ol {
   gap: 10px;
   align-items: center;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -1458,7 +1543,7 @@ ol {
 
 .proy__meta dt {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -1508,7 +1593,7 @@ ol {
 
 .bloque__t {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--senal);
@@ -1549,7 +1634,7 @@ ol {
   display: block;
   margin-top: 8px;
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -1571,7 +1656,7 @@ ol {
 
 .tecnica__t {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -1709,7 +1794,7 @@ ol {
 
 .campo label {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -1749,7 +1834,7 @@ ol {
 }
 
 .form__nota {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--grafito);
 }
 
@@ -1773,7 +1858,7 @@ ol {
 
 .canal__k {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--grafito);
@@ -2092,7 +2177,7 @@ section:focus {
 
 .filtro {
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 13px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 8px 12px;
@@ -2236,7 +2321,7 @@ section[id] {
 }
 
 .hoja__meta {
-  font-size: 9.5px;
+  font-size: 12.5px;
   letter-spacing: 0.16em;
 }
 
@@ -2275,11 +2360,6 @@ section[id] {
 
 .cifras {
   border-top: 1px solid var(--tinta);
-}
-
-.tabla-software th {
-  border-bottom: 1px solid var(--tinta);
-  letter-spacing: 0.14em;
 }
 
 .fila:hover,
@@ -2378,7 +2458,7 @@ section[id] {
 }
 
 .nota-autoria > .eti {
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.12em;
   line-height: 1.5;
 }
@@ -2412,5 +2492,41 @@ section[id] {
     justify-items: start;
     text-align: left;
     margin-top: 10px;
+  }
+}
+
+@media (max-width: 820px) {
+  .herramientas__intro {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .herramientas__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .herramienta {
+    min-height: 0;
+  }
+
+  .herramienta__icono {
+    width: 56px;
+    height: 56px;
+  }
+
+  .herramienta__nombre {
+    font-size: clamp(2rem, 8vw, 2.7rem);
+  }
+
+  .herramienta__contexto {
+    font-size: 17px;
+  }
+
+  .iso-nivel__texto {
+    font-size: 22px;
+  }
+
+  .figura__pie {
+    font-size: 12px;
   }
 }

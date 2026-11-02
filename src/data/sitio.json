@@ -36,7 +36,7 @@
       "numero": "03",
       "nombre": "Modelos BIM",
       "href": "#proyectos",
-      "meta": "Ejercicios de digitalización · {{modelos}}",
+      "meta": "Ejercicios de digitalización",
       "visible": true,
       "nivel": true
     },
@@ -198,21 +198,54 @@
       "items": [
         {
           "nombre": "Revit",
-          "pct": 92,
           "nivelUso": "Avanzado",
-          "años": 4
+          "años": 4,
+          "icono": "iconos/revit.svg",
+          "contexto": "Modelado arquitectónico y estructural, familias y documentación de planos.",
+          "tags": [
+            "Modelado",
+            "Familias",
+            "Planos",
+            "Estructura"
+          ]
         },
         {
           "nombre": "AutoCAD",
-          "pct": 90,
           "nivelUso": "Avanzado",
-          "años": 6
+          "años": 6,
+          "icono": "iconos/autocad.svg",
+          "contexto": "Dibujo y limpieza de planos 2D, detalles y coordinación de documentación.",
+          "tags": [
+            "Planos 2D",
+            "Detalles",
+            "Capas",
+            "Coordinación"
+          ]
         },
         {
-          "nombre": "Excel / Python",
-          "pct": 66,
+          "nombre": "Excel",
           "nivelUso": "Intermedio",
-          "años": 4
+          "años": 4,
+          "icono": "iconos/excel.svg",
+          "contexto": "Tablas dinámicas, Power Query y modelos de datos para mediciones y control.",
+          "tags": [
+            "Tablas dinámicas",
+            "Power Query",
+            "Fórmulas",
+            "Datos"
+          ]
+        },
+        {
+          "nombre": "Python",
+          "nivelUso": "Intermedio",
+          "años": 3,
+          "icono": "iconos/python.svg",
+          "contexto": "Automatización de tareas, procesamiento de datos y scripts de apoyo.",
+          "tags": [
+            "Scripts",
+            "Datos",
+            "Automatización"
+          ]
         }
       ]
     },

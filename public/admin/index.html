@@ -206,7 +206,7 @@
         'contenido.perfil': 'Párrafos, cuadros de datos y fotografía.',
         'contenido.servicios': 'Las tarjetas de “Qué hago”. Cada una puede tener icono.',
         'contenido.modelos': 'Los modelos IFC del visor y su nota de autoría.',
-        'contenido.herramientas': 'La tabla de herramientas, con nivel, barra y años.',
+        'contenido.herramientas': 'La matriz de herramientas, con nivel, contexto y especialidades. Sin barras ni porcentajes.',
         'contenido.trayectoria': 'Experiencia, cursos y el certificado de inglés.',
         'contenido.contacto': 'El texto y los canales directos de contacto.',
       };
@@ -272,14 +272,16 @@
         periodo: 'Periodo',
         cargo: 'Cargo',
         lugar: 'Lugar',
-        pct: 'Porcentaje de la barra',
         nivelUso: 'Nivel de uso',
+        contexto: 'Contexto',
+        tags: 'Especialidades',
       };
 
       const LISTAS = {
         'contenido.modelos.items': 'Modelos',
         'contenido.servicios.items': 'Servicios',
         'contenido.herramientas.items': 'Herramientas',
+        'contenido.herramientas.items.tags': 'Especialidades',
         'contenido.perfil.datos': 'Cuadros de datos',
         'contenido.perfil.parrafos': 'Párrafos',
         'contenido.contacto.canales': 'Canales',
@@ -307,10 +309,12 @@
         'contenido.modelos.items.peso': 'Tamaño real en bytes. Se usa para el progreso de descarga.',
         'contenido.modelos.items.superficie': 'Opcional. Si está vacío, no se muestra.',
         'contenido.servicios.items.icono': 'Se muestra a 38×38 px. Usa SVG o PNG transparente.',
+        'contenido.herramientas.items.icono': 'Icono de la herramienta a 64×64 px. Usa SVG o PNG transparente.',
         'contenido.perfil.foto': 'Se recorta a 4:5. Sube JPG, PNG o WebP.',
         'contenido.perfil.datos': 'Los cuadros de Formación, Base, Idiomas, etc.',
-        'contenido.herramientas.items.pct': 'Ancho de la barra: de 0 a 100.',
         'contenido.herramientas.items.nivelUso': 'Nivel de uso: Avanzado, Intermedio o Básico.',
+        'contenido.herramientas.items.contexto': 'Qué haces con la herramienta y en qué contexto la usas.',
+        'contenido.herramientas.items.tags': 'Especialidades concretas, separadas en elementos. Se muestran como etiquetas.',
         'footer.rotulo': 'Las celdas del rótulo del plano.',
         id: 'Identificador interno. No lo cambies si hay enlaces que lo usan.',
         visible: 'Si lo desactivas, desaparece del menú y de la página.',
@@ -320,9 +324,10 @@
         valor: 'Puedes insertar valores globales (modelos, niveles, altura, año, nombre…). Consulta “Valores globales”.',
         archivo: 'Ruta relativa dentro de public/. Usa el botón para subir el IFC.',
         peso: 'Tamaño real en bytes. Se usa para el progreso de descarga.',
-        icono: 'Se muestra a 38×38 px. Usa SVG o PNG transparente.',
+        contexto: 'Qué haces con la herramienta y en qué contexto la usas.',
+        tags: 'Especialidades concretas. Se muestran como etiquetas.',
+        icono: '38×38 px en servicios; 64×64 px en herramientas. Usa SVG o PNG transparente.',
         foto: 'Se recorta a 4:5. Sube JPG, PNG o WebP.',
-        pct: 'Ancho de la barra: de 0 a 100.',
         año: 'Año del curso o certificado.',
       };
 
