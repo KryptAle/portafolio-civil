@@ -315,7 +315,7 @@
       },
       {
         "etiqueta": "Lámina",
-        "valor": "00 / {{anio}}"
+        "valor": "00 / {{año}}"
       }
     ],
     "nav": [
