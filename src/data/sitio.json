@@ -194,7 +194,7 @@
     },
     "herramientas": {
       "entrada": "Las herramientas con las que convierto planos y documentación en modelos coordinados.",
-      "nota": "Niveles declarados: Básico, Intermedio y Avanzado. Sin porcentajes ni barras.",
+      "nota": "Niveles: Básico, Intermedio y Avanzado.",
       "items": [
         {
           "nombre": "Revit",
