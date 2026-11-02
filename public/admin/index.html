@@ -227,8 +227,8 @@
         whatsapp: 'WhatsApp',
         linkedin: 'LinkedIn',
         certificadoIngles: 'Certificado de inglés',
-        anio: 'Año',
-        anios: 'Años',
+        año: 'Año',
+        años: 'Años',
         revision: 'Revisión',
         id: 'Identificador',
         numero: 'Número',
@@ -293,7 +293,7 @@
       };
 
       const AYUDAS = {        'sitio.nombre': 'Se usa en el título de la página, el pie y los valores globales.',
-        'sitio.anio': 'Año que aparece en el pie. Actualízalo cada año.',
+        'sitio.año': 'Año que aparece en el pie. Actualízalo cada año.',
         'secciones.id': 'Identificador interno. No lo cambies si hay enlaces que lo usan.',
         'secciones.href': 'Si empieza con #, navega dentro de la página.',
         'secciones.meta': 'Aparece junto al título de la sección. Admite valores globales.',
@@ -323,7 +323,7 @@
         icono: 'Se muestra a 38×38 px. Usa SVG o PNG transparente.',
         foto: 'Se recorta a 4:5. Sube JPG, PNG o WebP.',
         pct: 'Ancho de la barra: de 0 a 100.',
-        anio: 'Año del curso o certificado.',
+        año: 'Año del curso o certificado.',
       };
 
       const etiquetaDe = (clave) => ETIQUETAS[clave] || clave.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (l) => l.toUpperCase()).replace(/_/g, ' ');
@@ -647,7 +647,7 @@
           ['{{whatsapp}}', sitio.whatsapp ?? '', 'Datos del sitio → WhatsApp.'],
           ['{{linkedin}}', sitio.linkedin ?? '', 'Datos del sitio → LinkedIn.'],
           ['{{certificado}}', sitio.certificadoIngles ?? '', 'Datos del sitio → Certificado de inglés.'],
-          ['{{anio}}', String(sitio.anio ?? ''), 'Datos del sitio → Año.'],
+          ['{{año}}', String(sitio.año ?? ''), 'Datos del sitio → Año.'],
           ['{{marca}}', sitio.marca ?? '', 'Datos del sitio → Marca.'],
         ];
       };
@@ -662,7 +662,6 @@
             String(valor),
           ]),
         );
-        if (mapa.has('anio')) mapa.set('ano', mapa.get('anio'));
         return texto.replace(/\{\{\s*([^{}]+?)\s*\}\}/g, (original, clave) => {
           const normal = normalizarToken(clave);
           return mapa.has(normal) ? mapa.get(normal) : original;

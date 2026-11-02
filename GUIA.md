@@ -245,7 +245,7 @@ En cualquier texto puedes usar:
 | `{{whatsapp}}` | número de WhatsApp |
 | `{{linkedin}}` | URL de LinkedIn |
 | `{{certificado}}` | URL del certificado EFSET |
-| `{{anio}}` | año del sitio |
+| `{{año}}` | año del sitio |
 | `{{marca}}` | marca corta |
 
 Se resuelven en `src/lib/contenido.ts`. Si necesitas un token nuevo, se añade ahí.

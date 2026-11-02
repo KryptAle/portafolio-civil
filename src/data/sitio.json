@@ -9,8 +9,8 @@
     "whatsapp": "584120000000",
     "linkedin": "https://www.linkedin.com/in/alejandroaguilera",
     "certificadoIngles": "https://cert.efset.org/VXSPPg",
-    "anio": 2026,
-    "revision": "REV. A"
+    "revision": "REV. A",
+    "año": 2026
   },
   "secciones": [
     {
@@ -198,21 +198,21 @@
       "items": [
         {
           "nombre": "Revit",
-          "anios": 4,
           "pct": 92,
-          "nivelUso": "Avanzado"
+          "nivelUso": "Avanzado",
+          "años": 4
         },
         {
           "nombre": "AutoCAD",
-          "anios": 6,
           "pct": 90,
-          "nivelUso": "Avanzado"
+          "nivelUso": "Avanzado",
+          "años": 6
         },
         {
           "nombre": "Excel / Python",
-          "anios": 4,
           "pct": 66,
-          "nivelUso": "Intermedio"
+          "nivelUso": "Intermedio",
+          "años": 4
         }
       ]
     },
@@ -245,24 +245,24 @@
       ],
       "formacion": [
         {
-          "anio": "2024",
           "titulo": "Autodesk Certified Professional — Revit Structure",
-          "detalle": "Certificación de modelado estructural y documentación."
+          "detalle": "Certificación de modelado estructural y documentación.",
+          "año": "2024"
         },
         {
-          "anio": "2023",
           "titulo": "BIM Management",
-          "detalle": "Gestión de modelos federados y flujos de coordinación."
+          "detalle": "Gestión de modelos federados y flujos de coordinación.",
+          "año": "2023"
         },
         {
-          "anio": "2022",
           "titulo": "Diseño sismorresistente",
-          "detalle": "Análisis modal y diseño por desempeño."
+          "detalle": "Análisis modal y diseño por desempeño.",
+          "año": "2022"
         },
         {
-          "anio": "2018",
           "titulo": "Ingeniería civil",
-          "detalle": "Mención Estructuras."
+          "detalle": "Mención Estructuras.",
+          "año": "2018"
         }
       ],
       "certificado": {
@@ -336,6 +336,6 @@
         "href": "#contacto"
       }
     ],
-    "legal": "© {{anio}} {{nombre}} · Contenido de muestra para revisión de diseño"
+    "legal": "© {{año}} {{nombre}} · Contenido de muestra para revisión de diseño"
   }
 }

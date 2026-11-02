@@ -240,7 +240,7 @@ const destino = (href: string) => (href.startsWith('#') ? href : ruta(href));
                 </div>
               </td>
               <td style="text-align:right; font-family:var(--mono); font-size:12px">
-                {software.anios}
+                {software.años}
               </td>
             </tr>
           ))}
@@ -291,7 +291,7 @@ const destino = (href: string) => (href.startsWith('#') ? href : ruta(href));
           <div class="cursos">
             {trayectoria.formacion.map((curso) => (
               <div class="curso revelar">
-                <span class="curso__a">{curso.anio}</span>
+                <span class="curso__a">{curso.año}</span>
                 <div>
                   <h4 class="curso__t">{curso.titulo}</h4>
                   <p class="curso__d">{t(curso.detalle)}</p>

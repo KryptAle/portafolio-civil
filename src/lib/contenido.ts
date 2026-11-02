@@ -52,18 +52,25 @@ const valores: Record<string, string> = {
   whatsapp: sitio.whatsapp,
   linkedin: sitio.linkedin,
   certificado: sitio.certificadoIngles,
-  anio: String(sitio.anio),
-  ano: String(sitio.anio),
+  'año': String(sitio.año),
   modelos: String(modelosPublicados).padStart(2, '0'),
   niveles: String(niveles.length),
   altura: altura.toFixed(2).replace('.', ','),
 };
 
-/** Sustituye {{claves}} por sus valores; acepta anio, año o ano. */
+const valorDe = (clave: string): string | undefined => {
+  const normal = normalizarClave(clave);
+  const entrada = Object.entries(valores).find(
+    ([nombre]) => normalizarClave(nombre) === normal,
+  );
+  return entrada?.[1];
+};
+
+/** Sustituye {{claves}} por sus valores; acepta “año” con o sin acento. */
 export const t = (texto: string): string =>
   texto.replace(/\{\{\s*([^{}]+?)\s*\}\}/g, (original, clave: string) => {
-    const normal = normalizarClave(clave);
-    return normal in valores ? valores[normal] : original;
+    const valor = valorDe(clave);
+    return valor ?? original;
   });
 
 const buscarSeccion = (id: string) => secciones.find((seccion) => seccion.id === id);
