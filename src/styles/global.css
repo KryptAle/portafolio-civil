@@ -1981,19 +1981,35 @@ section:focus {
 
 @media (max-width: 760px) {
   .cabecera__in {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'marca cta'
+      'nav nav';
     align-items: center;
     gap: 8px 10px;
+    min-height: 0;
     padding-block: 10px 0;
   }
 
   .marca {
-    flex: 1 1 auto;
+    grid-area: marca;
     min-width: 0;
   }
 
+  .marca__txt {
+    min-width: 0;
+  }
+
+  .marca__nombre,
+  .marca__rol {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .nav {
-    order: 3;
+    grid-area: nav;
     width: 100%;
     gap: 18px;
     overflow-x: auto;
@@ -2008,7 +2024,9 @@ section:focus {
   }
 
   .cabecera__cta {
-    order: 2;
+    grid-area: cta;
+    justify-self: end;
+    max-width: 52vw;
     margin-left: 0;
     padding: 9px 11px;
     font-size: 10.5px;
