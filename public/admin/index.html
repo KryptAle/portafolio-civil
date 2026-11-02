@@ -49,6 +49,19 @@
       .campo input[readonly] { background: #f2efe8; color: var(--suave); }
       .ayuda { display: block; margin-top: 6px; color: var(--suave); font-size: 12px; line-height: 1.45; }
       .preview { margin-top: 6px; padding: 7px 9px; border-left: 2px solid var(--rojo); background: #f5f2eb; color: var(--tinta); font-size: 12px; }
+      .plantilla { margin-top: 4px; }
+      .plantilla__valor {
+        padding: 10px; border: 1px solid var(--linea);
+        border-left: 2px solid var(--rojo); background: #f5f2eb;
+        font-size: 15px; line-height: 1.45;
+      }
+      .plantilla__editar { margin-top: 6px; }
+      .plantilla__editar summary {
+        cursor: pointer; color: var(--suave); font-family: var(--mono);
+        font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+      }
+      .plantilla__editar[open] summary { margin-bottom: 8px; }
+      .plantilla__editar .ayuda { margin-bottom: 6px; }
       .aviso { padding: 12px; border-left: 2px solid var(--rojo); background: #f3e7e2; font-size: 13px; margin: 16px 0; }
 
       /* App */
@@ -187,8 +200,8 @@
         secciones: 'El orden, los nombres y la visibilidad de las secciones. La axonométrica usa las que tienen “Nivel” activo. Una sección nueva aparece en el menú y la figura, pero la página solo tiene bloques para las seis secciones actuales.',
         nav: 'Los enlaces del menú superior. Usa los identificadores de “Secciones”.',
         hero: 'Textos e imagen de la portada. El título admite <em> para la cursiva roja.',
-        cifras: 'La franja de cuatro datos bajo la portada. Puedes usar {{modelos}} y otros valores globales; la vista previa muestra el resultado.',
-        footer: 'El rótulo del plano y los enlaces del pie. Los {{...}} se sustituyen al publicar; la vista previa muestra el resultado.',
+        cifras: 'La franja de cuatro datos bajo la portada. Puedes usar los valores globales; la vista previa muestra el resultado.',
+        footer: 'El rótulo del plano y los enlaces del pie. Los valores globales se sustituyen al publicar; la vista previa muestra el resultado.',
         tokens: 'Estos valores se sustituyen solos en los textos. No se editan aquí: vienen de los datos del sitio o se calculan.',
         'contenido.perfil': 'Párrafos, cuadros de datos y fotografía.',
         'contenido.servicios': 'Las tarjetas de “Qué hago”. Cada una puede tener icono.',
@@ -283,13 +296,13 @@
         'sitio.anio': 'Año que aparece en el pie. Actualízalo cada año.',
         'secciones.id': 'Identificador interno. No lo cambies si hay enlaces que lo usan.',
         'secciones.href': 'Si empieza con #, navega dentro de la página.',
-        'secciones.meta': 'Aparece junto al título de la sección. Admite {{modelos}}.',
+        'secciones.meta': 'Aparece junto al título de la sección. Admite valores globales.',
         'secciones.visible': 'Si lo desactivas, desaparece del menú y de la página.',
         'secciones.nivel': 'Si lo desactivas, no aparece en la axonométrica.',
         'nav.items': 'Escribe los identificadores de las secciones, en orden.',
         'hero.titulo': 'Admite <em> para la parte en cursiva roja.',
-        'hero.figura.pie': 'Puedes usar {{niveles}} y {{altura}}.',
-        'cifras.valor': 'Admite {{modelos}}, {{niveles}}, {{altura}}, {{ciudad}}…',
+        'hero.figura.pie': 'Puedes usar los valores globales de niveles y altura.',
+        'cifras.valor': 'Admite los valores globales de modelos, niveles, altura, año, nombre…',
         'contenido.modelos.items.archivo': 'Ruta relativa dentro de public/. Usa el botón para subir el IFC.',
         'contenido.modelos.items.peso': 'Tamaño real en bytes. Se usa para el progreso de descarga.',
         'contenido.modelos.items.superficie': 'Opcional. Si está vacío, no se muestra.',
@@ -303,8 +316,8 @@
         visible: 'Si lo desactivas, desaparece del menú y de la página.',
         nivel: 'Si lo desactivas, no aparece en la axonométrica.',
         href: 'Si empieza con #, navega dentro de la página.',
-        meta: 'Aparece junto al título de la sección. Admite {{modelos}}.',
-        valor: 'Admite {{modelos}}, {{niveles}}, {{altura}}, {{anio}}, {{nombre}}… Consulta “Valores globales”.',
+        meta: 'Aparece junto al título de la sección. Admite valores globales.',
+        valor: 'Puedes insertar valores globales (modelos, niveles, altura, año, nombre…). Consulta “Valores globales”.',
         archivo: 'Ruta relativa dentro de public/. Usa el botón para subir el IFC.',
         peso: 'Tamaño real en bytes. Se usa para el progreso de descarga.',
         icono: 'Se muestra a 38×38 px. Usa SVG o PNG transparente.',
@@ -408,20 +421,28 @@
           set(control.value);
           marcar();
         });
-        caja.append(label, control);
+        caja.append(label);
         if (textoLargo(clave, valor)) caja.classList.add('campo--ancho');
         const ayuda = ayudaDe(ruta);
-        if (ayuda) caja.append(aviso(ayuda));
 
         if (/\{\{/.test(valor)) {
-          const preview = nodo('small', 'ayuda preview');
-          const actualizarPreview = () => {
-            preview.textContent = `Vista previa al publicar: ${resolverTexto(control.value)}`;
-          };
-          control.addEventListener('input', actualizarPreview);
-          actualizarPreview();
-          caja.append(preview);
+          const bloque = nodo('div', 'plantilla');
+          const texto = nodo('div', 'plantilla__valor');
+          texto.textContent = resolverTexto(valor);
+          const detalles = nodo('details', 'plantilla__editar');
+          const resumen = nodo('summary');
+          resumen.textContent = 'Editar plantilla';
+          detalles.append(resumen, control, aviso('La plantilla mantiene los valores automáticos para que se actualicen solos.'));
+          bloque.append(texto, detalles);
+          caja.append(bloque);
+          control.addEventListener('input', () => {
+            texto.textContent = resolverTexto(control.value);
+          });
+        } else {
+          caja.append(control);
         }
+
+        if (ayuda) caja.append(aviso(ayuda));
 
         if (/foto|icono|archivo|imagen/i.test(clave)) {
           const subida = nodo('div', 'subida');

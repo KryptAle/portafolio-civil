@@ -397,6 +397,12 @@ ol {
   max-width: 13ch;
 }
 
+.hero__h1 em,
+.hero__h1 .em {
+  color: var(--senal);
+  font-style: italic;
+}
+
 .hero__p {
   margin-top: 26px;
   max-width: 48ch;
