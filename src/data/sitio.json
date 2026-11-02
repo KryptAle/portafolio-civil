@@ -296,7 +296,7 @@
           "valor": "{{ciudad}}"
         }
       ],
-      "aviso": "Si ya tienes los planos, adjunta una muestra en el primer mensaje. Los archivos se comparten después por enlace seguro."
+      "aviso": "Si ya tienes los planos, adjunta una muestra en el mensaje que envíes."
     }
   },
   "footer": {
