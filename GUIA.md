@@ -564,6 +564,26 @@ Comprueba en GitHub:
 
 No hay rutas absolutas en el contenido ni en los componentes: todo usa `BASE_PATH` y `ruta()`.
 
+### 12.6 Repositorio privado y web pública
+
+GitHub Pages **no funciona con repositorios privados en el plan Free**. Si pasas el repositorio a privado, Pages se desactiva y la web da 404, aunque luego lo vuelvas a poner público.
+
+Opciones:
+
+| Opción | Coste | URL | Complejidad |
+|---|---|---|---|
+| GitHub Pro | ~4 USD/mes | Se mantiene `kryptale.github.io/portafolio-civil/` | Baja |
+| Repo privado + repo público de despliegue | Gratis | Se mantiene la misma URL | Media |
+| Cloudflare Pages con repo privado | Gratis | Cambia a `*.pages.dev` o dominio propio | Media |
+
+- **GitHub Pro**: el repositorio puede ser privado y Pages sigue publicando la web. El sitio sigue siendo público; lo privado es el código y el historial.
+- **Repo privado + repo público de despliegue**: el repositorio fuente se queda privado; un workflow compila y empuja solo `dist/` a un repositorio público llamado igual (`portafolio-civil`), que es el que publica Pages. Se conserva la URL, pero hay que configurar un token o deploy key y cambiar el repo del Worker.
+- **Cloudflare Pages**: acepta repositorios privados gratis, pero la URL cambia. Si el QR ya apunta a GitHub Pages, habría que usar un dominio propio o mantener la URL antigua.
+
+Importante: aunque el código esté privado, **el contenido de la web sigue siendo público** (textos, imágenes e IFC se descargan al visitarla). Lo que se protege es el código y el historial, no los archivos publicados.
+
+No cambies el repositorio a privado sin tener una de estas opciones lista.
+
 ---
 
 ## 13. Problemas frecuentes

@@ -131,6 +131,125 @@ const ficha = {
         });
         activar('0');
       }
+
+      /* Navegación interna: desplazamiento animado con compensación de cabecera */
+      const raiz = document.documentElement;
+      const reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const cabecera = document.querySelector('.cabecera');
+      const progreso = document.querySelector('[data-progreso]');
+      let animacion = 0;
+      let comportamientoPrevio: string | null = null;
+
+      const restaurarComportamiento = () => {
+        if (comportamientoPrevio === null) return;
+        raiz.style.scrollBehavior = comportamientoPrevio;
+        comportamientoPrevio = null;
+      };
+
+      const cancelarDesplazamiento = () => {
+        animacion += 1;
+        restaurarComportamiento();
+      };
+      ['wheel', 'touchstart'].forEach((evento) =>
+        window.addEventListener(evento, cancelarDesplazamiento, { passive: true }),
+      );
+
+      const desplazarA = (destinoY: number) => {
+        const inicio = window.scrollY;
+        const distancia = destinoY - inicio;
+        if (Math.abs(distancia) < 2) return;
+
+        const id = ++animacion;
+        if (comportamientoPrevio === null) {
+          comportamientoPrevio = raiz.style.scrollBehavior;
+          raiz.style.scrollBehavior = 'auto';
+        }
+
+        /* Con “reducir movimiento” se mantiene un desplazamiento breve, no un salto. */
+        const duracion = reducido ? 220 : Math.min(950, 420 + Math.abs(distancia) * 0.12);
+        const arranque = performance.now();
+        const ease = reducido
+          ? (t: number) => t
+          : (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+        const paso = (ahora: number) => {
+          if (id !== animacion) return;
+          const t = Math.min((ahora - arranque) / duracion, 1);
+          window.scrollTo(0, inicio + distancia * ease(t));
+          if (t < 1) requestAnimationFrame(paso);
+          else restaurarComportamiento();
+        };
+        requestAnimationFrame(paso);
+      };
+
+      document.addEventListener('click', (evento) => {
+        const objetivo = evento.target;
+        if (!(objetivo instanceof Element)) return;
+        const enlace = objetivo.closest('a[href]');
+        if (!enlace) return;
+
+        const url = new URL(enlace.getAttribute('href') ?? '', location.href);
+        if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) {
+          return;
+        }
+
+        const destino = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+        if (!destino) return;
+
+        evento.preventDefault();
+        const altoCabecera = cabecera?.clientHeight ?? 0;
+        const y = destino.getBoundingClientRect().top + window.scrollY - altoCabecera - 14;
+        desplazarA(Math.max(0, y));
+        history.pushState(null, '', url.hash);
+
+        if (!destino.hasAttribute('tabindex')) destino.setAttribute('tabindex', '-1');
+        destino.focus({ preventScroll: true });
+        destino.addEventListener('blur', () => destino.removeAttribute('tabindex'), { once: true });
+      });
+
+      /* Barra de progreso de lectura */
+      if (progreso) {
+        let pendiente = false;
+        const pintarProgreso = () => {
+          const maximo = document.documentElement.scrollHeight - window.innerHeight;
+          const ratio = maximo > 0 ? Math.min(Math.max(window.scrollY / maximo, 0), 1) : 0;
+          (progreso as HTMLElement).style.transform = `scaleX(${ratio})`;
+          pendiente = false;
+        };
+        window.addEventListener(
+          'scroll',
+          () => {
+            if (pendiente) return;
+            pendiente = true;
+            requestAnimationFrame(pintarProgreso);
+          },
+          { passive: true },
+        );
+        pintarProgreso();
+      }
+
+      /* Enlace activo según la sección visible */
+      const enlacesNav = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav__enlace'));
+      if (enlacesNav.length && 'IntersectionObserver' in window) {
+        const porSeccion = new Map<Element, HTMLAnchorElement>();
+        enlacesNav.forEach((enlace) => {
+          const id = new URL(enlace.href).hash.slice(1);
+          const seccion = document.getElementById(id);
+          if (seccion) porSeccion.set(seccion, enlace);
+        });
+
+        const observadorNav = new IntersectionObserver(
+          (entradas) => {
+            entradas.forEach((entrada) => {
+              if (!entrada.isIntersecting) return;
+              enlacesNav.forEach((enlace) => enlace.classList.remove('nav__enlace--activo'));
+              porSeccion.get(entrada.target)?.classList.add('nav__enlace--activo');
+            });
+          },
+          { rootMargin: '-35% 0px -55% 0px', threshold: 0 },
+        );
+        porSeccion.forEach((_, seccion) => observadorNav.observe(seccion));
+      }
     </script>
   </body>
 </html>

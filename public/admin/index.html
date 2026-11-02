@@ -48,6 +48,7 @@
       .campo textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
       .campo input[readonly] { background: #f2efe8; color: var(--suave); }
       .ayuda { display: block; margin-top: 6px; color: var(--suave); font-size: 12px; line-height: 1.45; }
+      .preview { margin-top: 6px; padding: 7px 9px; border-left: 2px solid var(--rojo); background: #f5f2eb; color: var(--tinta); font-size: 12px; }
       .aviso { padding: 12px; border-left: 2px solid var(--rojo); background: #f3e7e2; font-size: 13px; margin: 16px 0; }
 
       /* App */
@@ -186,8 +187,8 @@
         secciones: 'El orden, los nombres y la visibilidad de las secciones. La axonométrica usa las que tienen “Nivel” activo. Una sección nueva aparece en el menú y la figura, pero la página solo tiene bloques para las seis secciones actuales.',
         nav: 'Los enlaces del menú superior. Usa los identificadores de “Secciones”.',
         hero: 'Textos e imagen de la portada. El título admite <em> para la cursiva roja.',
-        cifras: 'La franja de cuatro datos bajo la portada. Puedes usar {{modelos}} y otros valores globales.',
-        footer: 'El rótulo del plano y los enlaces del pie.',
+        cifras: 'La franja de cuatro datos bajo la portada. Puedes usar {{modelos}} y otros valores globales; la vista previa muestra el resultado.',
+        footer: 'El rótulo del plano y los enlaces del pie. Los {{...}} se sustituyen al publicar; la vista previa muestra el resultado.',
         tokens: 'Estos valores se sustituyen solos en los textos. No se editan aquí: vienen de los datos del sitio o se calculan.',
         'contenido.perfil': 'Párrafos, cuadros de datos y fotografía.',
         'contenido.servicios': 'Las tarjetas de “Qué hago”. Cada una puede tener icono.',
@@ -303,7 +304,7 @@
         nivel: 'Si lo desactivas, no aparece en la axonométrica.',
         href: 'Si empieza con #, navega dentro de la página.',
         meta: 'Aparece junto al título de la sección. Admite {{modelos}}.',
-        valor: 'Admite {{modelos}}, {{niveles}}, {{altura}}, {{ciudad}}…',
+        valor: 'Admite {{modelos}}, {{niveles}}, {{altura}}, {{anio}}, {{nombre}}… Consulta “Valores globales”.',
         archivo: 'Ruta relativa dentro de public/. Usa el botón para subir el IFC.',
         peso: 'Tamaño real en bytes. Se usa para el progreso de descarga.',
         icono: 'Se muestra a 38×38 px. Usa SVG o PNG transparente.',
@@ -411,6 +412,16 @@
         if (textoLargo(clave, valor)) caja.classList.add('campo--ancho');
         const ayuda = ayudaDe(ruta);
         if (ayuda) caja.append(aviso(ayuda));
+
+        if (/\{\{/.test(valor)) {
+          const preview = nodo('small', 'ayuda preview');
+          const actualizarPreview = () => {
+            preview.textContent = `Vista previa al publicar: ${resolverTexto(control.value)}`;
+          };
+          control.addEventListener('input', actualizarPreview);
+          actualizarPreview();
+          caja.append(preview);
+        }
 
         if (/foto|icono|archivo|imagen/i.test(clave)) {
           const subida = nodo('div', 'subida');
@@ -620,8 +631,16 @@
         ];
       };
 
-      const pintarTokens = () => {
-        const panel = $('#panel');
+      const resolverTexto = (texto) => {
+        const mapa = new Map(
+          valoresGlobales().map(([token, valor]) => [token.slice(2, -2), String(valor)]),
+        );
+        return texto.replace(/\{\{\s*([\w-]+)\s*\}\}/g, (original, clave) =>
+          mapa.has(clave) ? mapa.get(clave) : original,
+        );
+      };
+
+      const pintarTokens = () => {        const panel = $('#panel');
         panel.textContent = '';
         const h2 = nodo('h2');
         h2.textContent = 'Valores globales';
