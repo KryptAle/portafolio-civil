@@ -207,6 +207,8 @@
         'contenido.servicios': 'Las tarjetas de “Qué hago”. Cada una puede tener icono.',
         'contenido.modelos': 'Los modelos IFC del visor y su nota de autoría.',
         'contenido.herramientas': 'La matriz de herramientas, con nivel, contexto y especialidades. Sin barras ni porcentajes.',
+        'contenido.herramientas.entrada': 'Frase de entrada de la sección, encima de las tarjetas.',
+        'contenido.herramientas.nota': 'Nota sobre cómo se declaran los niveles. Se muestra a la derecha.',
         'contenido.trayectoria': 'Experiencia, cursos y el certificado de inglés.',
         'contenido.contacto': 'El texto y los canales directos de contacto.',
       };
@@ -275,6 +277,7 @@
         nivelUso: 'Nivel de uso',
         contexto: 'Contexto',
         tags: 'Especialidades',
+        entrada: 'Entrada',
       };
 
       const LISTAS = {
@@ -374,7 +377,7 @@
       const esImagen = (ruta) => /\.(png|jpe?g|webp|avif|svg)$/i.test(ruta || '');
       const textoLargo = (clave, valor) =>
         typeof valor === 'string' &&
-        (valor.length > 90 || /<(p|br|em|strong|span)/i.test(valor) || /parrafo|detalle|nota|descripcion|legal|aviso|pregunta|titulo|subtitulo/i.test(clave));
+        (valor.length > 90 || /<(p|br|em|strong|span)/i.test(valor) || /parrafo|detalle|nota|descripcion|legal|aviso|pregunta|titulo|subtitulo|entrada/i.test(clave));
 
       const limpiar = (valor) => {
         if (Array.isArray(valor)) return [];

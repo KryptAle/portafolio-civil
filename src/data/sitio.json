@@ -36,7 +36,7 @@
       "numero": "03",
       "nombre": "Modelos BIM",
       "href": "#proyectos",
-      "meta": "Ejercicios de digitalización",
+      "meta": "Ejercicios de digitalización · {{modelos}}",
       "visible": true,
       "nivel": true
     },
@@ -172,7 +172,6 @@
       "items": [
         {
           "id": "proyecto1",
-          "indice": "01",
           "titulo": "Proyecto 1",
           "subtitulo": "Vivienda de 4 niveles: arquitectura, estructura y cerramientos.",
           "meta": "Arquitectura y estructura · 4 niveles",
@@ -183,7 +182,6 @@
         },
         {
           "id": "proyecto2",
-          "indice": "02",
           "titulo": "Proyecto 2",
           "subtitulo": "Modelo de 7 niveles con estructura y cerramientos.",
           "meta": "Estructura · 7 niveles",
@@ -195,6 +193,8 @@
       ]
     },
     "herramientas": {
+      "entrada": "Las herramientas con las que convierto planos y documentación en modelos coordinados.",
+      "nota": "Niveles declarados: Básico, Intermedio y Avanzado. Sin porcentajes ni barras.",
       "items": [
         {
           "nombre": "Revit",
